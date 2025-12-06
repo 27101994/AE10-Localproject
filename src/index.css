@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-dark-border;
+  }
+  
+  body {
+    @apply bg-dark-bg text-gray-100 font-sans antialiased;
+  }
+
+  /* Scrollbar styling for dark theme */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-dark-surface;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-dark-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-600;
+  }
+}
+
+@layer components {
+  /* Custom button styles */
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-bg;
+  }
+
+  .btn-primary {
+    @apply bg-primary-600 hover:bg-primary-700 text-white focus:ring-primary-500;
+  }
+
+  .btn-secondary {
+    @apply bg-dark-elevated hover:bg-dark-border text-gray-200 focus:ring-gray-500;
+  }
+
+  .btn-success {
+    @apply bg-accent-green hover:bg-green-600 text-white focus:ring-accent-green;
+  }
+
+  .btn-danger {
+    @apply bg-accent-red hover:bg-red-600 text-white focus:ring-accent-red;
+  }
+
+  /* Card styles */
+  .card {
+    @apply bg-dark-surface rounded-xl border border-dark-border p-6 shadow-lg;
+  }
+
+  .card-elevated {
+    @apply bg-dark-elevated rounded-xl border border-dark-border p-6 shadow-xl;
+  }
+
+  /* Input styles */
+  .input {
+    @apply bg-dark-elevated border border-dark-border rounded-lg px-4 py-2 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all;
+  }
+
+  /* Tile card for dashboard */
+  .tile-card {
+    @apply card hover:bg-dark-elevated hover:border-primary-500/50 cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-2xl;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-400 to-accent-cyan bg-clip-text text-transparent;
+  }
+
+  .glass {
+    @apply bg-dark-surface/50 backdrop-blur-lg border border-dark-border/50;
+  }
+}

@@ -1,0 +1,1079 @@
+{
+  "UI_requirement": [
+    [
+      "",
+      "",
+      "Table of contents",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Page",
+      "Main Contents",
+      "Sub contenets",
+      "Sub Sub conects",
+      "Other Notes",
+      "Feedback from Dev",
+      "Status of work"
+    ],
+    [
+      "",
+      "",
+      "Entry Page",
+      "Log in",
+      "",
+      "",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "Guest",
+      "",
+      "",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "Logged in to dashboard",
+      "start new event",
+      "10m air pistol (60 shots)",
+      "sighter and to match",
+      "side button to abort and restart, live page explained below",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "10m air Rifle (60 shots)",
+      "sighter and to match",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "10m air pistol (40 shots)",
+      "sighter and to match",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "10m air Rifle (40 shots)",
+      "sighter and to match",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "10m air pistol (Free series)",
+      "sighter and to match",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "10m air Rifle (Free series)",
+      "sighter and to match",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "Events History",
+      "Folders of all previous match details",
+      "",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "Train with buddy",
+      "Create match, or join match with code",
+      "",
+      "Just like joining into class room or creating calss room, insid there will be live mathes blocks people can join (request joining, or enter with code, see blocks of diffferent matches , on clickingwill show peopels lost and and theri total score and time, again clcking will show full detailss )",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "Perfomance",
+      "score Vs Day graph",
+      "",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "number of shorts Vs Day graph",
+      "",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "time for 1 series Vs series",
+      "",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "Consistency guage",
+      "",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "daily average score guage",
+      "",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "avg time per session  guage",
+      "",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "more..",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "",
+      "velocity meter",
+      "start",
+      "",
+      "while clcicking start, it will take to sereis of steps, take short 1 , 2 3 4 5, after 5th shorts it wil show velocity of each and finally the avg of 5  , and show results in m/s unit, also save as serial numner, date gun name place,serial number, pellet used",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "Pellet tester",
+      "",
+      "",
+      "3 companies a b c , bullet fired from gun on wise, take 5 bullet from companes a b c , then see grup size and velocity of exha a b c",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "",
+      "target setup",
+      "Find and connect with Target",
+      "",
+      "like adding new divce through wifi or BT",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "Connected target(showname and serial.no)",
+      "Adjust light intensity",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "do calliberation",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "profile settings",
+      "Fill basics and save",
+      "",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "start live view",
+      "Create a live view code, or join to see a live view",
+      "",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "Competition mode",
+      "multiple comp connections",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "",
+      "Skill mode",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "",
+      "More...",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Live page",
+      "sighter mode, Start match mode",
+      "shot number",
+      "",
+      "On sighter mode a grey trigale will be on the right corner top of target",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "score different formats",
+      "",
+      "Target is differnt for differnt sports, will share most. on whstapp",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "direction",
+      "",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "Series",
+      "",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "Target with live bullet updates",
+      "",
+      "",
+      "",
+      "Not Done"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      "Bullets with specific colours",
+      "",
+      "Will share on whatsapp",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "General Notes",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "1.0",
+      "Refer to sius software",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "2.0",
+      "Sofwatre name: not decided, starting page should show first company name logo then goto first page",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "3.0",
+      "company Logo: will share",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "4.0",
+      "Colour u can decide(dark colours preferred)",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "5.0",
+      "dash board in tile view eg",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "6.0",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "7.0",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  ],
+  "UI_page explanations": [
+    [
+      "",
+      "pages",
+      "Components",
+      "Notes",
+      "Feedback from Dev",
+      ""
+    ],
+    [
+      "",
+      "Log in page(as guest& login)",
+      "General Log in or signup elements",
+      "General log in or otp verification account creations stuff,Will talk about guest later",
+      "",
+      ""
+    ],
+    [
+      "",
+      "Dashboard Priority 1",
+      "start new event",
+      "This is the main landing page, where shooter wil access all elements of application from this point.All functions are setted up under these main tiles",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Events History",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Train with buddy",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Perfomance",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "velocity meter",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Pellet tester",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "target setup",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "profile settings",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "start live view",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Competition mode",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Skill mode",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Notification",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Advertisements tile",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "connectded device name or no device connected",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "If anything general required from you end",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "Start new event Priority 1",
+      "10m air pistol (60 shots)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "10m air Rifle (60 shots)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "10m air pistol (40 shots)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "10m air Rifle (40 shots)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "10m air pistol (Free series)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "10m air Rifle (Free series)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "If an other logical button required, that also to be added",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "Live page(where shooting happends) Priority 1",
+      "Target image",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Bullets(colour will chnage for last shot, previous shot , and all other shots)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "group Radious",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Sighter/match indicator ",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Group centre",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Shot number (table)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "direction of bullet (table)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "score with out decimel (table)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Score with decimel (table)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Sum of score wiith out decimel (table)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Sum of score with decimel (table)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Timer runnign from starting (table)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Match name on top",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Current shot number",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Save ",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Any other logical button if requirs",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "Train with buddy Priority 2",
+      "Create match, or join match with code",
+      "Kind of google class room joining setup",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Small tiles of each person joined and at tile should contain the following,",
+      "Each table will be having a  scaled down version of  live page of each player , Only difference having a headding on top as name, and target page no need to show insted we put name tile",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      " User timer",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "shot number ",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "score with out decimel",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Score with decemel ",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Group radious ",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Group centre",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "Perfomance Priority 2",
+      "score Vs Day graph",
+      "Graph will be showing for the selected event from dropdown",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "number of shorts Vs Day graph",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "time for 1 series Vs series",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Consistency guage",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "daily average score guage",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "avg time per session  guage",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "A drop down to select events (10m pistol/10m Rifle)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "One button on each graph to select time frame",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Any other logical button if requirs",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "velocity meter Priority 2",
+      "Ask for wepon name, and next page give indication to take 5 contionus shot, count  for each shot, , by end of first tshot, 1 table, wepon name and velocity",
+      "More info later",
+      "",
+      ""
+    ],
+    [
+      "",
+      "Pellet tester Priority 2",
+      "ask for pellet neame, number of pellets firing,pistol or rifle and save",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "target will be coming and core wil be showing as same  live page, but for selected number of shorts, , like if user select 5 pelelets, 5 shot only can do",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Last will be a table having pellet name and gruop dimter(SL,Pellet name,Group name)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "Events History Priority 1",
+      "Date",
+      "Same as we save photo on google photos, under each dates insted of photos, folder will be there will event saved name_event name",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Under date tiles of each saved event",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "On opening the tile will seeth same live page, scrollable and see all shots",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "Competition mode Priority 3",
+      "Will put one poster",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "Profile Priority 3",
+      "Name age adress infro shoter ID",
+      "Normal profile page with some extra shooter specific",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Coach name",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Total Shooting hours on device",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Events playing ",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Any other required general/Logical buttons",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "target setup Priority 2",
+      "Right side show connected and avilable devices like wifi",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Top give connected device name",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Setup brightness(click and adjust slider for brightness)",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Auto calibarate ",
+      "",
+      "",
+      ""
+    ],
+    [
+      "",
+      "",
+      "Contact support",
+      "",
+      "",
+      ""
+    ]
+  ]
+}
