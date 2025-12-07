@@ -20,7 +20,7 @@ export default function GuestLayout() {
                     </div>
 
                     {/* Product Model */}
-                    <h1 className="text-2xl font-bold text-gray-100 mb-2">{getProductName()} System</h1>
+                    <h1 className="text-2xl font-bold text-gray-100 mb-2">{getProductName()}</h1>
                     <p className="text-primary-400 font-medium">{getTagline()}</p>
                 </div>
 

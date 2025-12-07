@@ -47,7 +47,7 @@ export default function AppLayout() {
                         </div>
 
                         {/* Product Model */}
-                        <h1 className="text-lg font-bold text-gray-100 text-center">{getProductName()} System</h1>
+                        <h1 className="text-lg font-bold text-gray-100 text-center">{getProductName()}</h1>
                         <p className="text-xs text-primary-400 text-center mt-1 font-medium">{getTagline()}</p>
                     </div>
 

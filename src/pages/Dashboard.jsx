@@ -9,8 +9,8 @@ export default function Dashboard() {
     const { user } = useAuthStore();
 
     const tiles = [
-        { icon: '🎯', title: 'Start New Event', description: 'Begin a new shooting session', path: '#' },
-        { icon: '🔴', title: 'Start Live View', description: 'Go to live shooting mode', path: '#' },
+        { icon: '🎯', title: 'Start New Event', description: 'Begin a new shooting session', path: '/start-event' },
+        { icon: '🔴', title: 'Start Live View', description: 'Go to live shooting mode', path: '/live' },
         { icon: '📊', title: 'Events History', description: 'View past sessions', path: '#' },
         { icon: '👥', title: 'Train with Buddy', description: 'Multi-user training', path: '#' },
         { icon: '📈', title: 'Performance', description: 'Analytics and insights', path: '#' },

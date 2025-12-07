@@ -1,7 +1,7 @@
 // Application configuration
 export const APP_CONFIG = {
     // Product model - can be changed to AET 5, AET 20, etc.
-    productModel: 'AET10',
+    productModel: 'ATHLEON',
 
     // Company branding
     companyName: 'Athieon',

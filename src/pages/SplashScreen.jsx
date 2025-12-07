@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import athieonLogo from '../assets/athieon-logo.png';
 
 export default function SplashScreen() {
     const navigate = useNavigate();
@@ -26,10 +27,13 @@ export default function SplashScreen() {
         <div className={`fixed inset-0 bg-gradient-to-br from-dark-bg via-dark-surface to-dark-elevated flex items-center justify-center transition-opacity duration-500 ${fadeOut ? 'opacity-0' : 'opacity-100'}`}>
             <div className="text-center">
                 {/* Company Logo Placeholder */}
+                {/* Company Logo */}
                 <div className="mb-8 animate-pulse">
-                    <div className="w-48 h-48 mx-auto bg-gradient-to-br from-primary-500 to-accent-cyan rounded-3xl flex items-center justify-center shadow-2xl">
-                        <div className="text-6xl font-bold text-white">AET10</div>
-                    </div>
+                    <img
+                        src={athieonLogo}
+                        alt="Athieon Logo"
+                        className="w-48 h-auto mx-auto object-contain drop-shadow-2xl"
+                    />
                 </div>
 
                 <h1 className="text-4xl font-bold text-gradient mb-2">
