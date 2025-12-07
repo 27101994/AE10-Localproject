@@ -32,7 +32,7 @@ export default function Login() {
     };
 
     return (
-        <div className="card-elevated">
+        <div className="card-elevated animate-fade-in">
             <h2 className="text-2xl font-bold text-gray-100 mb-6 text-center">
                 {mode === 'login' ? 'Welcome Back' : 'Verify OTP'}
             </h2>
@@ -67,14 +67,15 @@ export default function Login() {
                         />
                     </div>
 
-                    <Button type="submit" className="w-full">
+                    <Button type="submit" className="w-full mt-6">
                         Login
                     </Button>
 
                     <button
                         type="button"
                         onClick={() => setMode('otp')}
-                        className="w-full text-sm text-primary-400 hover:text-primary-300 transition-colors"
+                        className="w-full text-sm text-primary-400 hover:text-primary-300 
+                                   transition-all duration-200 hover:underline"
                     >
                         Login with OTP instead
                     </button>
@@ -103,21 +104,22 @@ export default function Login() {
                             type="text"
                             value={otp}
                             onChange={(e) => setOtp(e.target.value)}
-                            className="input w-full text-center text-2xl tracking-widest"
+                            className="input w-full text-center text-2xl tracking-widest font-bold"
                             placeholder="000000"
                             maxLength={6}
                             required
                         />
                     </div>
 
-                    <Button type="submit" className="w-full">
+                    <Button type="submit" className="w-full mt-6">
                         Verify OTP
                     </Button>
 
                     <button
                         type="button"
                         onClick={() => setMode('login')}
-                        className="w-full text-sm text-primary-400 hover:text-primary-300 transition-colors"
+                        className="w-full text-sm text-primary-400 hover:text-primary-300 
+                                   transition-all duration-200 hover:underline"
                     >
                         Back to password login
                     </button>

@@ -5,6 +5,8 @@ import TargetImage from '@components/TargetImage';
 import ShotTable from '@components/ShotTable';
 import Timer from '@components/Timer';
 import Button from '@components/Button';
+import ConnectivityStatus from '@components/ConnectivityStatus';
+import TimerIndicator from '@components/TimerIndicator';
 import { calculateGroupRadius, calculateGroupCenter, generateDummyShot } from '@utils/shootingUtils';
 
 export default function Live() {
@@ -75,13 +77,22 @@ export default function Live() {
     return (
         <div className="max-w-[1800px] mx-auto">
             {/* Header */}
-            <div className="mb-6 flex items-center justify-between">
-                <div>
+            <div className="mb-6">
+                <div className="flex items-center justify-between mb-4">
                     <h1 className="text-2xl font-bold text-gray-100">{matchName || 'Live Shooting'}</h1>
-                    <div className="flex items-center space-x-3 mt-2">
+
+                    {/* Status indicators */}
+                    <div className="flex items-center space-x-3">
+                        <TimerIndicator isRunning={isRunning} />
+                        <ConnectivityStatus />
+                    </div>
+                </div>
+
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
                         <div className={`px-3 py-1 rounded-full text-sm font-medium ${mode === 'sighter'
-                                ? 'bg-gray-600 text-gray-100'
-                                : 'bg-accent-green text-white'
+                            ? 'bg-gray-600 text-gray-100'
+                            : 'bg-accent-green text-white'
                             }`}>
                             {mode === 'sighter' ? '🔺 Sighter Mode' : '🎯 Match Mode'}
                         </div>
@@ -93,23 +104,11 @@ export default function Live() {
                             Switch to {mode === 'sighter' ? 'Match' : 'Sighter'}
                         </Button>
                     </div>
-                </div>
 
-                <div className="flex items-center space-x-6">
                     <div className="text-center">
                         <div className="text-sm text-gray-500 mb-1">Current Shot</div>
                         <div className="text-5xl font-bold text-primary-400">{currentShot}</div>
                     </div>
-
-                    <Button
-                        variant="success"
-                        size="lg"
-                        onClick={handleAddShot}
-                        className="flex items-center space-x-2"
-                    >
-                        <span>▶</span>
-                        <span>Continue</span>
-                    </Button>
                 </div>
             </div>
 
@@ -151,13 +150,19 @@ export default function Live() {
                         </div>
                     </div>
 
-                    {/* Demo button */}
+                    {/* Sighther button - large button at bottom */}
                     <Button
                         onClick={handleAddShot}
-                        className="w-full"
+                        variant="success"
+                        size="lg"
+                        className="w-full text-lg py-4"
                     >
-                        🎯 Simulate Shot (Demo)
+                        <span className="text-2xl mr-2">🎯</span>
+                        <span>Sighther</span>
                     </Button>
+                    <p className="text-xs text-gray-500 text-center mt-2">
+                        Click to start playing trail balls (like in cricket)
+                    </p>
                 </div>
 
                 {/* Right panel - Shot table */}
@@ -186,9 +191,12 @@ export default function Live() {
                         <Button
                             variant="success"
                             onClick={handleSave}
-                            className="flex-1"
+                            className="flex-1 flex items-center justify-center space-x-2"
                         >
-                            💾 Save Session
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                            </svg>
+                            <span>Save Session</span>
                         </Button>
 
                         <Button

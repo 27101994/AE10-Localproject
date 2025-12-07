@@ -6,9 +6,20 @@
   * {
     @apply border-dark-border;
   }
-  
+
   body {
     @apply bg-dark-bg text-gray-100 font-sans antialiased;
+  }
+
+  /* Enable text selection with custom styling */
+  ::selection {
+    background-color: rgba(20, 184, 166, 0.3);
+    color: white;
+  }
+
+  ::-moz-selection {
+    background-color: rgba(20, 184, 166, 0.3);
+    color: white;
   }
 
   /* Scrollbar styling for dark theme */
@@ -27,47 +38,108 @@
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-gray-600;
   }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 @layer components {
-  /* Custom button styles */
+
+  /* Custom button styles with enhanced effects */
   .btn {
-    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-bg;
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-bg active:scale-95 relative overflow-hidden;
+  }
+
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .btn:active::before {
+    width: 300px;
+    height: 300px;
   }
 
   .btn-primary {
-    @apply bg-primary-600 hover:bg-primary-700 text-white focus:ring-primary-500;
+    @apply bg-primary-600 hover:bg-primary-700 text-white focus:ring-primary-500 shadow-lg hover:shadow-xl hover:shadow-primary-600/20 transform hover:-translate-y-0.5;
   }
 
   .btn-secondary {
-    @apply bg-dark-elevated hover:bg-dark-border text-gray-200 focus:ring-gray-500;
+    @apply bg-dark-elevated hover:bg-dark-border text-gray-200 focus:ring-gray-500 shadow-md hover:shadow-lg transform hover:-translate-y-0.5;
   }
 
   .btn-success {
-    @apply bg-accent-green hover:bg-green-600 text-white focus:ring-accent-green;
+    @apply bg-accent-green hover:bg-green-600 text-white focus:ring-accent-green shadow-lg hover:shadow-xl hover:shadow-green-600/20 transform hover:-translate-y-0.5;
   }
 
   .btn-danger {
-    @apply bg-accent-red hover:bg-red-600 text-white focus:ring-accent-red;
+    @apply bg-accent-red hover:bg-red-600 text-white focus:ring-accent-red shadow-lg hover:shadow-xl hover:shadow-red-600/20 transform hover:-translate-y-0.5;
   }
 
-  /* Card styles */
+  /* Enhanced card styles */
   .card {
-    @apply bg-dark-surface rounded-xl border border-dark-border p-6 shadow-lg;
+    @apply bg-dark-surface rounded-xl border border-dark-border p-6 shadow-lg transition-all duration-300;
   }
 
   .card-elevated {
-    @apply bg-dark-elevated rounded-xl border border-dark-border p-6 shadow-xl;
+    @apply bg-dark-elevated rounded-xl border border-dark-border p-6 shadow-xl hover:shadow-2xl transition-all duration-300;
   }
 
-  /* Input styles */
+  /* Enhanced input styles */
   .input {
-    @apply bg-dark-elevated border border-dark-border rounded-lg px-4 py-2 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all;
+    @apply bg-dark-elevated border border-dark-border rounded-lg px-4 py-2 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 hover:border-dark-border/80 focus:shadow-lg focus:shadow-primary-500/10;
   }
 
-  /* Tile card for dashboard */
+  /* Enhanced tile card for dashboard */
   .tile-card {
-    @apply card hover:bg-dark-elevated hover:border-primary-500/50 cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-2xl;
+    @apply card hover:bg-dark-elevated cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-primary-500/10 hover:border-primary-500/50 relative overflow-hidden;
+  }
+
+  .tile-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(100, 116, 139, 0.05) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .tile-card:hover::before {
+    opacity: 1;
+  }
+
+  /* Badge styles */
+  .badge {
+    @apply px-3 py-1 rounded-full text-xs font-medium transition-all duration-200;
+  }
+
+  .badge-primary {
+    @apply bg-primary-500/20 text-primary-300 ring-1 ring-primary-500/30;
+  }
+
+  .badge-success {
+    @apply bg-green-500/20 text-green-300 ring-1 ring-green-500/30;
+  }
+
+  .badge-warning {
+    @apply bg-yellow-500/20 text-yellow-300 ring-1 ring-yellow-500/30;
+  }
+
+  .badge-danger {
+    @apply bg-red-500/20 text-red-300 ring-1 ring-red-500/30;
   }
 }
 
@@ -77,6 +149,63 @@
   }
 
   .glass {
-    @apply bg-dark-surface/50 backdrop-blur-lg border border-dark-border/50;
+    @apply bg-dark-surface/50 backdrop-blur-lg border border-dark-border/50 shadow-xl;
   }
+
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Focus visible for accessibility */
+*:focus-visible {
+  @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-dark-bg;
 }

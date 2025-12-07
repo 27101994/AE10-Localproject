@@ -9,33 +9,34 @@ export default {
             colors: {
                 // Dark theme colors
                 dark: {
-                    bg: '#0a0e1a',
-                    surface: '#141824',
-                    elevated: '#1e2330',
-                    border: '#2a3142',
+                    bg: '#0f1419',
+                    surface: '#1a1f2e',
+                    elevated: '#252b3b',
+                    border: '#3d4556',
                 },
                 primary: {
-                    50: '#f0f9ff',
-                    100: '#e0f2fe',
-                    200: '#bae6fd',
-                    300: '#7dd3fc',
-                    400: '#38bdf8',
-                    500: '#0ea5e9',
-                    600: '#0284c7',
-                    700: '#0369a1',
-                    800: '#075985',
-                    900: '#0c4a6e',
+                    50: '#f8fafc',
+                    100: '#f1f5f9',
+                    200: '#e2e8f0',
+                    300: '#cbd5e1',
+                    400: '#94a3b8',
+                    500: '#64748b',
+                    600: '#475569',
+                    700: '#334155',
+                    800: '#1e293b',
+                    900: '#0f172a',
                 },
                 accent: {
-                    cyan: '#06b6d4',
-                    yellow: '#fbbf24',
-                    green: '#10b981',
+                    cyan: '#14b8a6',
+                    yellow: '#f59e0b',
+                    green: '#22c55e',
                     red: '#ef4444',
+                    teal: '#14b8a6',
                 },
                 score: {
-                    10: '#fbbf24', // Yellow for 10x
-                    9: '#06b6d4',  // Cyan for 9
-                    8: '#3b82f6',  // Blue for 8
+                    10: '#f59e0b', // Yellow for 10x
+                    9: '#14b8a6',  // Teal for 9
+                    8: '#64748b',  // Gray for 8
                 }
             },
             fontFamily: {
