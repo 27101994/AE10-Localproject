@@ -33,6 +33,7 @@ export default function SplashScreen() {
                         src={athieonLogo}
                         alt="Athieon Logo"
                         className="w-48 h-auto mx-auto object-contain drop-shadow-2xl"
+                        style={{ filter: 'invert(1)' }}
                     />
                 </div>
 
