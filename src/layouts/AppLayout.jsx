@@ -4,7 +4,7 @@ import { useAuthStore } from '@store/authStore';
 import { useDeviceStore } from '@store/deviceStore';
 import DeviceStatusBadge from '@components/DeviceStatusBadge';
 import athieonLogo from '@/assets/athieon-logo.png';
-import { getProductName, getTagline } from '@/config/appConfig';
+import { getTagline } from '@/config/appConfig';
 import { FaHome, FaTrophy, FaBars, FaSignOutAlt } from 'react-icons/fa';
 
 export default function AppLayout() {
@@ -13,11 +13,11 @@ export default function AppLayout() {
     const navigate = useNavigate();
     const { user, logout } = useAuthStore();
     const { isConnected, connectedDevice } = useDeviceStore();
-
+    const transparentIcon = "text-2xl text-indigo-300/70 transition-all duration-200";
     // Simplified menu - only essential items not in dashboard tiles
     const menuItems = [
-        { path: '/dashboard', label: 'Dashboard', icon: <FaHome /> },
-        { path: '/competition', label: 'Competition', icon: <FaTrophy /> },
+        { path: '/dashboard', label: 'Dashboard', icon: <FaHome className={transparentIcon} /> },
+        { path: '/competition', label: 'Competition', icon: <FaTrophy className={transparentIcon} /> },
     ];
 
     const handleLogout = () => {
@@ -42,13 +42,12 @@ export default function AppLayout() {
                             <img
                                 src={athieonLogo}
                                 alt="Athieon"
-                                className="h-12 w-auto"
+                                className="h-25 w-auto"
                                 style={{ filter: 'invert(1) brightness(2)', mixBlendMode: 'screen' }}
                             />
                         </div>
 
                         {/* Product Model */}
-                        <h1 className="text-lg font-bold text-gray-100 text-center">{getProductName()}</h1>
                         <p className="text-xs text-primary-400 text-center mt-1 font-medium">{getTagline()}</p>
                     </div>
 

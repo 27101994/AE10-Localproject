@@ -9,20 +9,23 @@ export default function Dashboard() {
     const navigate = useNavigate();
     const { user } = useAuthStore();
 
-    const tiles = [
-        { icon: <FaBullseye className="text-4xl" />, title: 'Start New Event', description: 'Begin a new shooting session', path: '/start-event' },
-        { icon: <FaCircle className="text-4xl text-red-500" />, title: 'Start Live View', description: 'Go to live shooting mode', path: '/live' },
-        { icon: <FaChartBar className="text-4xl" />, title: 'Events History', description: 'View past sessions', path: '#' },
-        { icon: <FaUserFriends className="text-4xl" />, title: 'Train with Buddy', description: 'Multi-user training', path: '#' },
-        { icon: <FaChartLine className="text-4xl" />, title: 'Performance', description: 'Analytics and insights', path: '#' },
-        { icon: <FaBolt className="text-4xl" />, title: 'Velocity Meter', description: 'Measure shot velocity', path: '#' },
-        { icon: <FaMicroscope className="text-4xl" />, title: 'Pellet Tester', description: 'Test different pellets', path: '/pellet-tester' },
-        { icon: <FaCog className="text-4xl" />, title: 'Target Setup', description: 'Configure device', path: '#' },
-        { icon: <FaUser className="text-4xl" />, title: 'Profile Settings', description: 'Manage your profile', path: '#' },
-        { icon: <FaTrophy className="text-4xl" />, title: 'Competition Mode', description: 'Official competitions', path: '#' },
-        { icon: <FaBell className="text-4xl" />, title: 'Notifications', description: 'View alerts', path: '#' },
-        { icon: <FaBullhorn className="text-4xl" />, title: 'Advertisements', description: 'Latest updates', path: '#' },
-    ];
+const transparentIcon = "text-4xl text-indigo-400/70";
+
+const tiles = [
+    { icon: <FaBullseye className={transparentIcon} />, title: 'Start New Event', description: 'Begin a new shooting session', path: '/start-event' },
+    { icon: <FaCircle className="text-4xl text-red-400/60" />, title: 'Start Live View', description: 'Go to live shooting mode', path: '/live' }, // special red icon
+    { icon: <FaChartBar className={transparentIcon} />, title: 'Events History', description: 'View past sessions', path: '#' },
+    { icon: <FaUserFriends className={transparentIcon} />, title: 'Train with Buddy', description: 'Multi-user training', path: '#' },
+    { icon: <FaChartLine className={transparentIcon} />, title: 'Performance', description: 'Analytics and insights', path: '#' },
+    { icon: <FaBolt className={transparentIcon} />, title: 'Velocity Meter', description: 'Measure shot velocity', path: '#' },
+    { icon: <FaMicroscope className={transparentIcon} />, title: 'Pellet Tester', description: 'Test different pellets', path: '#' },
+    { icon: <FaCog className={transparentIcon} />, title: 'Target Setup', description: 'Configure device', path: '#' },
+    { icon: <FaUser className={transparentIcon} />, title: 'Profile Settings', description: 'Manage your profile', path: '#' },
+    { icon: <FaTrophy className={transparentIcon} />, title: 'Competition Mode', description: 'Official competitions', path: '#' },
+    { icon: <FaBell className={transparentIcon} />, title: 'Notifications', description: 'View alerts', path: '#' },
+    { icon: <FaBullhorn className={transparentIcon} />, title: 'Advertisements', description: 'Latest updates', path: '#' },
+];
+
 
     // const tiles = [
     //     { icon: '🎯', title: 'Start New Event', description: 'Begin a new shooting session', path: '/start-event' },

@@ -13,7 +13,7 @@ export default function Competition() {
             <div className="card-elevated">
                 <div className="text-center space-y-6 py-8">
                     <div className="flex justify-center mb-4">
-                        <FaTrophy className="text-6xl" />
+                        <FaTrophy className="text-4xl text-indigo-400/70" />
                     </div>
 
                     <h2 className="text-3xl font-bold text-gradient">

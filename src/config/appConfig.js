@@ -1,7 +1,7 @@
 // Application configuration
 export const APP_CONFIG = {
     // Product model - can be changed to AET 5, AET 20, etc.
-    productModel: 'ATHLEON',
+    // productModel: 'ATHLEON',
 
     // Company branding
     companyName: 'Athieon',
@@ -13,7 +13,7 @@ export const APP_CONFIG = {
 };
 
 // Helper function to get full product name
-export const getProductName = () => APP_CONFIG.productModel;
+// export const getProductName = () => APP_CONFIG.productModel;
 
 // Helper function to get tagline
 export const getTagline = () => APP_CONFIG.tagline;

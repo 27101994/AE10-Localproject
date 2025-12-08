@@ -161,9 +161,6 @@ export default function Live() {
                         <span className="text-2xl mr-2"><FaBullseye /></span>
                         <span>Sighther</span>
                     </Button>
-                    <p className="text-xs text-gray-500 text-center mt-2">
-                        Click to start playing trail balls (like in cricket)
-                    </p>
                 </div>
 
                 {/* Right panel - Shot table */}

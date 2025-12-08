@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import athieonLogo from '@/assets/athieon-logo.png';
-import { getProductName, getTagline } from '@/config/appConfig';
+import { getTagline } from '@/config/appConfig';
 
 export default function GuestLayout() {
     return (
@@ -14,13 +14,12 @@ export default function GuestLayout() {
                         <img
                             src={athieonLogo}
                             alt="Athieon"
-                            className="h-20 w-auto"
+                            className="h-13 w-auto"
                             style={{ filter: 'invert(1) brightness(2)', mixBlendMode: 'screen' }}
                         />
                     </div>
 
                     {/* Product Model */}
-                    <h1 className="text-2xl font-bold text-gray-100 mb-2">{getProductName()}</h1>
                     <p className="text-primary-400 font-medium">{getTagline()}</p>
                 </div>
 
