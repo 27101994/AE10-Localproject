@@ -13,7 +13,7 @@ const transparentIcon = "text-4xl text-indigo-400/70";
 
 const tiles = [
     { icon: <FaBullseye className={transparentIcon} />, title: 'Start New Event', description: 'Begin a new shooting session', path: '/start-event' },
-    { icon: <FaCircle className="text-4xl text-red-400/60" />, title: 'Start Live View', description: 'Go to live shooting mode', path: '/live' }, // special red icon
+    { icon: <FaCircle className="text-4xl text-blue-400/70" />, title: 'Start Live View', description: 'Go to live shooting mode', path: '/live' }, // special red icon
     { icon: <FaChartBar className={transparentIcon} />, title: 'Events History', description: 'View past sessions', path: '#' },
     { icon: <FaUserFriends className={transparentIcon} />, title: 'Train with Buddy', description: 'Multi-user training', path: '#' },
     { icon: <FaChartLine className={transparentIcon} />, title: 'Performance', description: 'Analytics and insights', path: '#' },

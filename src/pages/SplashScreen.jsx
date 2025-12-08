@@ -28,11 +28,11 @@ export default function SplashScreen() {
             <div className="text-center">
                 {/* Company Logo Placeholder */}
                 {/* Company Logo */}
-                <div className="mb-8 animate-pulse">
+                <div className="flex items-center justify-center mb-4">
                     <img
                         src={athieonLogo}
-                        alt="Athieon Logo"
-                        className="w-48 h-auto mx-auto object-contain"
+                        alt="Athieon"
+                         className="h-[52px] w-auto"
                         style={{ filter: 'invert(1) brightness(2)', mixBlendMode: 'screen' }}
                     />
                 </div>
