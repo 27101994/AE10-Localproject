@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@store/authStore';
 import TileCard from '@components/TileCard';
 import { getTagline } from '@/config/appConfig';
-import { FaBullseye, FaCircle, FaChartBar, FaUserFriends, FaChartLine, FaBolt, FaMicroscope, FaCog, FaUser, FaTrophy, FaBell, FaBullhorn } from 'react-icons/fa';
+import { FaBullseye, FaCircle, FaChartBar, FaUserFriends, FaChartLine, FaBolt, FaMicroscope, FaCog, FaUser, FaTrophy, FaBell, FaBullhorn, FaCrosshairs } from 'react-icons/fa';
 
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -22,6 +22,7 @@ const tiles = [
     { icon: <FaCog className={transparentIcon} />, title: 'Target Setup', description: 'Configure device', path: '#' },
     { icon: <FaUser className={transparentIcon} />, title: 'Profile Settings', description: 'Manage your profile', path: '#' },
     { icon: <FaTrophy className={transparentIcon} />, title: 'Competition Mode', description: 'Official competitions', path: '#' },
+    { icon: <FaCrosshairs className={transparentIcon} />, title: 'Skill Mode', description: 'Coming Soon', path: '#' },
     { icon: <FaBell className={transparentIcon} />, title: 'Notifications', description: 'View alerts', path: '#' },
     { icon: <FaBullhorn className={transparentIcon} />, title: 'Advertisements', description: 'Latest updates', path: '#' },
 ];
