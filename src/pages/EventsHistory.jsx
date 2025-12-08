@@ -5,6 +5,7 @@ import Modal from '@components/Modal';
 import TargetImage from '@components/TargetImage';
 import ShotTable from '@components/ShotTable';
 import { calculateGroupRadius, calculateGroupCenter } from '@utils/shootingUtils';
+import { FaChartBar } from 'react-icons/fa';
 
 export default function EventsHistory() {
     const { sessions, getSessionsByDate } = useHistoryStore();
@@ -35,7 +36,7 @@ export default function EventsHistory() {
 
             {Object.keys(groupedSessions).length === 0 ? (
                 <div className="card text-center py-16">
-                    <div className="text-6xl mb-4">📊</div>
+                    <div className="text-6xl mb-4 flex justify-center text-gray-500"><FaChartBar /></div>
                     <h2 className="text-2xl font-bold text-gray-300 mb-2">No Sessions Yet</h2>
                     <p className="text-gray-500">
                         Your saved shooting sessions will appear here

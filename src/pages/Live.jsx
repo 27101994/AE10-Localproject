@@ -8,6 +8,7 @@ import Button from '@components/Button';
 import ConnectivityStatus from '@components/ConnectivityStatus';
 import TimerIndicator from '@components/TimerIndicator';
 import { calculateGroupRadius, calculateGroupCenter, generateDummyShot } from '@utils/shootingUtils';
+import { FaCaretUp, FaBullseye, FaPause, FaSave } from 'react-icons/fa';
 
 export default function Live() {
     const {
@@ -94,7 +95,7 @@ export default function Live() {
                             ? 'bg-gray-600 text-gray-100'
                             : 'bg-accent-green text-white'
                             }`}>
-                            {mode === 'sighter' ? '🔺 Sighter Mode' : '🎯 Match Mode'}
+                            {mode === 'sighter' ? <span className="flex items-center gap-2"><FaCaretUp /> Sighter Mode</span> : <span className="flex items-center gap-2"><FaBullseye /> Match Mode</span>}
                         </div>
                         <Button
                             variant="secondary"
@@ -157,7 +158,7 @@ export default function Live() {
                         size="lg"
                         className="w-full text-lg py-4"
                     >
-                        <span className="text-2xl mr-2">🎯</span>
+                        <span className="text-2xl mr-2"><FaBullseye /></span>
                         <span>Sighther</span>
                     </Button>
                     <p className="text-xs text-gray-500 text-center mt-2">
@@ -193,9 +194,7 @@ export default function Live() {
                             onClick={handleSave}
                             className="flex-1 flex items-center justify-center space-x-2"
                         >
-                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-                            </svg>
+                            <FaSave className="w-5 h-5" />
                             <span>Save Session</span>
                         </Button>
 
@@ -204,7 +203,7 @@ export default function Live() {
                             onClick={stopSession}
                             className="flex-1"
                         >
-                            ⏸ Pause
+                            <span className="flex items-center justify-center gap-2"><FaPause /> Pause</span>
                         </Button>
                     </div>
                 </div>

@@ -13,16 +13,16 @@ export function calculateDirection(x, y, centerX = 0, centerY = 0) {
     if (angle < 0) angle += 360;
 
     // Map to 8 directions
-    if (angle >= 337.5 || angle < 22.5) return '→';
-    if (angle >= 22.5 && angle < 67.5) return '↗';
-    if (angle >= 67.5 && angle < 112.5) return '↑';
-    if (angle >= 112.5 && angle < 157.5) return '↖';
-    if (angle >= 157.5 && angle < 202.5) return '←';
-    if (angle >= 202.5 && angle < 247.5) return '↙';
-    if (angle >= 247.5 && angle < 292.5) return '↓';
-    if (angle >= 292.5 && angle < 337.5) return '↘';
+    if (angle >= 337.5 || angle < 22.5) return 'RIGHT';
+    if (angle >= 22.5 && angle < 67.5) return 'UP_RIGHT';
+    if (angle >= 67.5 && angle < 112.5) return 'UP';
+    if (angle >= 112.5 && angle < 157.5) return 'UP_LEFT';
+    if (angle >= 157.5 && angle < 202.5) return 'LEFT';
+    if (angle >= 202.5 && angle < 247.5) return 'DOWN_LEFT';
+    if (angle >= 247.5 && angle < 292.5) return 'DOWN';
+    if (angle >= 292.5 && angle < 337.5) return 'DOWN_RIGHT';
 
-    return '→';
+    return 'RIGHT';
 }
 
 /**

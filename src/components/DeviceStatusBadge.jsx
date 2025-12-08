@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { FaCircle } from 'react-icons/fa';
+
 export default function DeviceStatusBadge({ isConnected, deviceName }) {
     return (
         <div className="flex items-center space-x-2">
@@ -17,7 +19,7 @@ export default function DeviceStatusBadge({ isConnected, deviceName }) {
                     {isConnected ? 'Connected' : 'Disconnected'}
                 </span>
                 {isConnected && deviceName && (
-                    <span className="text-gray-500 ml-1">• {deviceName}</span>
+                    <span className="text-gray-500 ml-1 flex items-center gap-1"><FaCircle size={6} /> {deviceName}</span>
                 )}
             </div>
         </div>

@@ -4,6 +4,7 @@ import TargetImage from '@components/TargetImage';
 import Button from '@components/Button';
 import DataTable from '@components/DataTable';
 import { generateDummyShot } from '@utils/shootingUtils';
+import { FaBullseye, FaCheck, FaSave, FaSync, FaCircle } from 'react-icons/fa';
 
 export default function PelletTester() {
     const {
@@ -144,8 +145,8 @@ export default function PelletTester() {
         <div className="max-w-[1600px] mx-auto">
             <div className="mb-6">
                 <h1 className="text-2xl font-bold text-gray-100">Pellet Tester</h1>
-                <p className="text-gray-400 mt-1">
-                    Testing: {currentPellet} • {testShots.length} / {maxShots} shots
+                <p className="text-gray-400 mt-1 flex items-center">
+                    Testing: {currentPellet} <FaCircle className="mx-2 text-[0.5em]" /> {testShots.length} / {maxShots} shots
                 </p>
             </div>
 
@@ -158,19 +159,19 @@ export default function PelletTester() {
 
                     {testShots.length < maxShots ? (
                         <Button onClick={handleAddShot} className="w-full">
-                            🎯 Shoot (Demo) - {maxShots - testShots.length} remaining
+                            <span className="flex items-center justify-center"><FaBullseye className="mr-2" /> Shoot (Demo) - {maxShots - testShots.length} remaining</span>
                         </Button>
                     ) : (
                         <div className="space-y-3">
                             <div className="card text-center py-4 bg-accent-green/20 border-accent-green">
-                                <p className="text-accent-green font-semibold">✓ Test Complete</p>
+                                <p className="text-accent-green font-semibold flex items-center justify-center"><FaCheck className="mr-2" /> Test Complete</p>
                             </div>
                             <div className="flex space-x-3">
                                 <Button variant="success" onClick={handleSave} className="flex-1">
-                                    💾 Save Test
+                                    <span className="flex items-center justify-center"><FaSave className="mr-2" /> Save Test</span>
                                 </Button>
                                 <Button variant="secondary" onClick={resetPelletTest} className="flex-1">
-                                    🔄 New Test
+                                    <span className="flex items-center justify-center"><FaSync className="mr-2" /> New Test</span>
                                 </Button>
                             </div>
                         </div>

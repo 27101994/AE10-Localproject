@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuthStore } from '@store/authStore';
 import Button from '@components/Button';
+import { FaSave, FaPen, FaMedal, FaBullseye } from 'react-icons/fa';
 
 export default function Profile() {
     const { user } = useAuthStore();
@@ -89,7 +90,7 @@ export default function Profile() {
                                 onClick={() => setIsEditing(!isEditing)}
                                 className="w-full"
                             >
-                                {isEditing ? '💾 Save Changes' : '✏️ Edit Profile'}
+                                {isEditing ? <span className="flex items-center justify-center gap-2"><FaSave /> Save Changes</span> : <span className="flex items-center justify-center gap-2"><FaPen /> Edit Profile</span>}
                             </Button>
                         </div>
                     </div>
@@ -113,14 +114,14 @@ export default function Profile() {
                         <h3 className="text-lg font-semibold text-gray-200 mb-4">Achievements</h3>
                         <div className="space-y-3">
                             <div className="flex items-center space-x-3">
-                                <span className="text-2xl">🥇</span>
+                                <span className="text-2xl text-yellow-500"><FaMedal /></span>
                                 <div>
                                     <div className="text-sm font-medium text-gray-200">Gold Medal</div>
                                     <div className="text-xs text-gray-500">State Championship</div>
                                 </div>
                             </div>
                             <div className="flex items-center space-x-3">
-                                <span className="text-2xl">🎯</span>
+                                <span className="text-2xl text-red-500"><FaBullseye /></span>
                                 <div>
                                     <div className="text-sm font-medium text-gray-200">Perfect 10</div>
                                     <div className="text-xs text-gray-500">100 consecutive shots</div>

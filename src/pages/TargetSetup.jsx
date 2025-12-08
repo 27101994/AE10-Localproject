@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDeviceStore } from '@store/deviceStore';
 import Button from '@components/Button';
 import RangeSlider from '@components/RangeSlider';
+import { FaPhone, FaPlug, FaSearch, FaBullseye, FaSpinner } from 'react-icons/fa';
 
 export default function TargetSetup() {
     const {
@@ -91,7 +92,7 @@ export default function TargetSetup() {
                                         disabled={isCalibrating}
                                         className="w-full"
                                     >
-                                        {isCalibrating ? '⏳ Calibrating...' : '🎯 Auto Calibrate'}
+                                        {isCalibrating ? <span className="flex items-center justify-center"><FaSpinner className="animate-spin mr-2" /> Calibrating...</span> : <span className="flex items-center justify-center"><FaBullseye className="mr-2" /> Auto Calibrate</span>}
                                     </Button>
                                 </div>
 
@@ -99,19 +100,19 @@ export default function TargetSetup() {
                                 <div>
                                     <h3 className="text-lg font-semibold text-gray-200 mb-3">Support</h3>
                                     <Button variant="secondary" className="w-full">
-                                        📞 Contact Support
+                                        <span className="flex items-center justify-center"><FaPhone className="mr-2" /> Contact Support</span>
                                     </Button>
                                 </div>
                             </div>
                         ) : (
                             <div className="text-center py-12">
-                                <div className="text-6xl mb-4">🔌</div>
+                                <div className="text-6xl mb-4 flex justify-center text-gray-500"><FaPlug /></div>
                                 <h3 className="text-xl font-bold text-gray-300 mb-2">No Device Connected</h3>
                                 <p className="text-gray-500 mb-6">
                                     Scan for available devices to connect
                                 </p>
                                 <Button variant="primary" onClick={handleScan} disabled={scanning}>
-                                    {scanning ? '🔍 Scanning...' : '🔍 Scan for Devices'}
+                                    {scanning ? <span className="flex items-center justify-center"><FaSearch className="animate-pulse mr-2" /> Scanning...</span> : <span className="flex items-center justify-center"><FaSearch className="mr-2" /> Scan for Devices</span>}
                                 </Button>
                             </div>
                         )}
@@ -149,7 +150,7 @@ export default function TargetSetup() {
                                                     USB
                                                 </div>
                                             </div>
-                                            <div className="text-2xl">🎯</div>
+                                            <div className="text-2xl text-primary-500"><FaBullseye /></div>
                                         </div>
                                     </div>
                                 ))}

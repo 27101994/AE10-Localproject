@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaTrophy } from 'react-icons/fa';
 
 export default function Competition() {
     return (
@@ -11,7 +12,9 @@ export default function Competition() {
             {/* Competition poster */}
             <div className="card-elevated">
                 <div className="text-center space-y-6 py-8">
-                    <div className="text-6xl mb-4">🏆</div>
+                    <div className="flex justify-center mb-4">
+                        <FaTrophy className="text-6xl" />
+                    </div>
 
                     <h2 className="text-3xl font-bold text-gradient">
                         Official Competition

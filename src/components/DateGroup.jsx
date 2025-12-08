@@ -1,6 +1,8 @@
 import React from 'react';
 import { formatDate } from '@utils/dateUtils';
 
+import { FaBullseye } from 'react-icons/fa';
+
 export default function DateGroup({ date, events, onEventClick }) {
     return (
         <div className="mb-8">
@@ -30,7 +32,7 @@ export default function DateGroup({ date, events, onEventClick }) {
                                     })}
                                 </p>
                             </div>
-                            <div className="text-2xl">🎯</div>
+                            <div className="text-2xl text-primary-500"><FaBullseye /></div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-2 text-sm">

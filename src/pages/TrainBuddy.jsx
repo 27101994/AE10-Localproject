@@ -4,6 +4,7 @@ import Button from '@components/Button';
 import PlayerTile from '@components/PlayerTile';
 import Modal from '@components/Modal';
 import { calculateGroupRadius, calculateGroupCenter, generateDummyShot } from '@utils/shootingUtils';
+import { FaBullseye, FaLink, FaHourglassHalf } from 'react-icons/fa';
 
 export default function TrainBuddy() {
     const { roomCode, isHost, participants, createRoom, joinRoom, addParticipant, updateParticipant, leaveRoom } = useBuddyStore();
@@ -75,7 +76,7 @@ export default function TrainBuddy() {
                 /* No Room - Show Create/Join Options */
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="card-elevated text-center py-12">
-                        <div className="text-6xl mb-4">🎯</div>
+                        <div className="text-6xl mb-4 flex justify-center text-primary-500"><FaBullseye /></div>
                         <h2 className="text-2xl font-bold text-gray-100 mb-3">Create Match</h2>
                         <p className="text-gray-400 mb-6">
                             Start a new training session and invite others to join
@@ -86,7 +87,7 @@ export default function TrainBuddy() {
                     </div>
 
                     <div className="card-elevated text-center py-12">
-                        <div className="text-6xl mb-4">🔗</div>
+                        <div className="text-6xl mb-4 flex justify-center text-primary-500"><FaLink /></div>
                         <h2 className="text-2xl font-bold text-gray-100 mb-3">Join Match</h2>
                         <p className="text-gray-400 mb-6">
                             Enter a code to join an existing training session
@@ -121,7 +122,7 @@ export default function TrainBuddy() {
                     {/* Participants Grid */}
                     {participantsWithStats.length === 0 ? (
                         <div className="card text-center py-16">
-                            <div className="text-6xl mb-4">⏳</div>
+                            <div className="text-6xl mb-4 flex justify-center text-gray-500"><FaHourglassHalf /></div>
                             <h3 className="text-xl font-bold text-gray-300 mb-2">Waiting for participants...</h3>
                             <p className="text-gray-500">Share the room code for others to join</p>
                         </div>

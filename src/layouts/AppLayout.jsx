@@ -5,6 +5,7 @@ import { useDeviceStore } from '@store/deviceStore';
 import DeviceStatusBadge from '@components/DeviceStatusBadge';
 import athieonLogo from '@/assets/athieon-logo.png';
 import { getProductName, getTagline } from '@/config/appConfig';
+import { FaHome, FaTrophy, FaBars, FaSignOutAlt } from 'react-icons/fa';
 
 export default function AppLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -15,8 +16,8 @@ export default function AppLayout() {
 
     // Simplified menu - only essential items not in dashboard tiles
     const menuItems = [
-        { path: '/dashboard', label: 'Dashboard', icon: '🏠' },
-        { path: '/competition', label: 'Competition', icon: '🏆' },
+        { path: '/dashboard', label: 'Dashboard', icon: <FaHome /> },
+        { path: '/competition', label: 'Competition', icon: <FaTrophy /> },
     ];
 
     const handleLogout = () => {
@@ -42,7 +43,7 @@ export default function AppLayout() {
                                 src={athieonLogo}
                                 alt="Athieon"
                                 className="h-12 w-auto"
-                                style={{ filter: 'invert(1) brightness(1)' }}
+                                style={{ filter: 'invert(1) brightness(2)', mixBlendMode: 'screen' }}
                             />
                         </div>
 
@@ -96,9 +97,7 @@ export default function AppLayout() {
                             onClick={() => setSidebarOpen(!sidebarOpen)}
                             className="lg:hidden text-gray-400 hover:text-gray-200"
                         >
-                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
+                            <FaBars className="w-6 h-6" />
                         </button>
 
                         {/* Page title */}
@@ -128,9 +127,7 @@ export default function AppLayout() {
                                 className="p-2 text-gray-400 hover:text-red-400 hover:bg-dark-elevated rounded-lg transition-colors"
                                 title="Logout"
                             >
-                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                </svg>
+                                <FaSignOutAlt className="w-5 h-5" />
                             </button>
                         </div>
                     </div>

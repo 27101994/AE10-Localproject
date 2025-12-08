@@ -4,6 +4,7 @@ import { useEventStore, EVENT_TYPES } from '@store/eventStore';
 import { useLiveStore } from '@store/liveStore';
 import EventCard from '@components/EventCard';
 import Button from '@components/Button';
+import { FaCheck, FaBullseye, FaUndo } from 'react-icons/fa';
 
 export default function StartEvent() {
     const navigate = useNavigate();
@@ -67,15 +68,15 @@ export default function StartEvent() {
                     <div
                         onClick={() => setSelectedMode('sighter')}
                         className={`card cursor-pointer transition-all duration-300 ${selectedMode === 'sighter'
-                                ? 'border-primary-500 bg-dark-elevated'
-                                : 'border-dark-border hover:border-primary-500/50'
+                            ? 'border-primary-500 bg-dark-elevated'
+                            : 'border-dark-border hover:border-primary-500/50'
                             }`}
                     >
                         <div className="flex items-center justify-between mb-2">
                             <h3 className="text-lg font-bold text-gray-100">Sighter Mode</h3>
                             {selectedMode === 'sighter' && (
                                 <div className="w-6 h-6 bg-primary-500 rounded-full flex items-center justify-center">
-                                    <span className="text-white text-sm">✓</span>
+                                    <span className="text-white text-sm"><FaCheck /></span>
                                 </div>
                             )}
                         </div>
@@ -87,15 +88,15 @@ export default function StartEvent() {
                     <div
                         onClick={() => setSelectedMode('match')}
                         className={`card cursor-pointer transition-all duration-300 ${selectedMode === 'match'
-                                ? 'border-primary-500 bg-dark-elevated'
-                                : 'border-dark-border hover:border-primary-500/50'
+                            ? 'border-primary-500 bg-dark-elevated'
+                            : 'border-dark-border hover:border-primary-500/50'
                             }`}
                     >
                         <div className="flex items-center justify-between mb-2">
                             <h3 className="text-lg font-bold text-gray-100">Match Mode</h3>
                             {selectedMode === 'match' && (
                                 <div className="w-6 h-6 bg-primary-500 rounded-full flex items-center justify-center">
-                                    <span className="text-white text-sm">✓</span>
+                                    <span className="text-white text-sm"><FaCheck /></span>
                                 </div>
                             )}
                         </div>
@@ -115,7 +116,7 @@ export default function StartEvent() {
                     disabled={!selectedEvent}
                     className="flex-1"
                 >
-                    🎯 Start Event
+                    <span className="flex items-center justify-center"><FaBullseye className="mr-2" /> Start Event</span>
                 </Button>
 
                 <Button
@@ -124,7 +125,7 @@ export default function StartEvent() {
                     onClick={handleAbort}
                     className="flex-1"
                 >
-                    ↺ Reset Selection
+                    <span className="flex items-center justify-center"><FaUndo className="mr-2" /> Reset Selection</span>
                 </Button>
             </div>
         </div>

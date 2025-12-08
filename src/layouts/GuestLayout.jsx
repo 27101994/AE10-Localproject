@@ -15,7 +15,7 @@ export default function GuestLayout() {
                             src={athieonLogo}
                             alt="Athieon"
                             className="h-20 w-auto"
-                            style={{ filter: 'invert(1) brightness(1)' }}
+                            style={{ filter: 'invert(1) brightness(2)', mixBlendMode: 'screen' }}
                         />
                     </div>
 
