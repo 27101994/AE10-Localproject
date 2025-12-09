@@ -16,7 +16,7 @@ export const APP_CONFIG = {
 // export const getProductName = () => APP_CONFIG.productModel;
 
 // Helper function to get tagline
-export const getTagline = () => APP_CONFIG.tagline;
+// export const getTagline = () => APP_CONFIG.tagline;
 
 // Helper function to get company name
 export const getCompanyName = () => APP_CONFIG.companyName;

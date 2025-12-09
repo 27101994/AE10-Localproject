@@ -7,41 +7,55 @@ export default {
     theme: {
         extend: {
             colors: {
-                // Dark theme colors
+                // FutureTech Dark Theme
                 dark: {
-                    bg: '#0f1419',
-                    surface: '#1a1f2e',
-                    elevated: '#252b3b',
-                    border: '#3d4556',
+                    bg: '#090b10',       // Deepest space blue/black
+                    surface: '#121620',  // Rich dark blue-grey
+                    elevated: '#1a202e', // Slightly lighter panel color
+                    border: 'rgba(255, 255, 255, 0.08)', // Subtle glass border
+                    text: '#e2e8f0',     // Primary text
+                    muted: '#94a3b8',    // Secondary text
                 },
                 primary: {
-                    50: '#f8fafc',
-                    100: '#f1f5f9',
-                    200: '#e2e8f0',
-                    300: '#cbd5e1',
-                    400: '#94a3b8',
-                    500: '#64748b',
-                    600: '#475569',
-                    700: '#334155',
-                    800: '#1e293b',
-                    900: '#0f172a',
+                    50: '#f0f9ff',
+                    100: '#e0f2fe',
+                    200: '#bae6fd',
+                    300: '#7dd3fc',
+                    400: '#38bdf8',
+                    500: '#0ea5e9', // Electric Sky Blue
+                    600: '#0284c7', // Vivid Blue
+                    700: '#0369a1',
+                    800: '#075985',
+                    900: '#0c4a6e',
                 },
                 accent: {
-                    cyan: '#14b8a6',
-                    yellow: '#f59e0b',
-                    green: '#22c55e',
-                    red: '#ef4444',
-                    teal: '#14b8a6',
+                    cyan: '#22d3ee',   // Neon Cyan
+                    purple: '#a855f7', // Neon Purple
+                    pink: '#ec4899',   // Neon Pink
+                    yellow: '#facc15', // Neon Yellow
+                    screen: '#10b981', // Neon Green
                 },
-                score: {
-                    10: '#f59e0b', // Yellow for 10x
-                    9: '#14b8a6',  // Teal for 9
-                    8: '#64748b',  // Gray for 8
+                status: {
+                    success: '#10b981',
+                    warning: '#f59e0b',
+                    error: '#ef4444',
+                    info: '#3b82f6',
                 }
             },
             fontFamily: {
-                sans: ['Inter', 'system-ui', 'sans-serif'],
+                sans: ['Inter', 'Outfit', 'system-ui', 'sans-serif'], // Added Outfit for modern feel if available
             },
+            backgroundImage: {
+                'gradient-mesh': 'radial-gradient(circle at 15% 50%, rgba(14, 165, 233, 0.08), transparent 25%), radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.08), transparent 25%)',
+                'glass-gradient': 'linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)',
+            },
+            boxShadow: {
+                'neon': '0 0 5px theme("colors.primary.500"), 0 0 20px theme("colors.primary.500")',
+                'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+            },
+            backdropBlur: {
+                'xs': '2px',
+            }
         },
     },
     plugins: [],
