@@ -1,0 +1,339 @@
+{
+  "Sheet1": [
+    {
+      "Page": "Intro",
+      "Changes": "Animation",
+      "Notes": "Just like this way, if possible to view"
+    },
+    {
+      "Page": null,
+      "Changes": "replace  precision perfomance excellance with track analyse and perfect your game",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Logo and name feels shot and small bolder, ,upto you idea, ",
+      "Notes": null
+    },
+    {
+      "Page": "Dash board",
+      "Changes": "Dark mode light mode control button",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Replace competition from leftside with Range connectivity",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Athleon logo and name, need some more modification, now looks bold and small,up to your idea",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Remove advertisement box",
+      "Notes": null
+    },
+    {
+      "Page": "Start New event",
+      "Changes": "Remove modes",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Green colour for start event like last version",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Boxing for selected tile",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "All pistol events on one side, all rifle events on another side",
+      "Notes": null
+    },
+    {
+      "Page": "Overview",
+      "Changes": "Correct triangle for sighther",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Keep sighther mode and switch to match mode(No chnage)",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Disconnected and connected to red to green box,inside connected model name will come",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "No no need of white border for bullets",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Left write down up to aerrow symbols",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Remove top bar above (remove logout and all, keep below written items)",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Event name ,Name of shooter , timer , connected or disconected",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Next to switch to match put a restart utton to restatt the whole event",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Little more larger text for headding and table elements for score, shot number sum .. ",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Current shot number->little more visible text",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Table working should be always how 10 elements, while scrolling all should get, but at a time, 10 elemts only should be visible",
+      "Notes": "More clarity on whastapp explanation"
+    },
+    {
+      "Page": null,
+      "Changes": "Lighter bullet colour for prv shots",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Bottom keep small box for series, s1 s2 s3 s4, on completeing colour should change on clicking  the list should go there, one series for 10 shots,  so for 60 shot, 6 series, 40 shots 4 series",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "While showimg score( 10X shold be display for score >10.3)",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "While switching to match mode, table should not contain sighter shot history, sould be avilble only by cilcing some other button",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Can keep cronological order for sighter also, since we shows as differnt list from match shots",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "KEEP REAL TARGET",
+      "Notes": "More clarity on whastapp explanation"
+    },
+    {
+      "Page": null,
+      "Changes": "Zoom in zoom out buttons",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "one box for live view code , if someone paste  this on live view can view this, also one toogle for live view on and off",
+      "Notes": null
+    },
+    {
+      "Page": "Train with buddy",
+      "Changes": "on Hold",
+      "Notes": null
+    },
+    {
+      "Page": "Events History",
+      "Changes": "Hostory of saved seesions sorted by dates, tiles view, simple like folders",
+      "Notes": null
+    },
+    {
+      "Page": "Velocity meter",
+      "Changes": "Screen has 2 function, to start a new test, and buttom will have older test results history",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Start new test wil ask pistol or rifle, name of wepon, name of pellet, batch numnber of pellet",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "next screen to mostly like our live view page but few cahnges",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "insted of target, just black circle one red dot pop up in mddle to indicate shot recorded, ",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "side table will show, shot number velocity, and bottom avergae velocity",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "shotter can take any number of shots,each shot velocity ill show  ",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "also again here gruop of 10 on table like in live view page",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Save button ",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Now this will avilable as a history in the  page along with date time info and previously recorded data",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Option to edit and delete",
+      "Notes": null
+    },
+    {
+      "Page": "Pellet teatser",
+      "Changes": "Screen has 2 function, to start a new test, and buttom will have older test results history",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Start new test wil ask pistol or rifle, name of wepon, name of pellet, batch numnber of pellet",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "next screen to mostly like our live view page but few cahnges",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "insted of target, just black circle one red dot pop up in mddle to indicate shot recorded, ",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "side table will show, shot number only",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Shooter can take any number of shot",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "After that, one button name, caliberate",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "after pressing that target will become visible, also all  shots will be plced on centree of target(groop cnetre will be at 10.9, hence we can see the group and group radious)(based on rifle or pistol)",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Group radious is the reusult here",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "after saving this will become in history",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Option to edit and delete",
+      "Notes": null
+    },
+    {
+      "Page": "Live view",
+      "Changes": "Same flow as joiing meeting with code, on joingn you wil get the same screen",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Since it is voew only page, no botton visiblity needed, ",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "show target , table, shot numner name headding and all, only view",
+      "Notes": null
+    },
+    {
+      "Page": "Target setup",
+      "Changes": "tile 1.Setup bullet colour",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Current shot, previous shot , older shots, colcour selection for theese",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "tile 2. setup brightgness for conected device",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Slider",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "tile3.Run caliberation",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "NIL",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "tile 4.Connect with device",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Wire and wireless option , same flow as adding new bt divice in phone, older pired device also should avile",
+      "Notes": null
+    },
+    {
+      "Page": "Perfomance",
+      "Changes": "NIL",
+      "Notes": null
+    },
+    {
+      "Page": "General",
+      "Changes": "Avilable devices are AET 05, AET10 ,AET25, AET50)",
+      "Notes": null
+    },
+    {
+      "Page": null,
+      "Changes": "Colour to follow scatt",
+      "Notes": "More clarity on whastapp explanation"
+    }
+  ]
+}

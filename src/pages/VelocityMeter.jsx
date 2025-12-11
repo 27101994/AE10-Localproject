@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useVelocityStore } from '@store/velocityStore';
 import Button from '@components/Button';
 import DataTable from '@components/DataTable';
+import TargetImage from '@components/TargetImage';
+import { FaHistory, FaSave, FaTrash, FaPlay, FaEdit, FaTimes } from 'react-icons/fa';
 
 export default function VelocityMeter() {
     const {
@@ -14,18 +16,20 @@ export default function VelocityMeter() {
         cancelMeasurement,
     } = useVelocityStore();
 
+    // Setup State
     const [weaponName, setWeaponName] = useState('');
-    const [pelletUsed, setPelletUsed] = useState('');
-    const [place, setPlace] = useState('');
-    const [showSetup, setShowSetup] = useState(true);
+    const [pelletName, setPelletName] = useState('');
+    const [batchNumber, setBatchNumber] = useState('');
+
+    // UI State
+    const [showHistory, setShowHistory] = useState(true);
 
     const handleStart = () => {
-        if (!weaponName.trim()) {
-            alert('Please enter weapon name');
+        if (!weaponName.trim() || !pelletName.trim()) {
+            alert('Please enter Weapon Name and Pellet Name');
             return;
         }
-        startMeasurement(weaponName, pelletUsed, place);
-        setShowSetup(false);
+        startMeasurement(weaponName, pelletName, batchNumber);
     };
 
     const handleAddShot = () => {
@@ -34,151 +38,200 @@ export default function VelocityMeter() {
         addShot(parseFloat(velocity));
     };
 
-    const handleComplete = () => {
+    const handleSave = () => {
         completeMeasurement();
-        setShowSetup(true);
-        setWeaponName('');
-        setPelletUsed('');
-        setPlace('');
+        // Reset form or keep values? Usually users test same gear multiple times.
+        // Keeping values for convenience.
     };
 
     const handleCancel = () => {
-        cancelMeasurement();
-        setShowSetup(true);
+        if (window.confirm("Cancel current test? Data will be lost.")) {
+            cancelMeasurement();
+        }
     };
 
+    // History Table Columns
     const historyColumns = [
         { key: 'serialNumber', label: 'Serial No.' },
         { key: 'weaponName', label: 'Weapon' },
         { key: 'pelletUsed', label: 'Pellet' },
+        { key: 'place', label: 'Batch/Place' }, // stored as 'place' in store but UI calls it Batch per req
         { key: 'average', label: 'Avg Velocity (m/s)' },
-        { key: 'date', label: 'Date', render: (val) => new Date(val).toLocaleDateString() },
+        { key: 'completedAt', label: 'Date', render: (val) => new Date(val).toLocaleDateString() },
+        {
+            key: 'actions', label: 'Actions', render: (_, row) => (
+                <div className="flex gap-2">
+                    <button className="text-blue-400 hover:text-blue-300"><FaEdit /></button>
+                    <button className="text-red-400 hover:text-red-300"><FaTrash /></button>
+                </div>
+            )
+        }
     ];
 
-    return (
-        <div className="max-w-5xl mx-auto">
-            <div className="mb-8">
-                <h1 className="text-3xl font-bold text-gray-100 mb-2">Velocity Meter</h1>
-                <p className="text-gray-400">Measure shot velocity with 5 continuous shots</p>
-            </div>
-
-            {showSetup && !isActive ? (
-                /* Setup Form */
-                <div className="card-elevated max-w-2xl mx-auto">
-                    <h2 className="text-xl font-bold text-gray-100 mb-6">Setup Measurement</h2>
-                    <div className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-2">
-                                Weapon Name *
-                            </label>
-                            <input
-                                type="text"
-                                value={weaponName}
-                                onChange={(e) => setWeaponName(e.target.value)}
-                                className="input w-full"
-                                placeholder="e.g., Walther LP400"
-                            />
+    // If active test is running, show Active View
+    if (isActive && currentMeasurement) {
+        return (
+            <div className="max-w-6xl mx-auto p-6 min-h-screen flex flex-col">
+                {/* Header */}
+                <div className="bg-dark-surface p-6 rounded-xl border border-dark-border mb-6 flex justify-between items-center shadow-lg">
+                    <div>
+                        <h2 className="text-3xl font-bold text-white mb-1">Velocity Test</h2>
+                        <div className="flex gap-4 text-sm text-gray-400">
+                            <span>Weapon: <strong className="text-white">{currentMeasurement.weaponName}</strong></span>
+                            <span>Pellet: <strong className="text-white">{currentMeasurement.pelletUsed}</strong></span>
+                            <span>Batch: <strong className="text-white">{currentMeasurement.place || 'N/A'}</strong></span>
                         </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-2">
-                                Pellet Used
-                            </label>
-                            <input
-                                type="text"
-                                value={pelletUsed}
-                                onChange={(e) => setPelletUsed(e.target.value)}
-                                className="input w-full"
-                                placeholder="e.g., RWS R10"
-                            />
+                    </div>
+                    <div className="text-right">
+                        <div className="text-sm text-gray-500 uppercase tracking-widest">Avg Velocity</div>
+                        <div className="text-4xl font-bold text-accent-green">
+                            {currentMeasurement.shots.length > 0
+                                ? (currentMeasurement.shots.reduce((a, b) => a + b, 0) / currentMeasurement.shots.length).toFixed(2)
+                                : '0.00'}
+                            <span className="text-base font-normal text-gray-500 ml-2">m/s</span>
                         </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-2">
-                                Place
-                            </label>
-                            <input
-                                type="text"
-                                value={place}
-                                onChange={(e) => setPlace(e.target.value)}
-                                className="input w-full"
-                                placeholder="e.g., Indoor Range"
-                            />
-                        </div>
-
-                        <Button variant="success" size="lg" onClick={handleStart} className="w-full">
-                            Start Measurement
-                        </Button>
                     </div>
                 </div>
-            ) : isActive && currentMeasurement ? (
-                /* Active Measurement */
-                <div className="space-y-6">
-                    <div className="card">
-                        <div className="text-center mb-6">
-                            <h2 className="text-2xl font-bold text-gray-100 mb-2">{currentMeasurement.weaponName}</h2>
-                            <p className="text-gray-400">
-                                Shot {currentMeasurement.shots.length} of 5
-                            </p>
-                        </div>
 
-                        {/* Shot Counter */}
-                        <div className="flex justify-center space-x-3 mb-8">
-                            {[1, 2, 3, 4, 5].map((num) => (
-                                <div
-                                    key={num}
-                                    className={`w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold ${num <= currentMeasurement.shots.length
-                                            ? 'bg-accent-green text-white'
-                                            : 'bg-dark-elevated text-gray-500'
-                                        }`}
-                                >
-                                    {num}
-                                </div>
-                            ))}
+                <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {/* Visual Feedback */}
+                    <div className="flex flex-col">
+                        <div className="card flex-1 flex items-center justify-center bg-dark-bg/50 backdrop-blur">
+                            <TargetImage
+                                simpleMode={true}
+                                size={500}
+                                shots={currentMeasurement.shots} // Pass shots to trigger visual dot
+                            />
                         </div>
+                        {/* Control Bar */}
+                        <div className="mt-6 flex gap-4">
+                            <Button onClick={handleAddShot} variant="success" size="lg" className="flex-1 py-4 text-xl">
+                                <FaPlay className="mr-2" /> FIRE SHOT
+                            </Button>
+                        </div>
+                    </div>
 
-                        {/* Velocity Readings */}
-                        {currentMeasurement.shots.length > 0 && (
-                            <div className="mb-6">
-                                <h3 className="text-lg font-semibold text-gray-200 mb-3">Velocity Readings</h3>
-                                <div className="grid grid-cols-5 gap-3">
-                                    {currentMeasurement.shots.map((velocity, index) => (
-                                        <div key={index} className="bg-dark-elevated rounded-lg p-3 text-center">
-                                            <div className="text-xs text-gray-500 mb-1">Shot {index + 1}</div>
-                                            <div className="text-xl font-bold text-primary-400">{velocity}</div>
-                                            <div className="text-xs text-gray-500">m/s</div>
-                                        </div>
-                                    ))}
-                                </div>
+                    {/* Data Table */}
+                    <div className="flex flex-col h-full space-y-4">
+                        <div className="bg-dark-surface rounded-xl border border-dark-border flex-1 overflow-hidden flex flex-col">
+                            <div className="p-4 bg-dark-elevated border-b border-dark-border font-bold text-gray-300 flex justify-between">
+                                <span>Shot #</span>
+                                <span>Velocity (m/s)</span>
                             </div>
-                        )}
+                            <div className="overflow-y-auto flex-1 p-0">
+                                <table className="w-full">
+                                    <tbody className="divide-y divide-dark-border">
+                                        {currentMeasurement.shots.map((vel, idx) => (
+                                            <tr key={idx} className="hover:bg-dark-elevated">
+                                                <td className="p-4 text-white font-bold">#{idx + 1}</td>
+                                                <td className="p-4 text-right text-primary-400 font-mono text-xl">{vel}</td>
+                                            </tr>
+                                        ))}
+                                        {currentMeasurement.shots.length === 0 && (
+                                            <tr>
+                                                <td colSpan="2" className="p-8 text-center text-gray-500">No shots recorded yet</td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
-                        {/* Action Buttons */}
-                        <div className="flex space-x-4">
-                            {currentMeasurement.shots.length < 5 ? (
-                                <Button variant="success" size="lg" onClick={handleAddShot} className="flex-1">
-                                    Take Shot {currentMeasurement.shots.length + 1}
-                                </Button>
-                            ) : (
-                                <Button variant="success" size="lg" onClick={handleComplete} className="flex-1">
-                                    Complete Measurement
-                                </Button>
-                            )}
-                            <Button variant="secondary" size="lg" onClick={handleCancel}>
-                                Cancel
+                        <div className="flex gap-4">
+                            <Button onClick={handleSave} variant="primary" className="flex-1">
+                                <FaSave className="mr-2" /> Save & Finish
+                            </Button>
+                            <Button onClick={handleCancel} variant="danger" className="flex-1">
+                                <FaTimes className="mr-2" /> Cancel
                             </Button>
                         </div>
                     </div>
                 </div>
-            ) : null}
+            </div>
+        );
+    }
 
-            {/* Measurement History */}
-            {measurements.length > 0 && (
-                <div className="mt-8">
-                    <h2 className="text-2xl font-bold text-gray-100 mb-4">Measurement History</h2>
-                    <DataTable columns={historyColumns} data={measurements} />
+    // Default View: Configuration & History
+    return (
+        <div className="max-w-6xl mx-auto p-6">
+            <h1 className="text-4xl font-bold text-white mb-8 border-b border-white/10 pb-4">Velocity Meter</h1>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Configuration Panel */}
+                <div className="lg:col-span-1">
+                    <div className="card-elevated sticky top-6">
+                        <h2 className="text-xl font-bold text-accent-cyan mb-6 flex items-center gap-2">
+                            <span className="w-2 h-8 bg-accent-cyan rounded-full"></span>
+                            New Test Setup
+                        </h2>
+
+                        <div className="space-y-6">
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-300 mb-2">Select Weapon Type</label>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <button className="p-3 rounded-lg bg-primary-600 text-white font-bold ring-2 ring-primary-400">Pistol</button>
+                                    <button className="p-3 rounded-lg bg-dark-elevated text-gray-400 hover:bg-dark-elevated/80">Rifle</button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-300 mb-2">Weapon Name</label>
+                                <input
+                                    type="text"
+                                    className="input w-full"
+                                    placeholder="e.g. Steyr LP10"
+                                    value={weaponName}
+                                    onChange={(e) => setWeaponName(e.target.value)}
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-300 mb-2">Pellet Name</label>
+                                <input
+                                    type="text"
+                                    className="input w-full"
+                                    placeholder="e.g. RWS R10 Match"
+                                    value={pelletName}
+                                    onChange={(e) => setPelletName(e.target.value)}
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-300 mb-2">Batch Number</label>
+                                <input
+                                    type="text"
+                                    className="input w-full"
+                                    placeholder="Optional"
+                                    value={batchNumber}
+                                    onChange={(e) => setBatchNumber(e.target.value)}
+                                />
+                            </div>
+
+                            <Button onClick={handleStart} variant="success" size="lg" className="w-full mt-4 py-4 text-xl">
+                                Start Test
+                            </Button>
+                        </div>
+                    </div>
                 </div>
-            )}
+
+                {/* History Panel */}
+                <div className="lg:col-span-2">
+                    <div className="flex items-center justify-between mb-6">
+                        <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                            <FaHistory className="text-gray-500" /> Test History
+                        </h2>
+                    </div>
+
+                    <div className="bg-dark-surface rounded-xl border border-dark-border overflow-hidden">
+                        <DataTable columns={historyColumns} data={measurements} />
+                        {measurements.length === 0 && (
+                            <div className="p-12 text-center text-gray-500">
+                                No history available. Start a new test to see results here.
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

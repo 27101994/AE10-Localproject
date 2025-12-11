@@ -4,128 +4,93 @@ import { useEventStore, EVENT_TYPES } from '@store/eventStore';
 import { useLiveStore } from '@store/liveStore';
 import EventCard from '@components/EventCard';
 import Button from '@components/Button';
-import { FaCheck, FaBullseye, FaUndo } from 'react-icons/fa';
+import { FaBullseye } from 'react-icons/fa';
 
 export default function StartEvent() {
     const navigate = useNavigate();
     const { setEvent, setEventMode } = useEventStore();
     const { startSession } = useLiveStore();
 
-    const [selectedEvent, setSelectedEvent] = useState(null);
-    const [selectedMode, setSelectedMode] = useState('sighter');
+    const [selectedEventId, setSelectedEventId] = useState(null);
+
+    const pistolEvents = EVENT_TYPES.filter(e => e.type === 'pistol');
+    const rifleEvents = EVENT_TYPES.filter(e => e.type === 'rifle');
 
     const handleStart = () => {
-        if (!selectedEvent) {
+        if (!selectedEventId) {
             alert('Please select an event type');
             return;
         }
 
-        // Set event in store
-        setEvent(selectedEvent);
-        setEventMode(selectedMode);
+        const event = EVENT_TYPES.find(e => e.id === selectedEventId);
 
-        // Get event details
-        const event = EVENT_TYPES.find(e => e.id === selectedEvent);
+        // Set event in store
+        setEvent(selectedEventId);
+        // Default to sighter mode as manual selection is removed
+        setEventMode('sighter');
 
         // Start live session
-        startSession(event.name, selectedMode);
+        startSession(event.name, 'sighter');
 
         // Navigate to live page
         navigate('/live');
     };
 
-    const handleAbort = () => {
-        setSelectedEvent(null);
-        setSelectedMode('sighter');
-    };
-
     return (
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto px-4">
             <div className="mb-8">
                 <h1 className="text-3xl font-bold text-gray-100 mb-2">Start New Event</h1>
-                <p className="text-gray-400">Select your event type and mode to begin</p>
+                <p className="text-gray-400">Select your event to begin</p>
             </div>
 
-            {/* Event Type Selection */}
-            <div className="mb-8">
-                <h2 className="text-xl font-semibold text-gray-200 mb-4">Event Type</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {EVENT_TYPES.map((event) => (
-                        <EventCard
-                            key={event.id}
-                            event={event}
-                            selected={selectedEvent}
-                            onSelect={setSelectedEvent}
-                        />
-                    ))}
-                </div>
-            </div>
-
-            {/* Mode Selection */}
-            <div className="mb-8">
-                <h2 className="text-xl font-semibold text-gray-200 mb-4">Mode</h2>
-                <div className="grid grid-cols-2 gap-4">
-                    <div
-                        onClick={() => setSelectedMode('sighter')}
-                        className={`card cursor-pointer transition-all duration-300 ${selectedMode === 'sighter'
-                            ? 'border-primary-500 bg-dark-elevated'
-                            : 'border-dark-border hover:border-primary-500/50'
-                            }`}
-                    >
-                        <div className="flex items-center justify-between mb-2">
-                            <h3 className="text-lg font-bold text-gray-100">Sighter Mode</h3>
-                            {selectedMode === 'sighter' && (
-                                <div className="w-6 h-6 bg-primary-500 rounded-full flex items-center justify-center">
-                                    <span className="text-white text-sm"><FaCheck /></span>
-                                </div>
-                            )}
-                        </div>
-                        <p className="text-sm text-gray-400">
-                            Practice shots before the match. Grey triangle indicator will be shown.
-                        </p>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                {/* Pistol Events Section */}
+                <div>
+                    <h2 className="text-2xl font-bold text-accent-cyan mb-6 pb-2 border-b border-white/10 flex items-center">
+                        Pistol Events
+                    </h2>
+                    <div className="grid grid-cols-1 gap-4">
+                        {pistolEvents.map((event) => (
+                            <EventCard
+                                key={event.id}
+                                event={event}
+                                selected={selectedEventId}
+                                onSelect={setSelectedEventId}
+                            />
+                        ))}
                     </div>
+                </div>
 
-                    <div
-                        onClick={() => setSelectedMode('match')}
-                        className={`card cursor-pointer transition-all duration-300 ${selectedMode === 'match'
-                            ? 'border-primary-500 bg-dark-elevated'
-                            : 'border-dark-border hover:border-primary-500/50'
-                            }`}
-                    >
-                        <div className="flex items-center justify-between mb-2">
-                            <h3 className="text-lg font-bold text-gray-100">Match Mode</h3>
-                            {selectedMode === 'match' && (
-                                <div className="w-6 h-6 bg-primary-500 rounded-full flex items-center justify-center">
-                                    <span className="text-white text-sm"><FaCheck /></span>
-                                </div>
-                            )}
-                        </div>
-                        <p className="text-sm text-gray-400">
-                            Official match shots that count towards your score.
-                        </p>
+                {/* Rifle Events Section */}
+                <div>
+                    <h2 className="text-2xl font-bold text-accent-purple mb-6 pb-2 border-b border-white/10 flex items-center">
+                        Rifle Events
+                    </h2>
+                    <div className="grid grid-cols-1 gap-4">
+                        {rifleEvents.map((event) => (
+                            <EventCard
+                                key={event.id}
+                                event={event}
+                                selected={selectedEventId}
+                                onSelect={setSelectedEventId}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex space-x-4">
+            {/* Start Button */}
+            <div className="mt-12 flex justify-center pb-10">
                 <Button
                     variant="success"
                     size="lg"
                     onClick={handleStart}
-                    disabled={!selectedEvent}
-                    className="flex-1"
+                    disabled={!selectedEventId}
+                    className="w-full max-w-md text-xl py-4 shadow-lg shadow-green-500/20 transform hover:scale-105 transition-all"
                 >
-                    <span className="flex items-center justify-center"><FaBullseye className="mr-2" /> Start Event</span>
-                </Button>
-
-                <Button
-                    variant="secondary"
-                    size="lg"
-                    onClick={handleAbort}
-                    className="flex-1"
-                >
-                    <span className="flex items-center justify-center"><FaUndo className="mr-2" /> Reset Selection</span>
+                    <span className="flex items-center justify-center font-bold tracking-wide">
+                        <FaBullseye className="mr-3" /> START EVENT
+                    </span>
                 </Button>
             </div>
         </div>

@@ -1,22 +1,66 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+
 
 export default function ShotTable({ shots = [], totalScore = 0, totalScoreDecimal = 0 }) {
+    const scrollRef = useRef(null);
+
+    // Auto-scroll to bottom when shots change
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+    }, [shots.length]);
+
+    const getDirectionIcon = (dir) => {
+        // console.log('Shot Direction:', dir); 
+        if (!dir) return '-';
+
+        let arrow = '';
+        switch (dir) {
+            case 'UP': arrow = '↑'; break;
+            case 'UP_RIGHT': arrow = '↗'; break;
+            case 'RIGHT': arrow = '→'; break;
+            case 'DOWN_RIGHT': arrow = '↘'; break;
+            case 'DOWN': arrow = '↓'; break;
+            case 'DOWN_LEFT': arrow = '↙'; break;
+            case 'LEFT': arrow = '←'; break;
+            case 'UP_LEFT': arrow = '↖'; break;
+            default: return dir;
+        }
+
+        return <span className="text-2xl font-bold font-sans">{arrow}</span>;
+    };
+
     return (
-        <div className="bg-dark-surface rounded-xl border border-dark-border overflow-hidden">
-            <div className="overflow-x-auto">
+        <div className="bg-dark-surface rounded-xl border border-dark-border overflow-hidden flex flex-col h-[600px]">
+            {/* Header */}
+            <div className="bg-dark-elevated border-b border-dark-border">
                 <table className="w-full">
-                    <thead className="bg-dark-elevated">
+                    <thead>
                         <tr>
-                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-400 uppercase">Shot</th>
-                            <th className="px-4 py-3 text-center text-xs font-semibold text-gray-400 uppercase">Dir</th>
-                            <th className="px-4 py-3 text-right text-xs font-semibold text-gray-400 uppercase">Score</th>
-                            <th className="px-4 py-3 text-right text-xs font-semibold text-gray-400 uppercase">Sum</th>
+                            <th className="px-6 py-4 text-left text-sm font-bold text-gray-300 uppercase tracking-wider w-1/4">Shot</th>
+                            <th className="px-6 py-4 text-center text-sm font-bold text-gray-300 uppercase tracking-wider w-1/4">Dir</th>
+                            <th className="px-6 py-4 text-right text-sm font-bold text-gray-300 uppercase tracking-wider w-1/4">Score</th>
+                            <th className="px-6 py-4 text-right text-sm font-bold text-gray-300 uppercase tracking-wider w-1/4">Sum</th>
                         </tr>
                     </thead>
+                </table>
+            </div>
+
+            {/* Scrollable Body - Fixed height for approx 10 rows */}
+            <div
+                ref={scrollRef}
+                className="overflow-y-auto flex-1 custom-scrollbar"
+            >
+                <table className="w-full">
                     <tbody className="divide-y divide-dark-border">
                         {shots.map((shot, index) => {
                             const cumulativeScore = shots.slice(0, index + 1).reduce((sum, s) => sum + s.score, 0);
                             const cumulativeScoreDecimal = shots.slice(0, index + 1).reduce((sum, s) => sum + s.scoreDecimal, 0);
+
+                            // 10X logic: Score > 10.3 displayed as 10X (or check is10x flag if trustworthy)
+                            // Client requirement: "10X shold be display for score >10.3"
+                            const displayScore = shot.scoreDecimal > 10.3 ? '10X' : shot.score;
 
                             return (
                                 <tr
@@ -24,28 +68,28 @@ export default function ShotTable({ shots = [], totalScore = 0, totalScoreDecima
                                     className={`hover:bg-dark-elevated transition-colors ${index === shots.length - 1 ? 'bg-primary-500/10' : ''
                                         }`}
                                 >
-                                    <td className="px-4 py-3 text-sm font-medium text-gray-200">
+                                    <td className="px-6 py-4 text-lg font-bold text-gray-200 w-1/4">
                                         {shot.number}
                                     </td>
-                                    <td className="px-4 py-3 text-center text-lg">
-                                        {shot.direction}
+                                    <td className="px-6 py-4 text-center text-xl font-bold text-accent-cyan w-1/4 flex justify-center items-center">
+                                        {getDirectionIcon(shot.direction)}
                                     </td>
-                                    <td className="px-4 py-3 text-right">
+                                    <td className="px-6 py-4 text-right w-1/4">
                                         <div className="flex flex-col items-end">
-                                            <span className="text-sm font-semibold text-gray-200">
-                                                {shot.score}
+                                            <span className="text-xl font-bold text-white">
+                                                {displayScore}
                                             </span>
-                                            <span className="text-xs text-gray-500">
+                                            <span className="text-sm font-medium text-gray-400">
                                                 {shot.scoreDecimal?.toFixed(1)}
                                             </span>
                                         </div>
                                     </td>
-                                    <td className="px-4 py-3 text-right">
+                                    <td className="px-6 py-4 text-right w-1/4">
                                         <div className="flex flex-col items-end">
-                                            <span className="text-sm font-bold text-primary-400">
+                                            <span className="text-xl font-bold text-primary-400">
                                                 {cumulativeScore}
                                             </span>
-                                            <span className="text-xs text-gray-500">
+                                            <span className="text-sm font-medium text-gray-500">
                                                 {cumulativeScoreDecimal.toFixed(1)}
                                             </span>
                                         </div>
@@ -54,17 +98,23 @@ export default function ShotTable({ shots = [], totalScore = 0, totalScoreDecima
                             );
                         })}
                     </tbody>
-                    <tfoot className="bg-dark-elevated border-t-2 border-primary-500">
+                </table>
+            </div>
+
+            {/* Footer */}
+            <div className="bg-dark-elevated border-t-2 border-primary-500">
+                <table className="w-full">
+                    <tfoot>
                         <tr>
-                            <td colSpan="3" className="px-4 py-3 text-sm font-semibold text-gray-300">
+                            <td className="px-6 py-4 text-lg font-bold text-gray-300 w-1/2">
                                 Total
                             </td>
-                            <td className="px-4 py-3 text-right">
+                            <td className="px-6 py-4 text-right w-1/2">
                                 <div className="flex flex-col items-end">
-                                    <span className="text-lg font-bold text-primary-400">
+                                    <span className="text-2xl font-bold text-primary-400">
                                         {totalScore}
                                     </span>
-                                    <span className="text-sm text-gray-400">
+                                    <span className="text-lg text-gray-400 font-medium">
                                         {totalScoreDecimal.toFixed(1)}
                                     </span>
                                 </div>

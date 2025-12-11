@@ -5,9 +5,9 @@ export default function EventCard({ event, onSelect, selected }) {
     return (
         <div
             onClick={() => onSelect(event.id)}
-            className={`card cursor-pointer transition-all duration-300 transform hover:scale-105 ${selected === event.id
-                ? 'border-primary-500 bg-dark-elevated shadow-xl'
-                : 'border-dark-border hover:border-primary-500/50'
+            className={`cursor-pointer transition-all duration-300 transform rounded-xl border p-4 hover:scale-[1.02] ${selected === event.id
+                ? 'border-primary-500 bg-primary-500/10 shadow-[0_0_20px_rgba(16,185,129,0.3)]'
+                : 'border-white/10 bg-dark-elevated hover:border-primary-500/50 hover:bg-dark-elevated/80'
                 }`}
         >
             <div className="flex items-start justify-between mb-4">
@@ -27,11 +27,11 @@ export default function EventCard({ event, onSelect, selected }) {
                 )}
             </div>
 
-            <div className="flex items-center justify-between pt-4 border-t border-dark-border">
-                <div className="text-sm text-gray-400">
+            <div className="flex items-center justify-between pt-4 border-t border-white/10 mt-4">
+                <div className="text-sm text-gray-400 font-medium">
                     {event.shots ? `${event.shots} shots` : 'Free series'}
                 </div>
-                <div className="text-xs text-primary-400 font-medium">
+                <div className="text-xs text-primary-400 font-bold tracking-wider uppercase bg-primary-500/10 px-2 py-1 rounded">
                     Sighter + Match
                 </div>
             </div>

@@ -1,42 +1,113 @@
-import React from 'react';
+import { useDeviceStore } from '@store/deviceStore'; // Import store
 
-export default function TargetImage({ shots = [], groupRadius, groupCenter, size = 400, showSighterIndicator = false }) {
+export default function TargetImage(props) {
+    const { shots = [], groupRadius, groupCenter, size = 400, showSighterIndicator = false, simpleMode = false, targetType = 'pistol' } = props;
+    const { bulletColor } = useDeviceStore(); // Get preferred color
     const centerX = size / 2;
     const centerY = size / 2;
 
-    // Target ring radii (as percentages of size)
-    const rings = [
-        { radius: 0.05, score: '10x', color: '#fbbf24' },
-        { radius: 0.15, score: '10', color: '#fff' },
-        { radius: 0.30, score: '9', color: '#fff' },
-        { radius: 0.45, score: '8', color: '#fff' },
-    ];
+    // Map color names to hex/rgba values
+    const getColor = (baseColor) => {
+        const colors = {
+            cyan: '#06b6d4',
+            yellow: '#facc15',
+            red: '#ef4444',
+            blue: '#3b82f6'
+        };
+        return colors[baseColor] || colors.cyan;
+    };
+
+    const activeColor = getColor(bulletColor || 'cyan');
+
+    // ISSF 10m Target Specifications
+    const getRings = (type) => {
+        if (type === 'rifle') {
+            // ISSF 10m Air Rifle
+            const maxDia = 45.5;
+            return [
+                { score: '1', radius: 45.5 / maxDia / 2, color: 'white', text: 'black', stroke: 'black' },
+                { score: '2', radius: 40.5 / maxDia / 2, color: 'white', text: 'black', stroke: 'black' },
+                { score: '3', radius: 35.5 / maxDia / 2, color: 'white', text: 'black', stroke: 'black' },
+                { score: '4', radius: 30.5 / maxDia / 2, color: 'black', text: 'white', stroke: 'none' }, // Black starts
+                { score: '5', radius: 25.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true },
+                { score: '6', radius: 20.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true },
+                { score: '7', radius: 15.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true },
+                { score: '8', radius: 10.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true },
+                { score: '9', radius: 5.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true },
+                { score: '10', radius: 0.5 / maxDia / 2, color: 'white', stroke: 'none', isDot: true }, // Inner dot
+            ];
+        } else {
+            // ISSF 10m Air Pistol (Default)
+            const maxDia = 155.5;
+            return [
+                { score: '1', radius: 155.5 / maxDia / 2, color: 'white', text: 'black', stroke: 'black' },
+                { score: '2', radius: 139.5 / maxDia / 2, color: 'white', text: 'black', stroke: 'black' },
+                { score: '3', radius: 123.5 / maxDia / 2, color: 'white', text: 'black', stroke: 'black' },
+                { score: '4', radius: 107.5 / maxDia / 2, color: 'white', text: 'black', stroke: 'black' },
+                { score: '5', radius: 91.5 / maxDia / 2, color: 'white', text: 'black', stroke: 'black' },
+                { score: '6', radius: 75.5 / maxDia / 2, color: 'white', text: 'black', stroke: 'black' },
+                { score: '7', radius: 59.5 / maxDia / 2, color: 'black', text: 'white', stroke: 'none' }, // Black starts
+                { score: '8', radius: 43.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true },
+                { score: '9', radius: 27.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true },
+                { score: '10', radius: 11.5 / maxDia / 2, color: 'white', stroke: 'none', isInnerTen: true },
+                { score: '10x', radius: 5.0 / maxDia / 2, color: 'none', stroke: 'white', dashed: true }, // Inner ten
+            ];
+        }
+    };
+
+    const rings = getRings(targetType);
+
+    if (simpleMode) {
+        return (
+            <div className="relative bg-white rounded-xl p-4 overflow-hidden border-4 border-black flex items-center justify-center">
+                <svg width={size} height={size} className="mx-auto">
+                    {/* Simple Mode: Single Black Circle */}
+                    <circle
+                        cx={centerX}
+                        cy={centerY}
+                        r={size * 0.2}
+                        fill="black"
+                        stroke="none"
+                    />
+
+                    {/* Red dot if shot recorded (showing last shot or just a dot if any shots exist) */}
+                    {shots.length > 0 && (
+                        <circle
+                            cx={centerX}
+                            cy={centerY}
+                            r={size * 0.05}
+                            fill="red"
+                            className="animate-pulse"
+                        />
+                    )}
+                </svg>
+            </div>
+        );
+    }
 
     return (
-        <div className="relative bg-dark-bg rounded-xl p-4">
-            {/* Sighter Mode Indicator - Grey Triangle in top-right */}
+        <div className="relative bg-[#F5E6CA] rounded-xl p-4 overflow-hidden border-4 border-black">
+            {/* Sighter Mode Indicator - Black Triangle in top-right corner */}
             {showSighterIndicator && (
-                <div className="absolute top-6 right-6 z-10">
-                    <svg width="40" height="40" viewBox="0 0 40 40">
+                <div className="absolute top-0 right-0 z-10">
+                    <svg width="60" height="60" viewBox="0 0 60 60">
                         <polygon
-                            points="20,5 35,35 5,35"
-                            fill="#6b7280"
-                            stroke="#9ca3af"
-                            strokeWidth="2"
+                            points="0,0 60,0 60,60"
+                            fill="black"
                         />
                     </svg>
                 </div>
             )}
 
             <svg width={size} height={size} className="mx-auto">
-                {/* Dark background circle */}
+                {/* Target Background - Paper Color */}
                 <circle
                     cx={centerX}
                     cy={centerY}
                     r={size * 0.48}
-                    fill="#0a0e1a"
-                    stroke="#2a3142"
-                    strokeWidth="2"
+                    fill="#F5E6CA"
+                    stroke="#000"
+                    strokeWidth="1"
                 />
 
                 {/* Target rings */}
@@ -46,58 +117,19 @@ export default function TargetImage({ shots = [], groupRadius, groupCenter, size
                             cx={centerX}
                             cy={centerY}
                             r={size * ring.radius}
-                            fill="none"
-                            stroke={ring.color}
-                            strokeWidth="2"
+                            fill={ring.color}
+                            stroke={ring.stroke || 'black'}
+                            strokeWidth="1"
+                            strokeDasharray={ring.dashed ? "3,3" : ""}
                         />
 
                         {/* Score labels at cardinal directions */}
-                        {index > 0 && (
+                        {ring.text && !ring.isDot && !ring.isInnerTen && (
                             <>
-                                <text
-                                    x={centerX + size * (ring.radius + rings[index - 1].radius) / 2}
-                                    y={centerY}
-                                    fill="#fff"
-                                    fontSize="24"
-                                    fontWeight="bold"
-                                    textAnchor="middle"
-                                    dominantBaseline="middle"
-                                >
-                                    {ring.score}
-                                </text>
-                                <text
-                                    x={centerX - size * (ring.radius + rings[index - 1].radius) / 2}
-                                    y={centerY}
-                                    fill="#fff"
-                                    fontSize="24"
-                                    fontWeight="bold"
-                                    textAnchor="middle"
-                                    dominantBaseline="middle"
-                                >
-                                    {ring.score}
-                                </text>
-                                <text
-                                    x={centerX}
-                                    y={centerY - size * (ring.radius + rings[index - 1].radius) / 2}
-                                    fill="#fff"
-                                    fontSize="24"
-                                    fontWeight="bold"
-                                    textAnchor="middle"
-                                    dominantBaseline="middle"
-                                >
-                                    {ring.score}
-                                </text>
-                                <text
-                                    x={centerX}
-                                    y={centerY + size * (ring.radius + rings[index - 1].radius) / 2}
-                                    fill="#fff"
-                                    fontSize="24"
-                                    fontWeight="bold"
-                                    textAnchor="middle"
-                                    dominantBaseline="middle"
-                                >
-                                    {ring.score}
-                                </text>
+                                <text x={centerX} y={centerY - size * ring.radius + (ring.score >= 7 || ring.score === '4' && targetType === 'rifle' ? 15 : 20)} fill={ring.text} fontSize="14" fontWeight="bold" textAnchor="middle">{ring.score}</text>
+                                <text x={centerX} y={centerY + size * ring.radius - (ring.score >= 7 || ring.score === '4' && targetType === 'rifle' ? 5 : 10)} fill={ring.text} fontSize="14" fontWeight="bold" textAnchor="middle">{ring.score}</text>
+                                <text x={centerX - size * ring.radius + (ring.score >= 7 || ring.score === '4' && targetType === 'rifle' ? 15 : 20)} y={centerY} fill={ring.text} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle">{ring.score}</text>
+                                <text x={centerX + size * ring.radius - (ring.score >= 7 || ring.score === '4' && targetType === 'rifle' ? 15 : 20)} y={centerY} fill={ring.text} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle">{ring.score}</text>
                             </>
                         )}
                     </g>
@@ -143,20 +175,31 @@ export default function TargetImage({ shots = [], groupRadius, groupCenter, size
                     const isLast = index === shots.length - 1;
                     const isPrevious = index === shots.length - 2;
 
-                    let color = '#06b6d4'; // Cyan for regular shots
-                    if (isLast) color = '#fbbf24'; // Yellow for last shot
-                    else if (isPrevious) color = '#3b82f6'; // Blue for previous shot
+                    // Lighter colors for older shots
+                    let color = activeColor;
+                    let opacity = 0.4;
+                    let textColor = 'rgba(0,0,0,0.5)';
+
+                    if (isLast) {
+                        color = '#fbbf24'; // Yellow solid for last shot ALWAYS
+                        opacity = 1;
+                        textColor = '#000';
+                    }
+                    else if (isPrevious) {
+                        opacity = 0.7;
+                        textColor = '#000';
+                    }
 
                     return (
                         <g key={shot.id || index}>
-                            {/* Shot marker circle */}
+                            {/* Shot marker circle - NO WHITE BORDER */}
                             <circle
                                 cx={centerX + shot.x}
                                 cy={centerY - shot.y}
                                 r="8"
                                 fill={color}
-                                stroke="#fff"
-                                strokeWidth="2"
+                                fillOpacity={opacity}
+                                stroke="none"
                                 className="transition-all duration-300"
                             />
 
@@ -164,7 +207,7 @@ export default function TargetImage({ shots = [], groupRadius, groupCenter, size
                             <text
                                 x={centerX + shot.x}
                                 y={centerY - shot.y}
-                                fill="#000"
+                                fill={textColor}
                                 fontSize="10"
                                 fontWeight="bold"
                                 textAnchor="middle"

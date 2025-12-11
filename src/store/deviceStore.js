@@ -3,16 +3,20 @@ import { create } from 'zustand';
 export const useDeviceStore = create((set) => ({
     connectedDevice: null,
     availableDevices: [],
-    brightness: 50,
+    brightness: 80, // Changed from 50 to 80 as per instruction
+    bulletColor: 'cyan', // 'cyan', 'yellow', 'red'
     isConnected: false,
     isCalibrating: false,
     connectionType: 'usb', // USB connection as per user feedback
 
     // Mock available devices for demo
     discoverDevices: () => {
+        // Mock discovery
         const mockDevices = [
-            { id: 'dev-001', name: 'AET10 Target #1', serialNumber: 'SN-2024-001', type: 'usb' },
-            { id: 'dev-002', name: 'AET10 Target #2', serialNumber: 'SN-2024-002', type: 'usb' },
+            { id: '1', name: 'AET 05', serialNumber: 'SN-005-2024', type: 'usb' },
+            { id: '2', name: 'AET 10', serialNumber: 'SN-010-2024', type: 'usb' },
+            { id: '3', name: 'AET 25', serialNumber: 'SN-025-2024', type: 'usb' },
+            { id: '4', name: 'AET 50', serialNumber: 'SN-050-2024', type: 'usb' },
         ];
         set({ availableDevices: mockDevices });
         return mockDevices;

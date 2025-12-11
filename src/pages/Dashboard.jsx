@@ -13,17 +13,16 @@ export default function Dashboard() {
     const tiles = [
         { icon: <FaBullseye className={transparentIcon} />, title: 'Start New Event', description: 'Begin a new shooting session', path: '/start-event' },
         { icon: <FaCircle className="text-4xl text-blue-400/70" />, title: 'Start Live View', description: 'Go to live shooting mode', path: '/live' }, // special red icon
-        { icon: <FaChartBar className={transparentIcon} />, title: 'Events History', description: 'View past sessions', path: '#' },
-        { icon: <FaUserFriends className={transparentIcon} />, title: 'Train with Buddy', description: 'Multi-user training', path: '#' },
-        { icon: <FaChartLine className={transparentIcon} />, title: 'Performance', description: 'Analytics and insights', path: '#' },
-        { icon: <FaBolt className={transparentIcon} />, title: 'Velocity Meter', description: 'Measure shot velocity', path: '#' },
-        { icon: <FaMicroscope className={transparentIcon} />, title: 'Pellet Tester', description: 'Test different pellets', path: '#' },
-        { icon: <FaCog className={transparentIcon} />, title: 'Target Setup', description: 'Configure device', path: '#' },
-        { icon: <FaUser className={transparentIcon} />, title: 'Profile Settings', description: 'Manage your profile', path: '#' },
-        { icon: <FaTrophy className={transparentIcon} />, title: 'Competition Mode', description: 'Official competitions', path: '#' },
+        { icon: <FaChartBar className={transparentIcon} />, title: 'Events History', description: 'View past sessions', path: '/events-histor' },
+        { icon: <FaUserFriends className={transparentIcon} />, title: 'Train with Buddy', description: 'Multi-user training', path: '/train-buddy' },
+        { icon: <FaChartLine className={transparentIcon} />, title: 'Performance', description: 'Analytics and insights', path: '/performance' },
+        { icon: <FaBolt className={transparentIcon} />, title: 'Velocity Meter', description: 'Measure shot velocity', path: '/velocity-meter' },
+        { icon: <FaMicroscope className={transparentIcon} />, title: 'Pellet Tester', description: 'Test different pellets', path: '/pellet-tester' },
+        { icon: <FaCog className={transparentIcon} />, title: 'Target Setup', description: 'Configure device', path: '/target-setup' },
+        { icon: <FaUser className={transparentIcon} />, title: 'Profile Settings', description: 'Manage your profile', path: '/profile' },
+        { icon: <FaTrophy className={transparentIcon} />, title: 'Range Connectivity', description: 'Connect range devices', path: '/range-connectivity' },
         { icon: <FaCrosshairs className={transparentIcon} />, title: 'Skill Mode', description: 'Coming Soon', path: '#' },
         { icon: <FaBell className={transparentIcon} />, title: 'Notifications', description: 'View alerts', path: '#' },
-        { icon: <FaBullhorn className={transparentIcon} />, title: 'Advertisements', description: 'Latest updates', path: '#' },
     ];
 
 
