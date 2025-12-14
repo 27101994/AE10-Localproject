@@ -61,6 +61,10 @@
     @apply bg-gradient-to-r from-red-600 to-red-500 text-white shadow-lg shadow-red-500/25 hover:shadow-red-500/40 hover:brightness-110;
   }
 
+  .btn-success {
+    @apply bg-gradient-to-r from-emerald-600 to-status-success text-white shadow-lg shadow-status-success/25 hover:shadow-status-success/40 hover:brightness-110 border border-white/10;
+  }
+
   /* Cards - MOVED TO JSX TO FIX BUILD CRASH
   .card {
     @apply glass-card rounded-2xl p-6;

@@ -19,7 +19,10 @@ export default function VelocityMeter() {
     // Setup State
     const [weaponName, setWeaponName] = useState('');
     const [pelletName, setPelletName] = useState('');
+    const [pelletWeight, setPelletWeight] = useState('');
+    const [caliber, setCaliber] = useState('');
     const [batchNumber, setBatchNumber] = useState('');
+    const [selectedWeapon, setSelectedWeapon] = useState('Pistol'); // 'Pistol' or 'Rifle'
 
     // UI State
     const [showHistory, setShowHistory] = useState(true);
@@ -29,7 +32,10 @@ export default function VelocityMeter() {
             alert('Please enter Weapon Name and Pellet Name');
             return;
         }
-        startMeasurement(weaponName, pelletName, batchNumber);
+        // Include selectedWeapon in weaponName or as a separate field if store supported it, 
+        // but for now we can prepend/append it or just rely on the name. 
+        // Let's just pass the fields we added to the store.
+        startMeasurement(weaponName, pelletName, pelletWeight, caliber, batchNumber);
     };
 
     const handleAddShot = () => {
@@ -55,6 +61,8 @@ export default function VelocityMeter() {
         { key: 'serialNumber', label: 'Serial No.' },
         { key: 'weaponName', label: 'Weapon' },
         { key: 'pelletUsed', label: 'Pellet' },
+        { key: 'pelletWeight', label: 'Weight (g)' },
+        { key: 'caliber', label: 'Caliber' },
         { key: 'place', label: 'Batch/Place' }, // stored as 'place' in store but UI calls it Batch per req
         { key: 'average', label: 'Avg Velocity (m/s)' },
         { key: 'completedAt', label: 'Date', render: (val) => new Date(val).toLocaleDateString() },
@@ -76,9 +84,11 @@ export default function VelocityMeter() {
                 <div className="bg-dark-surface p-6 rounded-xl border border-dark-border mb-6 flex justify-between items-center shadow-lg">
                     <div>
                         <h2 className="text-3xl font-bold text-white mb-1">Velocity Test</h2>
-                        <div className="flex gap-4 text-sm text-gray-400">
+                        <div className="flex flex-wrap gap-6 text-sm text-gray-400 mt-2">
                             <span>Weapon: <strong className="text-white">{currentMeasurement.weaponName}</strong></span>
                             <span>Pellet: <strong className="text-white">{currentMeasurement.pelletUsed}</strong></span>
+                            {currentMeasurement.pelletWeight && <span>Weight: <strong className="text-white">{currentMeasurement.pelletWeight}g</strong></span>}
+                            {currentMeasurement.caliber && <span>Caliber: <strong className="text-white">{currentMeasurement.caliber}</strong></span>}
                             <span>Batch: <strong className="text-white">{currentMeasurement.place || 'N/A'}</strong></span>
                         </div>
                     </div>
@@ -169,8 +179,22 @@ export default function VelocityMeter() {
                             <div>
                                 <label className="block text-sm font-semibold text-gray-300 mb-2">Select Weapon Type</label>
                                 <div className="grid grid-cols-2 gap-3">
-                                    <button className="p-3 rounded-lg bg-primary-600 text-white font-bold ring-2 ring-primary-400">Pistol</button>
-                                    <button className="p-3 rounded-lg bg-dark-elevated text-gray-400 hover:bg-dark-elevated/80">Rifle</button>
+                                    <button
+                                        onClick={() => setSelectedWeapon('Pistol')}
+                                        className={`p-3 rounded-lg font-bold transition-all ${selectedWeapon === 'Pistol'
+                                            ? 'bg-primary-600 text-white ring-2 ring-primary-400'
+                                            : 'bg-dark-elevated text-gray-400 hover:bg-dark-elevated/80'}`}
+                                    >
+                                        Pistol
+                                    </button>
+                                    <button
+                                        onClick={() => setSelectedWeapon('Rifle')}
+                                        className={`p-3 rounded-lg font-bold transition-all ${selectedWeapon === 'Rifle'
+                                            ? 'bg-primary-600 text-white ring-2 ring-primary-400'
+                                            : 'bg-dark-elevated text-gray-400 hover:bg-dark-elevated/80'}`}
+                                    >
+                                        Rifle
+                                    </button>
                                 </div>
                             </div>
 
@@ -193,6 +217,28 @@ export default function VelocityMeter() {
                                     placeholder="e.g. RWS R10 Match"
                                     value={pelletName}
                                     onChange={(e) => setPelletName(e.target.value)}
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-300 mb-2">Weight of Pellet (g)</label>
+                                <input
+                                    type="text"
+                                    className="input w-full"
+                                    placeholder="e.g. 0.53"
+                                    value={pelletWeight}
+                                    onChange={(e) => setPelletWeight(e.target.value)}
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-300 mb-2">Caliber</label>
+                                <input
+                                    type="text"
+                                    className="input w-full"
+                                    placeholder="e.g. 4.5mm"
+                                    value={caliber}
+                                    onChange={(e) => setCaliber(e.target.value)}
                                 />
                             </div>
 

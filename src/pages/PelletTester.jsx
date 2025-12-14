@@ -3,16 +3,15 @@ import { usePelletStore } from '@store/pelletStore';
 import TargetImage from '@components/TargetImage';
 import Button from '@components/Button';
 import DataTable from '@components/DataTable';
-import { generateDummyShot, calculateGroupCenter } from '@utils/shootingUtils';
-import { FaBullseye, FaCheck, FaSave, FaSync, FaCircle, FaHistory, FaCrosshairs, FaTrash, FaEdit } from 'react-icons/fa';
+import { generateDummyShot, calculateGroupCenter, calculateGroupRadius } from '@utils/shootingUtils';
+import { FaBullseye, FaCheck, FaSave, FaSync, FaCircle, FaHistory, FaCrosshairs, FaTrash, FaEdit, FaPlay } from 'react-icons/fa';
 
 export default function PelletTester() {
     const {
         pellets,
         currentPellet,
+        currentTestConfig,
         testShots,
-        maxShots,
-        weaponType,
         startPelletTest,
         addTestShot,
         savePelletTest,
@@ -20,26 +19,30 @@ export default function PelletTester() {
     } = usePelletStore();
 
     // Local State
+    const [weaponName, setWeaponName] = useState('');
     const [pelletName, setPelletName] = useState('');
-    const [numShots, setNumShots] = useState(5);
-    const [weapon, setWeapon] = useState('pistol');
+    const [batchNumber, setBatchNumber] = useState('');
+    const [pelletWeight, setPelletWeight] = useState('');
+    const [caliber, setCaliber] = useState('');
+    const [weaponType, setWeaponType] = useState('pistol');
+
     const [isCalibrated, setIsCalibrated] = useState(false);
 
     // Derived Shots for Display
     const displayedShots = useMemo(() => {
-        if (!isCalibrated) return []; // Blind shots - show nothing
+        if (!isCalibrated) {
+            // Blind Mode: "just black circle one red dot pop up in mddle to indicate shot recorded"
+            // Since we use TargetImage or custom view, let's prepare data.
+            // If we have shots, show 1 dummy shot at center? Or pass empty array and handle visual separate?
+            // Let's return empty array here and render the "Blind View" manually in the JSX.
+            return [];
+        }
 
-        // Calibration: Center the group on the bullseye
+        // Calibrated Mode: "all shots will be plced on centree of target"
         const center = calculateGroupCenter(testShots);
-        // Target center is 0,0 in our coordinate system logic (relative to center)
-        // Actually TargetImage assumes shots have x,y relative to center?
-        // Let's check shootingUtils. generateDummyShot uses x,y relative to center (0,0).
-        // TargetImage: cx={centerX + shot.x}, cy={centerY - shot.y}. 
-        // So shot.x, shot.y are relative offsets.
 
-        // To center the group:
-        // NewX = ShotX - GroupCenterX
-        // NewY = ShotY - GroupCenterY
+        // Target center is 0,0 in our coordinate system logic (relative)
+        // Shift every shot so group center moves to 0,0
         return testShots.map(shot => ({
             ...shot,
             x: shot.x - center.x,
@@ -47,18 +50,34 @@ export default function PelletTester() {
         }));
     }, [testShots, isCalibrated]);
 
+    // Calculate Group Radius (only valid when shots >= 2 usually, but function handles checks)
+    const groupResult = useMemo(() => {
+        if (testShots.length > 0) {
+            return calculateGroupRadius(testShots);
+        }
+        return 0;
+    }, [testShots]);
+
     const handleStart = () => {
-        if (pelletName.trim()) {
-            startPelletTest(pelletName, numShots, weapon);
+        if (pelletName.trim() && weaponName.trim()) {
+            startPelletTest({
+                weaponName,
+                pelletName,
+                batchNumber,
+                pelletWeight,
+                caliber,
+                weaponType
+            });
             setIsCalibrated(false);
+        } else {
+            alert("Please fill in Weapon Name and Pellet Name");
         }
     };
 
     const handleAddShot = () => {
-        if (testShots.length < maxShots) {
-            const shot = generateDummyShot(testShots.length + 1);
-            addTestShot(shot);
-        }
+        // Unlimited shots allowed
+        const shot = generateDummyShot(testShots.length + 1);
+        addTestShot(shot);
     };
 
     const handleCalibrate = () => {
@@ -67,21 +86,24 @@ export default function PelletTester() {
 
     const handleSave = () => {
         savePelletTest();
-        setPelletName('');
+        // Reset form inputs if needed, or keep for next test
         alert('Pellet test saved!');
     };
 
     const handleCancel = () => {
         if (window.confirm("Cancel current test?")) {
             resetPelletTest();
+            setIsCalibrated(false);
         }
     }
 
     const columns = [
         { key: 'index', label: 'SL', render: (_, row, index) => index + 1 },
-        { key: 'pelletName', label: 'Pellet Name', align: 'left' },
+        { key: 'pelletName', label: 'Pellet', align: 'left' },
+        { key: 'weaponName', label: 'Weapon', align: 'left' },
+        { key: 'batchNumber', label: 'Batch', align: 'left' },
         { key: 'groupDiameter', label: 'Group Dia', align: 'right', render: (value) => <span className="text-accent-green font-bold">{value} mm</span> },
-        { key: 'weaponType', label: 'Weapon', align: 'center', render: (val) => <span className="uppercase text-xs font-bold px-2 py-1 rounded bg-dark-elevated">{val}</span> },
+        { key: 'weaponType', label: 'Type', align: 'center', render: (val) => <span className="uppercase text-xs font-bold px-2 py-1 rounded bg-dark-elevated">{val}</span> },
         {
             key: 'actions', label: 'Actions', render: () => (
                 <div className="flex gap-2 justify-center">
@@ -106,47 +128,48 @@ export default function PelletTester() {
                                 <span className="w-2 h-8 bg-accent-purple rounded-full"></span>
                                 New Pellet Test
                             </h2>
-                            <div className="space-y-6">
+                            <div className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-300 mb-2">Pellet Name</label>
-                                    <input
-                                        type="text"
-                                        value={pelletName}
-                                        onChange={(e) => setPelletName(e.target.value)}
-                                        className="input w-full"
-                                        placeholder="e.g., RWS Meisterkugeln"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-300 mb-2">Number of Shots</label>
-                                    <input
-                                        type="number"
-                                        value={numShots}
-                                        onChange={(e) => setNumShots(Number(e.target.value))}
-                                        className="input w-full"
-                                        min="3" max="50"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-300 mb-2">Weapon Type</label>
+                                    <label className="block text-sm font-semibold text-gray-300 mb-2">Select Weapon Type</label>
                                     <div className="grid grid-cols-2 gap-3">
                                         <button
-                                            onClick={() => setWeapon('pistol')}
-                                            className={`p-3 rounded-lg font-bold transition-all ${weapon === 'pistol' ? 'bg-primary-600 text-white ring-2 ring-primary-400' : 'bg-dark-elevated text-gray-400 hover:bg-dark-elevated/80'}`}
+                                            onClick={() => setWeaponType('pistol')}
+                                            className={`p-3 rounded-lg font-bold transition-all ${weaponType === 'pistol' ? 'bg-primary-600 text-white ring-2 ring-primary-400' : 'bg-dark-elevated text-gray-400 hover:bg-dark-elevated/80'}`}
                                         >
                                             Pistol
                                         </button>
                                         <button
-                                            onClick={() => setWeapon('rifle')}
-                                            className={`p-3 rounded-lg font-bold transition-all ${weapon === 'rifle' ? 'bg-primary-600 text-white ring-2 ring-primary-400' : 'bg-dark-elevated text-gray-400 hover:bg-dark-elevated/80'}`}
+                                            onClick={() => setWeaponType('rifle')}
+                                            className={`p-3 rounded-lg font-bold transition-all ${weaponType === 'rifle' ? 'bg-primary-600 text-white ring-2 ring-primary-400' : 'bg-dark-elevated text-gray-400 hover:bg-dark-elevated/80'}`}
                                         >
                                             Rifle
                                         </button>
                                     </div>
                                 </div>
+
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-300 mb-1">Weapon Name</label>
+                                    <input type="text" value={weaponName} onChange={(e) => setWeaponName(e.target.value)} className="input w-full" placeholder="e.g. Steyr LP10" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-300 mb-1">Pellet Name</label>
+                                    <input type="text" value={pelletName} onChange={(e) => setPelletName(e.target.value)} className="input w-full" placeholder="e.g. RWS R10" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-300 mb-1">Batch Number</label>
+                                    <input type="text" value={batchNumber} onChange={(e) => setBatchNumber(e.target.value)} className="input w-full" placeholder="Optional" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-300 mb-1">Weight (g)</label>
+                                    <input type="text" value={pelletWeight} onChange={(e) => setPelletWeight(e.target.value)} className="input w-full" placeholder="e.g. 0.53" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-300 mb-1">Caliber</label>
+                                    <input type="text" value={caliber} onChange={(e) => setCaliber(e.target.value)} className="input w-full" placeholder="e.g. 4.5mm" />
+                                </div>
+
                                 <Button
                                     onClick={handleStart}
-                                    disabled={!pelletName.trim()}
                                     variant="success"
                                     size="lg"
                                     className="w-full mt-4 py-4 text-xl"
@@ -184,15 +207,23 @@ export default function PelletTester() {
             <div className="bg-dark-surface p-6 rounded-xl border border-dark-border mb-6 flex justify-between items-center shadow-lg">
                 <div>
                     <h2 className="text-3xl font-bold text-white mb-1">Testing: {currentPellet}</h2>
-                    <div className="flex gap-4 text-sm text-gray-400">
-                        <span>Weapon: <strong className="text-white uppercase">{weaponType}</strong></span>
-                        <span>Shots: <strong className="text-white">{testShots.length} / {maxShots}</strong></span>
+                    <div className="flex flex-wrap gap-4 text-sm text-gray-400">
+                        <span>Weapon: <strong className="text-white uppercase">{currentTestConfig.weaponName}</strong></span>
+                        {currentTestConfig.batchNumber && <span>Batch: <strong className="text-white">{currentTestConfig.batchNumber}</strong></span>}
+                        <span>Shots: <strong className="text-white">{testShots.length}</strong></span>
                     </div>
                 </div>
-                {isCalibrated && (
-                    <div className="text-right animate-fade-in-up">
-                        <div className="text-sm text-gray-500 uppercase tracking-widest">Group Status</div>
-                        <div className="text-2xl font-bold text-accent-green">CALIBRATED <FaCheck className="inline ml-2" /></div>
+                {isCalibrated ? (
+                    <div className="text-right">
+                        <div className="text-sm text-gray-500 uppercase tracking-widest">Group Radius</div>
+                        <div className="text-4xl font-bold text-accent-green">
+                            {groupResult} <span className="text-base text-gray-400">mm</span>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="text-right animate-pulse">
+                        <div className="text-sm text-gray-500 uppercase tracking-widest">Status</div>
+                        <div className="text-2xl font-bold text-yellow-500">BLIND TEST ACTIVE</div>
                     </div>
                 )}
             </div>
@@ -200,49 +231,46 @@ export default function PelletTester() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 flex-1">
                 {/* Target Section */}
                 <div className="flex flex-col">
-                    <div className="card flex-1 flex items-center justify-center bg-dark-bg/50 backdrop-blur relative">
-                        {/* Overlay text for blind mode */}
-                        {!isCalibrated && testShots.length > 0 && (
-                            <div className="absolute top-4 left-0 right-0 text-center z-20">
-                                <span className="bg-dark-surface/90 text-white px-4 py-2 rounded-full border border-dark-border shadow-lg font-bold tracking-widest text-sm">
-                                    BLIND MODE ACTIVE
-                                </span>
-                            </div>
-                        )}
+                    <div className="card flex-1 flex items-center justify-center bg-dark-bg/50 backdrop-blur relative min-h-[500px]">
 
-                        <TargetImage
-                            shots={displayedShots}
-                            size={500}
-                        // If blind (not calibrated), maybe hide rings? 
-                        // Req: "target will become visible" after calibrate.
-                        // So pass simpleMode={!isCalibrated} but WITHOUT shots? Or just hide TargetImage completely and show blank?
-                        // Let's hide rings by passing empty rings if not calibrated?
-                        // TargetImage doesn't accept rings prop. 
-                        // I'll assume standard target is visible but shots are hidden (handled by displayedShots=[]).
-                        // Wait, "target will become visible" -> means target IS invisible before.
-                        // I'll render a placeholder box if !isCalibrated which says "Target Hidden" or just blank paper.
-                        // Actually, let's just use `simpleMode` effectively or overlay.
-                        />
-
-                        {!isCalibrated && (
-                            <div className="absolute inset-0 bg-[#F5E6CA] z-10 flex items-center justify-center opacity-90 rounded-xl border-4 border-black">
-                                <div className="text-center">
-                                    <FaCrosshairs className="text-6xl text-gray-400 mb-4 mx-auto opacity-50" />
-                                    <p className="text-black font-bold opacity-50">TARGET OBSCURED</p>
+                        {!isCalibrated ? (
+                            /* Blind Mode View */
+                            <div className="relative w-[500px] h-[500px] bg-gray-200 rounded-lg flex items-center justify-center border-4 border-black">
+                                {/* Black Circle */}
+                                <div className="w-64 h-64 bg-black rounded-full flex items-center justify-center">
+                                    {testShots.length > 0 && (
+                                        /* Red Dot in Middle */
+                                        <div className="w-4 h-4 bg-red-600 rounded-full shadow-[0_0_10px_rgba(255,0,0,0.8)] animate-ping-once transition-all"></div>
+                                    )}
+                                </div>
+                                <div className="absolute bottom-4 text-black font-bold opacity-50 uppercase tracking-widest">
+                                    Target Obscured
                                 </div>
                             </div>
+                        ) : (
+                            /* Calibrated View */
+                            <TargetImage
+                                shots={displayedShots}
+                                size={500}
+                                groupRadius={groupResult}
+                                groupCenter={{ x: 0, y: 0 }} // Always centered visually after calibration
+                                targetType={currentTestConfig.weaponType}
+                            />
                         )}
                     </div>
 
                     <div className="mt-6 flex gap-4">
-                        {testShots.length < maxShots ? (
-                            <Button onClick={handleAddShot} className="w-full py-4 text-xl">
-                                <span className="flex items-center justify-center"><FaBullseye className="mr-2" /> FIRE BLIND SHOT ({maxShots - testShots.length} left)</span>
-                            </Button>
-                        ) : !isCalibrated ? (
-                            <Button onClick={handleCalibrate} variant="primary" className="w-full py-4 text-xl animate-pulse">
-                                <span className="flex items-center justify-center"><FaCrosshairs className="mr-2" /> CALIBRATE & REVEAL</span>
-                            </Button>
+                        {!isCalibrated ? (
+                            <>
+                                <Button onClick={handleAddShot} variant="success" className="flex-1 py-4 text-xl">
+                                    <FaPlay className="mr-2" /> FIRE SHOT
+                                </Button>
+                                {testShots.length > 0 && (
+                                    <Button onClick={handleCalibrate} variant="primary" className="flex-1 py-4 text-xl">
+                                        <FaCrosshairs className="mr-2" /> CALIBRATE
+                                    </Button>
+                                )}
+                            </>
                         ) : (
                             <div className="flex gap-4 w-full">
                                 <Button onClick={handleSave} variant="success" className="flex-1 py-4 text-xl">
@@ -256,21 +284,21 @@ export default function PelletTester() {
                     </div>
                 </div>
 
-                {/* Shot List */}
-                <div className="card flex flex-col">
+                {/* Shot Log - Only Step Numbers */}
+                <div className="card flex flex-col h-[600px]">
                     <h3 className="text-lg font-semibold text-gray-200 mb-4 border-b border-white/10 pb-2">Shot Log</h3>
                     <div className="space-y-2 overflow-y-auto flex-1 custom-scrollbar">
+                        {testShots.length === 0 && <div className="text-gray-500 text-center py-8">No shots recorded</div>}
                         {testShots.map((shot, index) => (
                             <div
                                 key={index}
                                 className="flex items-center justify-between p-3 bg-dark-elevated rounded-lg"
                             >
-                                <span className="text-white font-bold">Shot #{index + 1}</span>
-                                <span className="text-gray-400 text-sm">Recorded</span>
-                                {/* Hide values until calibrated? usually yes for blind test */}
-                                <span className="font-mono text-primary-400">
-                                    {isCalibrated ? shot.score : '???'}
+                                <span className="text-white font-bold text-lg">Shot #{index + 1}</span>
+                                <span className="text-gray-400 text-sm">
+                                    {isCalibrated ? `(x: ${shot.x.toFixed(1)}, y: ${shot.y.toFixed(1)})` : 'Recorded'}
                                 </span>
+                                <FaCheck className="text-accent-green" />
                             </div>
                         ))}
                     </div>

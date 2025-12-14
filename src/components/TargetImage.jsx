@@ -1,7 +1,10 @@
 import { useDeviceStore } from '@store/deviceStore'; // Import store
 
 export default function TargetImage(props) {
-    const { shots = [], groupRadius, groupCenter, size = 400, showSighterIndicator = false, simpleMode = false, targetType = 'pistol' } = props;
+    const { shots = [], groupRadius, groupCenter, size = 400, showSighterIndicator = false, simpleMode = false, simpleView = false, targetType = 'pistol' } = props;
+
+    // Use either simpleMode or simpleView
+    const isSimple = simpleMode || simpleView;
     const { bulletColor } = useDeviceStore(); // Get preferred color
     const centerX = size / 2;
     const centerY = size / 2;
@@ -57,7 +60,7 @@ export default function TargetImage(props) {
 
     const rings = getRings(targetType);
 
-    if (simpleMode) {
+    if (isSimple) {
         return (
             <div className="relative bg-white rounded-xl p-4 overflow-hidden border-4 border-black flex items-center justify-center">
                 <svg width={size} height={size} className="mx-auto">

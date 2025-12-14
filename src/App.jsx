@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from '@store/authStore';
 
 // Layouts
@@ -35,7 +35,7 @@ function PublicRoute({ children }) {
 
 export default function App() {
     return (
-        <BrowserRouter>
+        <Router>
             <Routes>
                 {/* Splash Screen */}
                 <Route path="/splash" element={<SplashScreen />} />
@@ -77,6 +77,6 @@ export default function App() {
                 <Route path="/" element={<Navigate to="/splash" replace />} />
                 <Route path="*" element={<Navigate to="/splash" replace />} />
             </Routes>
-        </BrowserRouter>
+        </Router>
     );
 }

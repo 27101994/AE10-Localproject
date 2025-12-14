@@ -2,23 +2,19 @@ import { create } from 'zustand';
 
 export const usePelletStore = create((set, get) => ({
     pellets: [],
-    currentPellet: null,
+    currentPellet: null, // This effectively acts as pelletName in the active test
+    currentTestConfig: null, // Store full config
     testShots: [],
-    maxShots: 5,
-    weaponType: 'pistol', // 'pistol' or 'rifle'
+    // maxShots removed for unlimited shots requirement
 
-    startPelletTest: (pelletName, numShots, weaponType) => set({
-        currentPellet: pelletName,
-        maxShots: numShots,
-        weaponType,
+    startPelletTest: (config) => set({
+        currentPellet: config.pelletName,
+        currentTestConfig: config,
         testShots: [],
     }),
 
     addTestShot: (shotData) => set((state) => {
-        if (state.testShots.length >= state.maxShots) {
-            return state; // Don't add more shots than allowed
-        }
-
+        // Unlimited shots allowed
         return {
             testShots: [...state.testShots, {
                 id: state.testShots.length + 1,
@@ -34,8 +30,7 @@ export const usePelletStore = create((set, get) => ({
         const groupDiameter = calculateGroupDiameter(state.testShots);
 
         const pelletResult = {
-            pelletName: state.currentPellet,
-            weaponType: state.weaponType,
+            ...state.currentTestConfig,
             shots: state.testShots,
             groupDiameter,
             timestamp: Date.now(),
@@ -44,6 +39,7 @@ export const usePelletStore = create((set, get) => ({
         set((state) => ({
             pellets: [...state.pellets, pelletResult],
             currentPellet: null,
+            currentTestConfig: null,
             testShots: [],
         }));
 
@@ -52,8 +48,8 @@ export const usePelletStore = create((set, get) => ({
 
     resetPelletTest: () => set({
         currentPellet: null,
+        currentTestConfig: null,
         testShots: [],
-        maxShots: 5,
     }),
 }));
 

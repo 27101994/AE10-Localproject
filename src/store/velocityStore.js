@@ -6,10 +6,12 @@ export const useVelocityStore = create((set, get) => ({
     isActive: false,
 
     // Start a new velocity measurement
-    startMeasurement: (weaponName, pelletUsed, place) => set({
+    startMeasurement: (weaponName, pelletUsed, pelletWeight, caliber, place) => set({
         currentMeasurement: {
             weaponName,
             pelletUsed,
+            pelletWeight,
+            caliber,
             place,
             serialNumber: `VM-${Date.now()}`,
             date: new Date().toISOString(),
