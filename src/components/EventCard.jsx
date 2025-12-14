@@ -7,15 +7,15 @@ export default function EventCard({ event, onSelect, selected }) {
             onClick={() => onSelect(event.id)}
             className={`cursor-pointer transition-all duration-300 transform rounded-xl border p-4 hover:scale-[1.02] ${selected === event.id
                 ? 'border-primary-500 bg-primary-500/10 shadow-[0_0_20px_rgba(16,185,129,0.3)]'
-                : 'border-white/10 bg-dark-elevated hover:border-primary-500/50 hover:bg-dark-elevated/80'
+                : 'glass-card hover:border-primary-500/50'
                 }`}
         >
             <div className="flex items-start justify-between mb-4">
                 <div>
-                    <h3 className="text-lg font-bold text-gray-100 mb-1">
+                    <h3 className="text-lg font-bold text-dark-text mb-1">
                         {event.name}
                     </h3>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-dark-muted">
                         {event.type === 'pistol' ? <span className="flex items-center gap-2"><FaRegDotCircle /> Pistol</span> : <span className="flex items-center gap-2"><FaBullseye /> Rifle</span>}
                     </p>
                 </div>
@@ -27,11 +27,11 @@ export default function EventCard({ event, onSelect, selected }) {
                 )}
             </div>
 
-            <div className="flex items-center justify-between pt-4 border-t border-white/10 mt-4">
-                <div className="text-sm text-gray-400 font-medium">
+            <div className="flex items-center justify-between pt-4 border-t border-dark-border mt-4">
+                <div className="text-sm text-dark-muted font-medium">
                     {event.shots ? `${event.shots} shots` : 'Free series'}
                 </div>
-                <div className="text-xs text-primary-400 font-bold tracking-wider uppercase bg-primary-500/10 px-2 py-1 rounded">
+                <div className="text-xs text-primary-600 dark:text-primary-400 font-bold tracking-wider uppercase bg-primary-500/10 px-2 py-1 rounded">
                     Sighter + Match
                 </div>
             </div>

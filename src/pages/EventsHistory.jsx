@@ -69,15 +69,15 @@ export default function EventsHistory() {
     return (
         <div className="max-w-7xl mx-auto min-h-screen">
             <div className="mb-8">
-                <h1 className="text-3xl font-bold text-gray-100 mb-2">Events History</h1>
-                <p className="text-gray-400">View and analyze your past shooting sessions</p>
+                <h1 className="text-3xl font-bold text-dark-text mb-2">Events History</h1>
+                <p className="text-dark-muted">View and analyze your past shooting sessions</p>
             </div>
 
             {Object.keys(groupedSessions).length === 0 ? (
-                <div className="glass-panel rounded-2xl p-12 text-center border-dashed border-2 border-white/10">
-                    <div className="text-6xl mb-6 flex justify-center text-gray-600"><FaChartBar /></div>
-                    <h2 className="text-2xl font-bold text-gray-300 mb-2">No Sessions Yet</h2>
-                    <p className="text-gray-500 max-w-md mx-auto">
+                <div className="glass-panel rounded-2xl p-12 text-center border-dashed border-2 border-dark-border">
+                    <div className="text-6xl mb-6 flex justify-center text-dark-muted"><FaChartBar /></div>
+                    <h2 className="text-2xl font-bold text-dark-text mb-2">No Sessions Yet</h2>
+                    <p className="text-dark-muted max-w-md mx-auto">
                         Your saved shooting sessions will appear here. Start a new event to begin tracking your progress.
                     </p>
                 </div>
@@ -86,51 +86,51 @@ export default function EventsHistory() {
                     {Object.entries(groupedSessions).map(([date, events]) => (
                         <div key={date} className="relative">
                             {/* Date Header as "Folder" label */}
-                            <div className="flex items-center gap-4 mb-6 sticky top-20 z-10 bg-dark-bg/95 backdrop-blur-md py-4 rounded-xl border border-white/5 px-4 shadow-lg w-fit">
+                            <div className="flex items-center gap-4 mb-6 sticky top-20 z-10 bg-dark-bg/95 backdrop-blur-md py-4 rounded-xl border border-dark-border px-4 shadow-lg w-fit">
                                 <div className="p-2 bg-primary-500/20 rounded-lg text-primary-400">
                                     <FaCalendarAlt size={20} />
                                 </div>
-                                <h2 className="text-xl font-bold text-gray-100">{date}</h2>
-                                <span className="bg-white/10 px-2 py-0.5 rounded text-xs text-gray-400">{events.length} sessions</span>
+                                <h2 className="text-xl font-bold text-dark-text">{date}</h2>
+                                <span className="bg-dark-elevated px-2 py-0.5 rounded text-xs text-dark-muted border border-dark-border">{events.length} sessions</span>
                             </div>
 
                             {/* Session Tiles Grid */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pl-4 border-l-2 border-white/5 ml-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pl-4 border-l-2 border-dark-border ml-4">
                                 {events.map((event) => (
                                     <div
                                         key={event.id}
                                         onClick={() => handleEventClick(event)}
-                                        className="btn-secondary group relative overflow-hidden p-0 rounded-2xl cursor-pointer hover:shadow-neon transition-all duration-300 h-full flex flex-col text-left"
+                                        className="btn-secondary group relative overflow-hidden p-0 rounded-2xl cursor-pointer hover:shadow-xl dark:hover:shadow-neon transition-all duration-300 h-full flex flex-col text-left"
                                     >
                                         <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary-500 to-accent-purple opacity-50 group-hover:opacity-100 transition-opacity"></div>
 
                                         <div className="p-5 flex-1 w-full">
                                             <div className="flex justify-between items-start mb-4">
-                                                <div className="p-2 bg-white/5 rounded-lg text-2xl group-hover:scale-110 transition-transform text-white">
+                                                <div className="p-2 bg-primary-500/10 rounded-lg text-2xl group-hover:scale-110 transition-transform text-primary-600 dark:text-white">
                                                     <FaBullseye />
                                                 </div>
                                                 <div className="text-right">
-                                                    <div className="text-xs text-gray-500 font-mono">
+                                                    <div className="text-xs text-dark-muted font-mono">
                                                         {new Date(event.savedAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <h3 className="text-lg font-bold text-gray-100 mb-1 truncate pr-2">
+                                            <h3 className="text-lg font-bold text-dark-text mb-1 truncate pr-2">
                                                 {event.matchName}
                                             </h3>
-                                            <p className="text-xs text-gray-500 uppercase tracking-wider mb-4">
+                                            <p className="text-xs text-dark-muted uppercase tracking-wider mb-4">
                                                 {event.eventType || 'Unknown Event'}
                                             </p>
 
                                             <div className="grid grid-cols-2 gap-3 mt-auto">
-                                                <div className="bg-dark-bg/50 rounded-lg p-2 text-center border border-white/5">
-                                                    <div className="text-[10px] text-gray-500 uppercase">Score</div>
+                                                <div className="bg-dark-bg/50 rounded-lg p-2 text-center border border-dark-border">
+                                                    <div className="text-[10px] text-dark-muted uppercase">Score</div>
                                                     <div className="font-bold text-accent-green text-lg">{event.totalScoreDecimal?.toFixed(1) || event.totalScore}</div>
                                                 </div>
-                                                <div className="bg-dark-bg/50 rounded-lg p-2 text-center border border-white/5">
-                                                    <div className="text-[10px] text-gray-500 uppercase">Shots</div>
-                                                    <div className="font-bold text-primary-400 text-lg">{event.shots?.length || 0}</div>
+                                                <div className="bg-dark-bg/50 rounded-lg p-2 text-center border border-dark-border">
+                                                    <div className="text-[10px] text-dark-muted uppercase">Shots</div>
+                                                    <div className="font-bold text-primary-500 text-lg">{event.shots?.length || 0}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -147,7 +147,7 @@ export default function EventsHistory() {
                 <Modal isOpen={true} onClose={handleCloseModal} title={selectedSession.matchName}>
                     <div className="space-y-6">
                         {/* Header Actions */}
-                        <div className="flex justify-end gap-3 sticky top-0 bg-dark-bg/95 py-2 z-10 border-b border-white/5 mb-4">
+                        <div className="flex justify-end gap-3 sticky top-0 bg-dark-bg/95 py-2 z-10 border-b border-dark-border mb-4">
                             <button
                                 onClick={handlePrintFallback}
                                 className="btn btn-primary text-sm py-2 px-4 shadow-lg shadow-primary-500/20"
@@ -159,19 +159,19 @@ export default function EventsHistory() {
                         {/* Session Info */}
                         <div className="grid grid-cols-3 gap-4">
                             <div className="glass-panel rounded-xl p-4 text-center">
-                                <div className="text-xs text-gray-500 mb-1 uppercase tracking-wider">Total Shots</div>
-                                <div className="text-3xl font-bold text-primary-400 font-mono">
+                                <div className="text-xs text-dark-muted mb-1 uppercase tracking-wider">Total Shots</div>
+                                <div className="text-3xl font-bold text-primary-500 font-mono">
                                     {selectedSession.shots?.length || 0}
                                 </div>
                             </div>
                             <div className="glass-panel rounded-xl p-4 text-center">
-                                <div className="text-xs text-gray-500 mb-1 uppercase tracking-wider">Integer</div>
+                                <div className="text-xs text-dark-muted mb-1 uppercase tracking-wider">Integer</div>
                                 <div className="text-3xl font-bold text-accent-green font-mono">
                                     {selectedSession.totalScore || 0}
                                 </div>
                             </div>
                             <div className="glass-panel rounded-xl p-4 text-center">
-                                <div className="text-xs text-gray-500 mb-1 uppercase tracking-wider">Decimal</div>
+                                <div className="text-xs text-dark-muted mb-1 uppercase tracking-wider">Decimal</div>
                                 <div className="text-3xl font-bold text-accent-cyan font-mono">
                                     {selectedSession.totalScoreDecimal?.toFixed(1) || '0.0'}
                                 </div>
@@ -181,7 +181,7 @@ export default function EventsHistory() {
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             {/* Target View */}
                             <div className="glass-panel rounded-2xl p-6">
-                                <h3 className="text-lg font-semibold text-gray-200 mb-4 flex items-center">
+                                <h3 className="text-lg font-semibold text-dark-text mb-4 flex items-center">
                                     <FaBullseye className="mr-2 text-primary-500" /> Target Analysis
                                 </h3>
                                 <div className="flex justify-center">
@@ -196,8 +196,8 @@ export default function EventsHistory() {
 
                             {/* Shot Table */}
                             <div className="glass-panel rounded-2xl p-6 flex flex-col h-[500px]">
-                                <h3 className="text-lg font-semibold text-gray-200 mb-4">Shot Details</h3>
-                                <div className="flex-1 overflow-hidden rounded-xl border border-white/5">
+                                <h3 className="text-lg font-semibold text-dark-text mb-4">Shot Details</h3>
+                                <div className="flex-1 overflow-hidden rounded-xl border border-dark-border">
                                     <ShotTable
                                         shots={selectedSession.shots || []}
                                         totalScore={selectedSession.totalScore || 0}

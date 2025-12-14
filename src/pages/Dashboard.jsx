@@ -11,7 +11,7 @@ export default function Dashboard() {
     const [showJoinModal, setShowJoinModal] = React.useState(false);
     const [liveCode, setLiveCode] = React.useState('');
 
-    const transparentIcon = "text-4xl text-indigo-400/70";
+    const transparentIcon = "text-4xl text-primary-600 dark:text-indigo-400/70";
 
     const handleJoinLive = () => {
         if (liveCode.length < 4) {
@@ -44,7 +44,7 @@ export default function Dashboard() {
     return (
         <div className="max-w-7xl mx-auto">
             <div className="mb-8">
-                <h1 className="text-3xl font-bold text-gray-100 mb-2">
+                <h1 className="text-3xl font-bold text-dark-text mb-2">
                     Welcome, {user?.name || 'Shooter'}!
                 </h1>
             </div>
@@ -64,18 +64,18 @@ export default function Dashboard() {
 
             {/* Join Live View Modal */}
             {showJoinModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
-                    <div className="bg-dark-surface p-8 rounded-2xl border border-white/10 w-full max-w-md shadow-2xl transform transition-all scale-100">
-                        <h2 className="text-2xl font-bold text-white mb-6 text-center">Join Live Session</h2>
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-dark-bg/80 backdrop-blur-sm">
+                    <div className="glass-panel p-8 rounded-2xl border border-dark-border w-full max-w-md shadow-2xl transform transition-all scale-100 bg-dark-surface/90">
+                        <h2 className="text-2xl font-bold text-dark-text mb-6 text-center">Join Live Session</h2>
 
                         <div className="space-y-6">
                             <div>
-                                <label className="block text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wider">Enter Live Code</label>
+                                <label className="block text-sm font-semibold text-dark-muted mb-2 uppercase tracking-wider">Enter Live Code</label>
                                 <input
                                     type="text"
                                     value={liveCode}
                                     onChange={(e) => setLiveCode(e.target.value.toUpperCase())}
-                                    className="w-full bg-dark-bg border border-white/10 rounded-xl px-4 py-4 text-center text-3xl font-mono tracking-[0.5em] text-white focus:outline-none focus:border-primary-500 transition-colors uppercase placeholder-gray-700"
+                                    className="w-full bg-dark-bg border border-dark-border rounded-xl px-4 py-4 text-center text-3xl font-mono tracking-[0.5em] text-dark-text focus:outline-none focus:border-primary-500 transition-colors uppercase placeholder-dark-muted"
                                     placeholder="XXXXXX"
                                     maxLength={6}
                                     autoFocus
@@ -85,7 +85,7 @@ export default function Dashboard() {
                             <div className="grid grid-cols-2 gap-4 pt-2">
                                 <button
                                     onClick={() => setShowJoinModal(false)}
-                                    className="px-6 py-3 rounded-xl font-bold text-gray-400 hover:text-white hover:bg-white/5 transition-all"
+                                    className="px-6 py-3 rounded-xl font-bold text-dark-muted hover:text-dark-text hover:bg-dark-elevated/50 transition-all border border-dark-border"
                                 >
                                     Cancel
                                 </button>

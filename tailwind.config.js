@@ -4,17 +4,18 @@ export default {
         "./index.html",
         "./src/**/*.{js,ts,jsx,tsx}",
     ],
+    darkMode: 'class',
     theme: {
         extend: {
             colors: {
-                // FutureTech Dark Theme
+                // FutureTech Dark Theme (Now Dynamic)
                 dark: {
-                    bg: '#090b10',       // Deepest space blue/black
-                    surface: '#121620',  // Rich dark blue-grey
-                    elevated: '#1a202e', // Slightly lighter panel color
-                    border: 'rgba(255, 255, 255, 0.08)', // Subtle glass border
-                    text: '#e2e8f0',     // Primary text
-                    muted: '#94a3b8',    // Secondary text
+                    bg: 'rgb(var(--color-dark-bg) / <alpha-value>)',
+                    surface: 'rgb(var(--color-dark-surface) / <alpha-value>)',
+                    elevated: 'rgb(var(--color-dark-elevated) / <alpha-value>)',
+                    border: 'rgb(var(--color-dark-border) / <alpha-value>)',     // Subtle glass border
+                    text: 'rgb(var(--color-dark-text) / <alpha-value>)',
+                    muted: 'rgb(var(--color-dark-muted) / <alpha-value>)',
                 },
                 primary: {
                     50: '#f0f9ff',
@@ -52,6 +53,7 @@ export default {
             boxShadow: {
                 'neon': '0 0 5px theme("colors.primary.500"), 0 0 20px theme("colors.primary.500")',
                 'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+                'glass-hover': '0 0 20px rgba(14, 165, 233, 0.3)',
             },
             backdropBlur: {
                 'xs': '2px',

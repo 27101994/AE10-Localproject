@@ -192,17 +192,17 @@ export default function Live() {
     return (
         <div className="max-w-[1920px] mx-auto h-screen flex flex-col p-4 overflow-hidden">
             {/* Custom Header for Live Page */}
-            <div className={`bg-dark-surface border border-dark-border rounded-xl p-4 mb-4 flex items-center justify-between shadow-lg ${viewOnly ? 'border-primary-500 shadow-primary-500/10' : ''}`}>
+            <div className={`glass-panel p-4 mb-4 flex items-center justify-between ${viewOnly ? 'border-primary-500 shadow-primary-500/10' : ''}`}>
                 <div className="flex items-center space-x-8">
                     {/* Event Name */}
                     <div>
-                        <div className="text-xs text-gray-500 uppercase tracking-widest">Event</div>
-                        <div className="text-xl font-bold text-white">{matchName}</div>
+                        <div className="text-xs text-dark-muted uppercase tracking-widest">Event</div>
+                        <div className="text-xl font-bold text-dark-text">{matchName}</div>
                     </div>
                     {/* Shooter Name */}
                     <div>
-                        <div className="text-xs text-gray-500 uppercase tracking-widest">Shooter</div>
-                        <div className="text-xl font-bold text-primary-400">{user?.name || 'Guest'}</div>
+                        <div className="text-xs text-dark-muted uppercase tracking-widest">Shooter</div>
+                        <div className="text-xl font-bold text-primary-500">{user?.name || 'Guest'}</div>
                     </div>
                 </div>
 
@@ -217,7 +217,7 @@ export default function Live() {
                 ) : (
                     /* Connectivity & Timer */
                     <div className="flex items-center space-x-8">
-                        <div className="flex items-center gap-3 bg-dark-bg px-4 py-2 rounded-lg border border-dark-border">
+                        <div className="flex items-center gap-3 bg-dark-bg/50 px-4 py-2 rounded-lg border border-dark-border">
                             <TimerIndicator isRunning={isRunning} />
                             <div className="h-8 w-px bg-dark-border"></div>
                             <Timer startTime={startTime} isRunning={isRunning} />
@@ -232,7 +232,7 @@ export default function Live() {
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-4">
                         {/* Mode Switcher */}
-                        <div className={`px-4 py-2 rounded-lg font-bold text-lg flex items-center gap-2 transition-colors ${mode === 'sighter' ? 'bg-gray-700 text-white' : 'bg-red-600 text-white animate-pulse-slow'
+                        <div className={`px-4 py-2 rounded-lg font-bold text-lg flex items-center gap-2 transition-colors ${mode === 'sighter' ? 'bg-dark-elevated text-dark-text' : 'bg-red-600 text-white animate-pulse-slow'
                             }`}>
                             {mode === 'sighter' ? <FaCaretUp /> : <FaBullseye />}
                             {mode === 'sighter' ? 'SIGHTER MODE' : 'MATCH MODE'}
@@ -256,7 +256,7 @@ export default function Live() {
                         )}
                         <button
                             onClick={toggleLiveView}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${isLiveViewEnabled ? 'border-primary-500 text-primary-400 bg-primary-500/10' : 'border-gray-600 text-gray-400'
+                            className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${isLiveViewEnabled ? 'border-primary-500 text-primary-500 bg-primary-500/10' : 'border-dark-border text-dark-muted'
                                 }`}
                         >
                             {isLiveViewEnabled ? <FaToggleOn className="text-2xl" /> : <FaToggleOff className="text-2xl" />}
@@ -271,7 +271,7 @@ export default function Live() {
             <div className={`flex-1 grid grid-cols-12 gap-6 min-h-0 ${viewOnly ? 'h-full' : ''}`}>
                 {/* Left: Target (7 cols) */}
                 <div className="col-span-7 flex flex-col space-y-4 min-h-0">
-                    <div className="card flex-1 flex flex-col relative overflow-hidden bg-dark-bg/50 backdrop-blur-sm">
+                    <div className="glass-card flex-1 flex flex-col relative overflow-hidden">
                         {/* Zoom & Pan Controls */}
                         <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
                             <div className="bg-dark-elevated p-1 rounded-lg shadow-lg flex flex-col gap-1">
@@ -319,7 +319,7 @@ export default function Live() {
                             <div className="flex items-center gap-2 pb-2">
                                 <button
                                     onClick={() => setSelectedSeries('all')}
-                                    className={`px-4 py-2 rounded-md font-bold text-sm transition-all ${selectedSeries === 'all' ? 'bg-primary-500 text-white' : 'bg-dark-elevated text-gray-400 hover:bg-dark-elevated/80'
+                                    className={`px-4 py-2 rounded-md font-bold text-sm transition-all ${selectedSeries === 'all' ? 'bg-primary-500 text-white' : 'bg-dark-elevated text-dark-muted hover:bg-dark-elevated/80'
                                         }`}
                                 >
                                     ALL
@@ -328,7 +328,7 @@ export default function Live() {
                                     <button
                                         key={idx}
                                         onClick={() => setSelectedSeries(idx)}
-                                        className={`px-4 py-2 rounded-md font-bold text-sm transition-all ${selectedSeries === idx ? 'bg-primary-500 text-white ring-2 ring-primary-400 ring-offset-2 ring-offset-dark-bg' : 'bg-dark-elevated text-gray-400 hover:text-white'
+                                        className={`px-4 py-2 rounded-md font-bold text-sm transition-all ${selectedSeries === idx ? 'bg-primary-500 text-white ring-2 ring-primary-400 ring-offset-2 ring-offset-dark-bg' : 'bg-dark-elevated text-dark-muted hover:text-dark-text'
                                             } ${
                                             // Highlight completed series (full 10 shots)
                                             (idx + 1) * 10 <= displayShots.length ? 'border-b-2 border-green-500' : ''
@@ -344,14 +344,14 @@ export default function Live() {
                     {/* Sighter Button / Action Bar - HIDDEN IN VIEW ONLY */}
                     {!viewOnly && (
                         <div className="flex space-x-4">
-                            <div className="flex-1 bg-dark-surface rounded-xl p-4 flex items-center justify-around border border-dark-border">
+                            <div className="flex-1 glass-panel p-4 flex items-center justify-around">
                                 <div className="text-center">
-                                    <div className="text-xs text-gray-500 uppercase">Radius</div>
+                                    <div className="text-xs text-dark-muted uppercase">Radius</div>
                                     <div className="text-2xl font-bold text-accent-green">{groupRadius || '0.00'}</div>
                                 </div>
                                 <div className="text-center">
-                                    <div className="text-xs text-gray-500 uppercase">Shot</div>
-                                    <div className="text-4xl font-bold text-white">{displayShots.length > 0 ? displayShots[displayShots.length - 1].number : 0}</div>
+                                    <div className="text-xs text-dark-muted uppercase">Shot</div>
+                                    <div className="text-4xl font-bold text-dark-text">{displayShots.length > 0 ? displayShots[displayShots.length - 1].number : 0}</div>
                                 </div>
                             </div>
 

@@ -118,29 +118,29 @@ export default function PelletTester() {
     if (!currentPellet) {
         return (
             <div className="max-w-6xl mx-auto p-6">
-                <h1 className="text-4xl font-bold text-white mb-8 border-b border-white/10 pb-4">Pellet Tester</h1>
+                <h1 className="text-4xl font-bold text-dark-text mb-8 border-b border-dark-border pb-4">Pellet Tester</h1>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Setup Form */}
                     <div className="lg:col-span-1">
-                        <div className="card-elevated sticky top-6">
+                        <div className="glass-card p-6 sticky top-6">
                             <h2 className="text-xl font-bold text-accent-purple mb-6 flex items-center gap-2">
                                 <span className="w-2 h-8 bg-accent-purple rounded-full"></span>
                                 New Pellet Test
                             </h2>
                             <div className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-300 mb-2">Select Weapon Type</label>
+                                    <label className="block text-sm font-semibold text-dark-muted mb-2">Select Weapon Type</label>
                                     <div className="grid grid-cols-2 gap-3">
                                         <button
                                             onClick={() => setWeaponType('pistol')}
-                                            className={`p-3 rounded-lg font-bold transition-all ${weaponType === 'pistol' ? 'bg-primary-600 text-white ring-2 ring-primary-400' : 'bg-dark-elevated text-gray-400 hover:bg-dark-elevated/80'}`}
+                                            className={`p-3 rounded-lg font-bold transition-all ${weaponType === 'pistol' ? 'bg-primary-600 text-white ring-2 ring-primary-400' : 'bg-dark-elevated text-dark-muted hover:bg-dark-elevated/80'}`}
                                         >
                                             Pistol
                                         </button>
                                         <button
                                             onClick={() => setWeaponType('rifle')}
-                                            className={`p-3 rounded-lg font-bold transition-all ${weaponType === 'rifle' ? 'bg-primary-600 text-white ring-2 ring-primary-400' : 'bg-dark-elevated text-gray-400 hover:bg-dark-elevated/80'}`}
+                                            className={`p-3 rounded-lg font-bold transition-all ${weaponType === 'rifle' ? 'bg-primary-600 text-white ring-2 ring-primary-400' : 'bg-dark-elevated text-dark-muted hover:bg-dark-elevated/80'}`}
                                         >
                                             Rifle
                                         </button>
@@ -148,23 +148,23 @@ export default function PelletTester() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-300 mb-1">Weapon Name</label>
+                                    <label className="block text-sm font-semibold text-dark-muted mb-1">Weapon Name</label>
                                     <input type="text" value={weaponName} onChange={(e) => setWeaponName(e.target.value)} className="input w-full" placeholder="e.g. Steyr LP10" />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-300 mb-1">Pellet Name</label>
+                                    <label className="block text-sm font-semibold text-dark-muted mb-1">Pellet Name</label>
                                     <input type="text" value={pelletName} onChange={(e) => setPelletName(e.target.value)} className="input w-full" placeholder="e.g. RWS R10" />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-300 mb-1">Batch Number</label>
+                                    <label className="block text-sm font-semibold text-dark-muted mb-1">Batch Number</label>
                                     <input type="text" value={batchNumber} onChange={(e) => setBatchNumber(e.target.value)} className="input w-full" placeholder="Optional" />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-300 mb-1">Weight (g)</label>
+                                    <label className="block text-sm font-semibold text-dark-muted mb-1">Weight (g)</label>
                                     <input type="text" value={pelletWeight} onChange={(e) => setPelletWeight(e.target.value)} className="input w-full" placeholder="e.g. 0.53" />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-300 mb-1">Caliber</label>
+                                    <label className="block text-sm font-semibold text-dark-muted mb-1">Caliber</label>
                                     <input type="text" value={caliber} onChange={(e) => setCaliber(e.target.value)} className="input w-full" placeholder="e.g. 4.5mm" />
                                 </div>
 
@@ -183,14 +183,14 @@ export default function PelletTester() {
                     {/* History */}
                     <div className="lg:col-span-2">
                         <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                                <FaHistory className="text-gray-500" /> Test History
+                            <h2 className="text-2xl font-bold text-dark-text flex items-center gap-2">
+                                <FaHistory className="text-dark-muted" /> Test History
                             </h2>
                         </div>
-                        <div className="bg-dark-surface rounded-xl border border-dark-border overflow-hidden">
+                        <div className="glass-panel overflow-hidden">
                             <DataTable columns={columns} data={pellets} />
                             {pellets.length === 0 && (
-                                <div className="p-12 text-center text-gray-500">
+                                <div className="p-12 text-center text-dark-muted">
                                     No tests recorded yet.
                                 </div>
                             )}
@@ -204,25 +204,25 @@ export default function PelletTester() {
     // Active Test View
     return (
         <div className="max-w-6xl mx-auto p-6 min-h-screen flex flex-col">
-            <div className="bg-dark-surface p-6 rounded-xl border border-dark-border mb-6 flex justify-between items-center shadow-lg">
+            <div className="glass-panel p-6 mb-6 flex justify-between items-center">
                 <div>
-                    <h2 className="text-3xl font-bold text-white mb-1">Testing: {currentPellet}</h2>
-                    <div className="flex flex-wrap gap-4 text-sm text-gray-400">
-                        <span>Weapon: <strong className="text-white uppercase">{currentTestConfig.weaponName}</strong></span>
-                        {currentTestConfig.batchNumber && <span>Batch: <strong className="text-white">{currentTestConfig.batchNumber}</strong></span>}
-                        <span>Shots: <strong className="text-white">{testShots.length}</strong></span>
+                    <h2 className="text-3xl font-bold text-dark-text mb-1">Testing: {currentPellet}</h2>
+                    <div className="flex flex-wrap gap-4 text-sm text-dark-muted">
+                        <span>Weapon: <strong className="text-dark-text uppercase">{currentTestConfig.weaponName}</strong></span>
+                        {currentTestConfig.batchNumber && <span>Batch: <strong className="text-dark-text">{currentTestConfig.batchNumber}</strong></span>}
+                        <span>Shots: <strong className="text-dark-text">{testShots.length}</strong></span>
                     </div>
                 </div>
                 {isCalibrated ? (
                     <div className="text-right">
-                        <div className="text-sm text-gray-500 uppercase tracking-widest">Group Radius</div>
+                        <div className="text-sm text-dark-muted uppercase tracking-widest">Group Radius</div>
                         <div className="text-4xl font-bold text-accent-green">
-                            {groupResult} <span className="text-base text-gray-400">mm</span>
+                            {groupResult} <span className="text-base text-dark-text">mm</span>
                         </div>
                     </div>
                 ) : (
                     <div className="text-right animate-pulse">
-                        <div className="text-sm text-gray-500 uppercase tracking-widest">Status</div>
+                        <div className="text-sm text-dark-muted uppercase tracking-widest">Status</div>
                         <div className="text-2xl font-bold text-yellow-500">BLIND TEST ACTIVE</div>
                     </div>
                 )}
@@ -231,7 +231,7 @@ export default function PelletTester() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 flex-1">
                 {/* Target Section */}
                 <div className="flex flex-col">
-                    <div className="card flex-1 flex items-center justify-center bg-dark-bg/50 backdrop-blur relative min-h-[500px]">
+                    <div className="glass-card flex-1 flex items-center justify-center relative min-h-[500px]">
 
                         {!isCalibrated ? (
                             /* Blind Mode View */
@@ -285,17 +285,17 @@ export default function PelletTester() {
                 </div>
 
                 {/* Shot Log - Only Step Numbers */}
-                <div className="card flex flex-col h-[600px]">
-                    <h3 className="text-lg font-semibold text-gray-200 mb-4 border-b border-white/10 pb-2">Shot Log</h3>
+                <div className="glass-panel flex flex-col h-[600px] p-6">
+                    <h3 className="text-lg font-semibold text-dark-text mb-4 border-b border-dark-border pb-2">Shot Log</h3>
                     <div className="space-y-2 overflow-y-auto flex-1 custom-scrollbar">
-                        {testShots.length === 0 && <div className="text-gray-500 text-center py-8">No shots recorded</div>}
+                        {testShots.length === 0 && <div className="text-dark-muted text-center py-8">No shots recorded</div>}
                         {testShots.map((shot, index) => (
                             <div
                                 key={index}
                                 className="flex items-center justify-between p-3 bg-dark-elevated rounded-lg"
                             >
-                                <span className="text-white font-bold text-lg">Shot #{index + 1}</span>
-                                <span className="text-gray-400 text-sm">
+                                <span className="text-dark-text font-bold text-lg">Shot #{index + 1}</span>
+                                <span className="text-dark-muted text-sm">
                                     {isCalibrated ? `(x: ${shot.x.toFixed(1)}, y: ${shot.y.toFixed(1)})` : 'Recorded'}
                                 </span>
                                 <FaCheck className="text-accent-green" />

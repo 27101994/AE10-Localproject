@@ -13,10 +13,10 @@ export default function RangeSlider({
         <div className={`flex flex-col space-y-3 ${className}`}>
             {label && (
                 <div className="flex items-center justify-between">
-                    <label className="text-sm font-medium text-gray-300">
+                    <label className="text-sm font-medium text-dark-muted">
                         {label}
                     </label>
-                    <span className="text-sm font-semibold text-primary-400">
+                    <span className="text-sm font-semibold text-primary-600 dark:text-primary-400">
                         {value}
                     </span>
                 </div>
@@ -28,12 +28,12 @@ export default function RangeSlider({
                 step={step}
                 value={value}
                 onChange={(e) => onChange(Number(e.target.value))}
-                className="w-full h-2 bg-dark-elevated rounded-lg appearance-none cursor-pointer slider"
+                className="w-full h-2 bg-black/10 dark:bg-dark-elevated rounded-lg appearance-none cursor-pointer slider"
                 style={{
-                    background: `linear-gradient(to right, #0ea5e9 0%, #0ea5e9 ${((value - min) / (max - min)) * 100}%, #1e2330 ${((value - min) / (max - min)) * 100}%, #1e2330 100%)`
+                    background: `linear-gradient(to right, #0ea5e9 0%, #0ea5e9 ${((value - min) / (max - min)) * 100}%, transparent ${((value - min) / (max - min)) * 100}%, transparent 100%)`
                 }}
             />
-            <div className="flex justify-between text-xs text-gray-500">
+            <div className="flex justify-between text-xs text-dark-muted">
                 <span>{min}</span>
                 <span>{max}</span>
             </div>

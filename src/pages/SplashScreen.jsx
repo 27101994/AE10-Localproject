@@ -22,12 +22,12 @@ export default function SplashScreen() {
     }, [navigate]);
 
     return (
-        <div className={`fixed inset-0 bg-dark-bg bg-gradient-mesh flex items-center justify-center transition-opacity duration-500 z-50 ${fadeOut ? 'opacity-0' : 'opacity-100'}`}>
+        <div className={`fixed inset-0 bg-slate-50 dark:bg-dark-bg bg-gradient-mesh flex items-center justify-center transition-colors duration-500 z-50 ${fadeOut ? 'opacity-0' : 'opacity-100'}`}>
             {/* Screen Flash */}
             <div className="absolute inset-0 bg-white pointer-events-none animate-flash z-50 mix-blend-overlay"></div>
 
             {/* Background Glows */}
-            <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-primary-500/10 blur-[120px] rounded-full pointer-events-none animate-pulse-slow"></div>
+            <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-primary-500/20 dark:bg-primary-500/10 blur-[120px] rounded-full pointer-events-none animate-pulse-slow"></div>
 
             <div className="text-center relative z-10 flex flex-col items-center">
                 {/* Company Logo - SLAM Animation */}
@@ -36,14 +36,14 @@ export default function SplashScreen() {
                     <img
                         src={athieonLogo}
                         alt="Athieon"
-                        className="h-[160px] w-auto relative z-10 drop-shadow-[0_0_25px_rgba(14,165,233,0.6)]"
+                        className="h-[160px] w-auto relative z-10 drop-shadow-[0_0_25px_rgba(14,165,233,0.6)] invert dark:invert-0 transition-all duration-500"
                     />
                 </div>
 
                 {/* Text - Slide Up with Delay */}
                 <div className="overflow-hidden">
                     <h1
-                        className="text-5xl font-bold bg-gradient-to-r from-white via-primary-200 to-primary-400 bg-clip-text text-transparent mb-4 tracking-tight drop-shadow-lg animate-slide-up-fade opacity-0"
+                        className="text-5xl font-bold bg-gradient-to-r from-slate-900 via-primary-600 to-primary-500 dark:from-white dark:via-primary-200 dark:to-primary-400 bg-clip-text text-transparent mb-4 tracking-tight drop-shadow-lg animate-slide-up-fade opacity-0"
                         style={{ animationDelay: '0.6s' }}
                     >
                         Shooting Training System
@@ -52,7 +52,7 @@ export default function SplashScreen() {
 
                 <div className="overflow-hidden">
                     <p
-                        className="text-primary-300/80 text-xl font-light tracking-widest uppercase animate-slide-up-fade opacity-0"
+                        className="text-primary-700 dark:text-primary-300/80 text-xl font-light tracking-widest uppercase animate-slide-up-fade opacity-0"
                         style={{ animationDelay: '0.8s' }}
                     >
                         Track, Analyze and Perfect Your Game

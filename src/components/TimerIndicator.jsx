@@ -7,8 +7,8 @@ export default function TimerIndicator({ isRunning, showLabel = true }) {
                 flex items-center space-x-2 px-3 py-1.5 rounded-lg
                 border transition-all duration-200
                 ${isRunning
-                    ? 'bg-accent-yellow/10 border-accent-yellow text-accent-yellow'
-                    : 'bg-gray-600/10 border-gray-600 text-gray-400'
+                    ? 'bg-yellow-600/10 border-yellow-600 text-yellow-600 dark:bg-accent-yellow/10 dark:border-accent-yellow dark:text-accent-yellow'
+                    : 'bg-black/5 border-dark-border text-dark-muted dark:bg-gray-600/10'
                 }
             `}
             title={isRunning ? 'Timer Running' : 'Timer Stopped'}

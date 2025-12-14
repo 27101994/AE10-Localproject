@@ -81,24 +81,24 @@ export default function VelocityMeter() {
         return (
             <div className="max-w-6xl mx-auto p-6 min-h-screen flex flex-col">
                 {/* Header */}
-                <div className="bg-dark-surface p-6 rounded-xl border border-dark-border mb-6 flex justify-between items-center shadow-lg">
+                <div className="glass-panel p-6 mb-6 flex justify-between items-center">
                     <div>
-                        <h2 className="text-3xl font-bold text-white mb-1">Velocity Test</h2>
-                        <div className="flex flex-wrap gap-6 text-sm text-gray-400 mt-2">
-                            <span>Weapon: <strong className="text-white">{currentMeasurement.weaponName}</strong></span>
-                            <span>Pellet: <strong className="text-white">{currentMeasurement.pelletUsed}</strong></span>
-                            {currentMeasurement.pelletWeight && <span>Weight: <strong className="text-white">{currentMeasurement.pelletWeight}g</strong></span>}
-                            {currentMeasurement.caliber && <span>Caliber: <strong className="text-white">{currentMeasurement.caliber}</strong></span>}
-                            <span>Batch: <strong className="text-white">{currentMeasurement.place || 'N/A'}</strong></span>
+                        <h2 className="text-3xl font-bold text-dark-text mb-1">Velocity Test</h2>
+                        <div className="flex flex-wrap gap-6 text-sm text-dark-muted mt-2">
+                            <span>Weapon: <strong className="text-dark-text">{currentMeasurement.weaponName}</strong></span>
+                            <span>Pellet: <strong className="text-dark-text">{currentMeasurement.pelletUsed}</strong></span>
+                            {currentMeasurement.pelletWeight && <span>Weight: <strong className="text-dark-text">{currentMeasurement.pelletWeight}g</strong></span>}
+                            {currentMeasurement.caliber && <span>Caliber: <strong className="text-dark-text">{currentMeasurement.caliber}</strong></span>}
+                            <span>Batch: <strong className="text-dark-text">{currentMeasurement.place || 'N/A'}</strong></span>
                         </div>
                     </div>
                     <div className="text-right">
-                        <div className="text-sm text-gray-500 uppercase tracking-widest">Avg Velocity</div>
+                        <div className="text-sm text-dark-muted uppercase tracking-widest">Avg Velocity</div>
                         <div className="text-4xl font-bold text-accent-green">
                             {currentMeasurement.shots.length > 0
                                 ? (currentMeasurement.shots.reduce((a, b) => a + b, 0) / currentMeasurement.shots.length).toFixed(2)
                                 : '0.00'}
-                            <span className="text-base font-normal text-gray-500 ml-2">m/s</span>
+                            <span className="text-base font-normal text-dark-text ml-2">m/s</span>
                         </div>
                     </div>
                 </div>
@@ -106,7 +106,7 @@ export default function VelocityMeter() {
                 <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* Visual Feedback */}
                     <div className="flex flex-col">
-                        <div className="card flex-1 flex items-center justify-center bg-dark-bg/50 backdrop-blur">
+                        <div className="glass-card flex-1 flex items-center justify-center">
                             <TargetImage
                                 simpleMode={true}
                                 size={500}
@@ -123,8 +123,8 @@ export default function VelocityMeter() {
 
                     {/* Data Table */}
                     <div className="flex flex-col h-full space-y-4">
-                        <div className="bg-dark-surface rounded-xl border border-dark-border flex-1 overflow-hidden flex flex-col">
-                            <div className="p-4 bg-dark-elevated border-b border-dark-border font-bold text-gray-300 flex justify-between">
+                        <div className="glass-panel flex-1 overflow-hidden flex flex-col">
+                            <div className="p-4 bg-black/5 dark:bg-dark-elevated border-b border-dark-border font-bold text-dark-muted flex justify-between">
                                 <span>Shot #</span>
                                 <span>Velocity (m/s)</span>
                             </div>
@@ -132,14 +132,14 @@ export default function VelocityMeter() {
                                 <table className="w-full">
                                     <tbody className="divide-y divide-dark-border">
                                         {currentMeasurement.shots.map((vel, idx) => (
-                                            <tr key={idx} className="hover:bg-dark-elevated">
-                                                <td className="p-4 text-white font-bold">#{idx + 1}</td>
-                                                <td className="p-4 text-right text-primary-400 font-mono text-xl">{vel}</td>
+                                            <tr key={idx} className="hover:bg-black/5 dark:hover:bg-white/5">
+                                                <td className="p-4 text-dark-text font-bold">#{idx + 1}</td>
+                                                <td className="p-4 text-right text-primary-500 font-mono text-xl">{vel}</td>
                                             </tr>
                                         ))}
                                         {currentMeasurement.shots.length === 0 && (
                                             <tr>
-                                                <td colSpan="2" className="p-8 text-center text-gray-500">No shots recorded yet</td>
+                                                <td colSpan="2" className="p-8 text-center text-dark-muted">No shots recorded yet</td>
                                             </tr>
                                         )}
                                     </tbody>
@@ -164,12 +164,12 @@ export default function VelocityMeter() {
     // Default View: Configuration & History
     return (
         <div className="max-w-6xl mx-auto p-6">
-            <h1 className="text-4xl font-bold text-white mb-8 border-b border-white/10 pb-4">Velocity Meter</h1>
+            <h1 className="text-4xl font-bold text-dark-text mb-8 border-b border-dark-border pb-4">Velocity Meter</h1>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Configuration Panel */}
                 <div className="lg:col-span-1">
-                    <div className="card-elevated sticky top-6">
+                    <div className="glass-card p-6 sticky top-6">
                         <h2 className="text-xl font-bold text-accent-cyan mb-6 flex items-center gap-2">
                             <span className="w-2 h-8 bg-accent-cyan rounded-full"></span>
                             New Test Setup
@@ -177,13 +177,13 @@ export default function VelocityMeter() {
 
                         <div className="space-y-6">
                             <div>
-                                <label className="block text-sm font-semibold text-gray-300 mb-2">Select Weapon Type</label>
+                                <label className="block text-sm font-semibold text-dark-muted mb-2">Select Weapon Type</label>
                                 <div className="grid grid-cols-2 gap-3">
                                     <button
                                         onClick={() => setSelectedWeapon('Pistol')}
                                         className={`p-3 rounded-lg font-bold transition-all ${selectedWeapon === 'Pistol'
                                             ? 'bg-primary-600 text-white ring-2 ring-primary-400'
-                                            : 'bg-dark-elevated text-gray-400 hover:bg-dark-elevated/80'}`}
+                                            : 'bg-dark-elevated text-dark-muted hover:bg-dark-elevated/80'}`}
                                     >
                                         Pistol
                                     </button>
@@ -191,7 +191,7 @@ export default function VelocityMeter() {
                                         onClick={() => setSelectedWeapon('Rifle')}
                                         className={`p-3 rounded-lg font-bold transition-all ${selectedWeapon === 'Rifle'
                                             ? 'bg-primary-600 text-white ring-2 ring-primary-400'
-                                            : 'bg-dark-elevated text-gray-400 hover:bg-dark-elevated/80'}`}
+                                            : 'bg-dark-elevated text-dark-muted hover:bg-dark-elevated/80'}`}
                                     >
                                         Rifle
                                     </button>
@@ -199,7 +199,7 @@ export default function VelocityMeter() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-semibold text-gray-300 mb-2">Weapon Name</label>
+                                <label className="block text-sm font-semibold text-dark-muted mb-2">Weapon Name</label>
                                 <input
                                     type="text"
                                     className="input w-full"
@@ -210,7 +210,7 @@ export default function VelocityMeter() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-semibold text-gray-300 mb-2">Pellet Name</label>
+                                <label className="block text-sm font-semibold text-dark-muted mb-2">Pellet Name</label>
                                 <input
                                     type="text"
                                     className="input w-full"
@@ -221,7 +221,7 @@ export default function VelocityMeter() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-semibold text-gray-300 mb-2">Weight of Pellet (g)</label>
+                                <label className="block text-sm font-semibold text-dark-muted mb-2">Weight of Pellet (g)</label>
                                 <input
                                     type="text"
                                     className="input w-full"
@@ -232,7 +232,7 @@ export default function VelocityMeter() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-semibold text-gray-300 mb-2">Caliber</label>
+                                <label className="block text-sm font-semibold text-dark-muted mb-2">Caliber</label>
                                 <input
                                     type="text"
                                     className="input w-full"
@@ -243,7 +243,7 @@ export default function VelocityMeter() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-semibold text-gray-300 mb-2">Batch Number</label>
+                                <label className="block text-sm font-semibold text-dark-muted mb-2">Batch Number</label>
                                 <input
                                     type="text"
                                     className="input w-full"
@@ -263,15 +263,15 @@ export default function VelocityMeter() {
                 {/* History Panel */}
                 <div className="lg:col-span-2">
                     <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                            <FaHistory className="text-gray-500" /> Test History
+                        <h2 className="text-2xl font-bold text-dark-text flex items-center gap-2">
+                            <FaHistory className="text-dark-muted" /> Test History
                         </h2>
                     </div>
 
-                    <div className="bg-dark-surface rounded-xl border border-dark-border overflow-hidden">
+                    <div className="glass-panel overflow-hidden">
                         <DataTable columns={historyColumns} data={measurements} />
                         {measurements.length === 0 && (
-                            <div className="p-12 text-center text-gray-500">
+                            <div className="p-12 text-center text-dark-muted">
                                 No history available. Start a new test to see results here.
                             </div>
                         )}

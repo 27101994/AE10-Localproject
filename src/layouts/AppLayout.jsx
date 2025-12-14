@@ -29,33 +29,37 @@ export default function AppLayout() {
         navigate('/login');
     };
 
+    // Apply theme class to HTML element
+    useEffect(() => {
+        const root = window.document.documentElement;
+        root.classList.remove('light', 'dark');
+        root.classList.add(theme);
+    }, [theme]);
+
     return (
-        <div className={`h-screen font-sans flex overflow-hidden ${theme === 'dark'
-            ? 'bg-dark-bg bg-gradient-mesh text-dark-text selection:bg-primary-500/30'
-            : 'bg-gray-100 text-gray-900 selection:bg-blue-500/30'
-            }`}>
+        <div className="h-screen font-sans flex overflow-hidden bg-dark-bg text-dark-text selection:bg-primary-500/30">
+            {/* Background mesh only for dark mode or subtle for light */}
+            <div className="absolute inset-0 bg-gradient-mesh pointer-events-none z-0 opacity-100 dark:opacity-100"></div>
 
             {/* Floating Glass Sidebar (Desktop) */}
             <aside className={`
                 fixed inset-y-4 left-4 z-50 w-72 
-                ${theme === 'dark' ? 'glass-panel' : 'bg-white shadow-xl'} rounded-3xl flex flex-col
+                glass-panel rounded-3xl flex flex-col
                 transform transition-transform duration-500 cubic-bezier(0.4, 0, 0.2, 1)
                 lg:translate-x-0
                 ${sidebarOpen ? 'translate-x-0' : '-translate-x-[120%]'}
             `}>
-                <div className="h-full flex flex-col p-4">
+                <div className="h-full flex flex-col p-4 relative z-10">
                     {/* Logo and branding */}
-                    <div className={`px-4 py-6 border-b mb-2 relative ${theme === 'dark' ? 'border-white/5' : 'border-gray-200'}`}>
-                        {/* Glow effect behind logo */}
-                        {theme === 'dark' && (
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-primary-500/20 blur-3xl rounded-full pointer-events-none"></div>
-                        )}
+                    <div className="px-4 py-6 border-b border-dark-border mb-2 relative">
+                        {/* Glow effect - only visible in dark mode via CSS variables or specific dark classes */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-primary-500/20 blur-3xl rounded-full pointer-events-none opacity-0 dark:opacity-100"></div>
 
                         <div className="flex items-center justify-center mb-4 relative z-10">
                             <img
                                 src={athieonLogo}
                                 alt="Athieon"
-                                className={`h-28 w-auto ${theme === 'dark' ? 'mix-blend-screen' : ''}`}
+                                className="h-28 w-auto invert dark:invert-0"
                             />
                         </div>
                     </div>
@@ -73,24 +77,19 @@ export default function AppLayout() {
                                         group flex items-center space-x-4 px-4 py-4 rounded-2xl
                                         transition-all duration-300 relative overflow-hidden
                                         ${isActive
-                                            ? theme === 'dark'
-                                                ? 'text-white bg-gradient-to-r from-primary-600/20 to-primary-500/10 shadow-[0_0_20px_rgba(14,165,233,0.15)] border border-primary-500/20'
-                                                : 'text-blue-600 bg-blue-50 border border-blue-200'
-                                            : theme === 'dark'
-                                                ? 'text-dark-muted hover:text-white hover:bg-white/5 border border-transparent'
-                                                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50 border border-transparent'
+                                            ? 'text-primary-600 dark:text-white bg-primary-500/10 dark:bg-gradient-to-r dark:from-primary-600/20 dark:to-primary-500/10 shadow-[0_0_20px_rgba(14,165,233,0.15)] border border-primary-500/20'
+                                            : 'text-dark-muted hover:text-dark-text hover:bg-dark-elevated/50 border border-transparent'
                                         }
                                     `}
                                 >
                                     {/* Active Indicator Line */}
                                     {isActive && (
-                                        <div className={`absolute left-0 top-1/2 -translate-y-1/2 h-8 w-1 rounded-r-full 
-                                            ${theme === 'dark' ? 'bg-primary-500 shadow-[0_0_10px_#0ea5e9]' : 'bg-blue-500'}`}></div>
+                                        <div className="absolute left-0 top-1/2 -translate-y-1/2 h-8 w-1 rounded-r-full bg-primary-500 shadow-[0_0_10px_#0ea5e9]"></div>
                                     )}
 
                                     <span className={`${isActive
-                                        ? theme === 'dark' ? 'text-primary-400' : 'text-blue-500'
-                                        : theme === 'dark' ? 'text-dark-muted group-hover:text-white' : 'text-gray-400 group-hover:text-gray-600'
+                                        ? 'text-primary-500 dark:text-primary-400'
+                                        : 'text-dark-muted group-hover:text-primary-500 dark:group-hover:text-white'
                                         } transition-colors duration-300`}>
                                         {item.icon}
                                     </span>
@@ -99,38 +98,36 @@ export default function AppLayout() {
                             );
                         })}
                     </nav>
-
-
                 </div>
             </aside>
 
             {/* Mobile Overlay */}
             {sidebarOpen && (
                 <div
-                    className={`fixed inset-0 z-40 lg:hidden ${theme === 'dark' ? 'bg-dark-bg/80' : 'bg-gray-900/50'} backdrop-blur-sm`}
+                    className="fixed inset-0 z-40 lg:hidden bg-dark-bg/80 backdrop-blur-sm"
                     onClick={() => setSidebarOpen(false)}
                 />
             )}
 
             {/* Main Content Area */}
-            <div className="flex-1 flex flex-col min-w-0 transition-all duration-300 lg:pl-[20rem]">
-                {/* Floating Header - Hidden on Live page */}
+            <div className="flex-1 flex flex-col min-w-0 transition-all duration-300 lg:pl-[20rem] relative z-10">
+                {/* Floating Header */}
                 {location.pathname !== '/live' && (
                     <header className="sticky top-4 z-40 mx-4 lg:mr-8 mb-6">
-                        <div className={`${theme === 'dark' ? 'glass-panel' : 'bg-white shadow-md border-gray-100 border'} rounded-2xl px-6 py-4 flex items-center justify-between`}>
+                        <div className="glass-panel rounded-2xl px-6 py-4 flex items-center justify-between">
                             {/* Mobile menu button */}
                             <div className="flex items-center gap-4">
                                 <button
                                     onClick={() => setSidebarOpen(!sidebarOpen)}
-                                    className={`lg:hidden transition-colors p-1 ${theme === 'dark' ? 'text-dark-muted hover:text-white' : 'text-gray-500 hover:text-gray-900'}`}
+                                    className="lg:hidden transition-colors p-1 text-dark-muted hover:text-dark-text"
                                 >
                                     <FaBars className="w-6 h-6" />
                                 </button>
 
-                                {/* Page title / Breadcrumb */}
-                                <h2 className={`text-lg font-semibold tracking-wide hidden sm:block ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
-                                    <span className={`${theme === 'dark' ? 'text-primary-500' : 'text-blue-500'} opacity-60`}>AET</span>
-                                    <span className={`mx-2 ${theme === 'dark' ? 'text-dark-border' : 'text-gray-300'}`}>/</span>
+                                {/* Page title */}
+                                <h2 className="text-lg font-semibold tracking-wide hidden sm:block text-dark-text">
+                                    <span className="text-primary-500 opacity-60">AET</span>
+                                    <span className="mx-2 text-dark-border">/</span>
                                     {menuItems.find(item => item.path === location.pathname)?.label || 'Overview'}
                                 </h2>
                             </div>
@@ -139,13 +136,10 @@ export default function AppLayout() {
                             <div className="flex items-center gap-4">
                                 <button
                                     onClick={toggleTheme}
-                                    className={`p-2 rounded-lg transition-colors ${theme === 'dark'
-                                        ? 'text-yellow-400 hover:bg-white/10'
-                                        : 'text-gray-600 hover:bg-gray-100 hover:text-blue-600'
-                                        }`}
+                                    className="p-2 rounded-lg transition-colors text-dark-muted hover:text-primary-500 hover:bg-dark-elevated"
                                     title="Toggle Theme"
                                 >
-                                    {theme === 'dark' ? <FaSun className="text-xl" /> : <FaMoon className="text-xl" />}
+                                    {theme === 'dark' ? <FaSun className="text-xl text-yellow-400" /> : <FaMoon className="text-xl" />}
                                 </button>
 
                                 <DeviceStatusBadge
@@ -154,23 +148,17 @@ export default function AppLayout() {
                                 />
 
                                 {/* User Profile & Logout */}
-                                <div className={`flex items-center gap-3 pl-4 ml-2 border-l ${theme === 'dark' ? 'border-white/10' : 'border-gray-200'}`}>
+                                <div className="flex items-center gap-3 pl-4 ml-2 border-l border-dark-border">
                                     <div className="text-right hidden sm:block">
-                                        <p className={`text-sm font-semibold truncate ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>{user?.name || 'User'}</p>
-                                        <p className={`text-xs truncate ${theme === 'dark' ? 'text-primary-400' : 'text-blue-500'}`}>{user?.isGuest ? 'Guest Access' : 'Shooter'}</p>
+                                        <p className="text-sm font-semibold truncate text-dark-text">{user?.name || 'User'}</p>
+                                        <p className="text-xs truncate text-primary-500">{user?.isGuest ? 'Guest Access' : 'Shooter'}</p>
                                     </div>
-                                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center text-white font-bold shadow-lg ${theme === 'dark'
-                                        ? 'bg-gradient-to-br from-primary-600 to-primary-400 shadow-primary-500/20'
-                                        : 'bg-gradient-to-br from-blue-600 to-blue-400 shadow-blue-500/20'
-                                        }`}>
+                                    <div className="w-9 h-9 rounded-lg flex items-center justify-center text-white font-bold shadow-lg bg-gradient-to-br from-primary-600 to-primary-400 shadow-primary-500/20">
                                         {user?.name?.[0] || 'U'}
                                     </div>
                                     <button
                                         onClick={handleLogout}
-                                        className={`p-2 transition-colors rounded-lg ${theme === 'dark'
-                                            ? 'text-dark-muted hover:text-red-400 hover:bg-red-500/10'
-                                            : 'text-gray-400 hover:text-red-500 hover:bg-red-50'
-                                            }`}
+                                        className="p-2 transition-colors rounded-lg text-dark-muted hover:text-red-400 hover:bg-red-500/10"
                                         title="Logout"
                                     >
                                         <FaSignOutAlt />

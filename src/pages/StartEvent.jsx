@@ -39,14 +39,14 @@ export default function StartEvent() {
     return (
         <div className="max-w-7xl mx-auto px-4">
             <div className="mb-8">
-                <h1 className="text-3xl font-bold text-gray-100 mb-2">Start New Event</h1>
-                <p className="text-gray-400">Select your event to begin</p>
+                <h1 className="text-3xl font-bold text-dark-text mb-2">Start New Event</h1>
+                <p className="text-dark-muted">Select your event to begin</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 {/* Pistol Events Section */}
                 <div>
-                    <h2 className="text-2xl font-bold text-accent-cyan mb-6 pb-2 border-b border-white/10 flex items-center">
+                    <h2 className="text-2xl font-bold text-accent-cyan mb-6 pb-2 border-b border-dark-border flex items-center">
                         Pistol Events
                     </h2>
                     <div className="grid grid-cols-1 gap-4">
@@ -63,7 +63,7 @@ export default function StartEvent() {
 
                 {/* Rifle Events Section */}
                 <div>
-                    <h2 className="text-2xl font-bold text-accent-purple mb-6 pb-2 border-b border-white/10 flex items-center">
+                    <h2 className="text-2xl font-bold text-accent-purple mb-6 pb-2 border-b border-dark-border flex items-center">
                         Rifle Events
                     </h2>
                     <div className="grid grid-cols-1 gap-4">

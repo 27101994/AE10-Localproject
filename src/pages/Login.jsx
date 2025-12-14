@@ -32,36 +32,36 @@ export default function Login() {
     };
 
     return (
-        <div className="card-elevated animate-fade-in">
-            <h2 className="text-2xl font-bold text-gray-100 mb-6 text-center">
+        <div className="animate-fade-in">
+            <h2 className="text-2xl font-bold text-dark-text mb-6 text-center">
                 {mode === 'login' ? 'Welcome Back' : 'Verify OTP'}
             </h2>
 
             {mode === 'login' ? (
                 <form onSubmit={handleLogin} className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-dark-muted mb-2">
                             Email
                         </label>
                         <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="input w-full"
+                            className="glass-input w-full"
                             placeholder="shooter@example.com"
                             required
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-dark-muted mb-2">
                             Password
                         </label>
                         <input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="input w-full"
+                            className="glass-input w-full"
                             placeholder="••••••••"
                             required
                         />
@@ -74,7 +74,7 @@ export default function Login() {
                     <button
                         type="button"
                         onClick={() => setMode('otp')}
-                        className="w-full text-sm text-primary-400 hover:text-primary-300 
+                        className="w-full text-sm text-primary-600 dark:text-primary-400 hover:text-primary-500 
                                    transition-all duration-200 hover:underline"
                     >
                         Login with OTP instead
@@ -83,28 +83,28 @@ export default function Login() {
             ) : (
                 <form onSubmit={handleOTPVerify} className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-dark-muted mb-2">
                             Email
                         </label>
                         <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="input w-full"
+                            className="glass-input w-full"
                             placeholder="shooter@example.com"
                             required
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-300 mb-2">
+                        <label className="block text-sm font-medium text-dark-muted mb-2">
                             OTP Code
                         </label>
                         <input
                             type="text"
                             value={otp}
                             onChange={(e) => setOtp(e.target.value)}
-                            className="input w-full text-center text-2xl tracking-widest font-bold"
+                            className="glass-input w-full text-center text-2xl tracking-widest font-bold"
                             placeholder="000000"
                             maxLength={6}
                             required
@@ -118,7 +118,7 @@ export default function Login() {
                     <button
                         type="button"
                         onClick={() => setMode('login')}
-                        className="w-full text-sm text-primary-400 hover:text-primary-300 
+                        className="w-full text-sm text-primary-600 dark:text-primary-400 hover:text-primary-500 
                                    transition-all duration-200 hover:underline"
                     >
                         Back to password login

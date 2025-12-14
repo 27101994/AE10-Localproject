@@ -9,10 +9,10 @@ export default function PlayerTile({ player }) {
     const totalScoreDecimal = shots.reduce((sum, shot) => sum + shot.scoreDecimal, 0);
 
     return (
-        <div className="card">
+        <div className="glass-card p-4 rounded-xl">
             {/* Player Name Header */}
             <div className="flex items-center justify-between mb-4 pb-3 border-b border-dark-border">
-                <h3 className="text-lg font-bold text-gray-100">{name}</h3>
+                <h3 className="text-lg font-bold text-dark-text">{name}</h3>
                 {isActive && (
                     <div className="w-2 h-2 bg-accent-green rounded-full animate-pulse"></div>
                 )}
@@ -30,36 +30,36 @@ export default function PlayerTile({ player }) {
 
             {/* Player Stats */}
             <div className="grid grid-cols-2 gap-3 text-sm">
-                <div className="bg-dark-elevated rounded-lg p-2">
-                    <div className="text-xs text-gray-500 mb-1">Shot</div>
-                    <div className="text-lg font-bold text-primary-400">{currentShot}</div>
+                <div className="bg-black/5 dark:bg-dark-elevated rounded-lg p-2">
+                    <div className="text-xs text-dark-muted mb-1">Shot</div>
+                    <div className="text-lg font-bold text-primary-600 dark:text-primary-400">{currentShot}</div>
                 </div>
 
-                <div className="bg-dark-elevated rounded-lg p-2">
-                    <div className="text-xs text-gray-500 mb-1">Timer</div>
-                    <div className="text-sm font-mono text-gray-300">
+                <div className="bg-black/5 dark:bg-dark-elevated rounded-lg p-2">
+                    <div className="text-xs text-dark-muted mb-1">Timer</div>
+                    <div className="text-sm font-mono text-dark-text">
                         <Timer startTime={startTime} isRunning={isActive} />
                     </div>
                 </div>
 
-                <div className="bg-dark-elevated rounded-lg p-2">
-                    <div className="text-xs text-gray-500 mb-1">Score</div>
+                <div className="bg-black/5 dark:bg-dark-elevated rounded-lg p-2">
+                    <div className="text-xs text-dark-muted mb-1">Score</div>
                     <div className="text-lg font-bold text-accent-green">{totalScore}</div>
                 </div>
 
-                <div className="bg-dark-elevated rounded-lg p-2">
-                    <div className="text-xs text-gray-500 mb-1">Decimal</div>
-                    <div className="text-lg font-bold text-accent-cyan">{totalScoreDecimal.toFixed(1)}</div>
+                <div className="bg-black/5 dark:bg-dark-elevated rounded-lg p-2">
+                    <div className="text-xs text-dark-muted mb-1">Decimal</div>
+                    <div className="text-lg font-bold text-primary-600 dark:text-accent-cyan">{totalScoreDecimal.toFixed(1)}</div>
                 </div>
 
-                <div className="bg-dark-elevated rounded-lg p-2">
-                    <div className="text-xs text-gray-500 mb-1">Group Ø</div>
-                    <div className="text-sm font-mono text-gray-300">{groupRadius}</div>
+                <div className="bg-black/5 dark:bg-dark-elevated rounded-lg p-2">
+                    <div className="text-xs text-dark-muted mb-1">Group Ø</div>
+                    <div className="text-sm font-mono text-dark-text">{groupRadius}</div>
                 </div>
 
-                <div className="bg-dark-elevated rounded-lg p-2">
-                    <div className="text-xs text-gray-500 mb-1">Center</div>
-                    <div className="text-xs font-mono text-gray-400">
+                <div className="bg-black/5 dark:bg-dark-elevated rounded-lg p-2">
+                    <div className="text-xs text-dark-muted mb-1">Center</div>
+                    <div className="text-xs font-mono text-dark-muted">
                         ({groupCenter.x.toFixed(1)}, {groupCenter.y.toFixed(1)})
                     </div>
                 </div>
