@@ -7,6 +7,10 @@ export default function SplashScreen() {
     const [fadeOut, setFadeOut] = useState(false);
 
     useEffect(() => {
+        // Enforce dark mode for splash screen
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+
         const fadeTimer = setTimeout(() => {
             setFadeOut(true);
         }, 3500); // Extended to let animations play out

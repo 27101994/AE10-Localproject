@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import athieonLogo from '@/assets/athieon-logo.png';
 
 export default function GuestLayout() {
+    useEffect(() => {
+        // Enforce dark mode for login/guest pages
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+    }, []);
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-dark-bg bg-gradient-mesh p-4 relative overflow-hidden transition-colors duration-300">
             {/* Background Glows */}

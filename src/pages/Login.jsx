@@ -47,7 +47,7 @@ export default function Login() {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="glass-input w-full"
+                            className="input w-full"
                             placeholder="shooter@example.com"
                             required
                         />
@@ -61,7 +61,7 @@ export default function Login() {
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="glass-input w-full"
+                            className="input w-full"
                             placeholder="••••••••"
                             required
                         />
@@ -90,7 +90,7 @@ export default function Login() {
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="glass-input w-full"
+                            className="input w-full"
                             placeholder="shooter@example.com"
                             required
                         />
@@ -104,7 +104,7 @@ export default function Login() {
                             type="text"
                             value={otp}
                             onChange={(e) => setOtp(e.target.value)}
-                            className="glass-input w-full text-center text-2xl tracking-widest font-bold"
+                            className="input w-full text-center text-2xl tracking-widest font-bold"
                             placeholder="000000"
                             maxLength={6}
                             required
