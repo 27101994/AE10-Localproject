@@ -113,37 +113,39 @@ const MatchReport = forwardRef(({ session, user }, ref) => {
             </div>
 
             {/* Series View */}
-            <div className="grid grid-cols-2 gap-8 mb-8 break-inside-avoid">
+            <div className="flex flex-col gap-6 mb-8 break-inside-avoid">
                 {seriesData.map((series) => (
-                    <div key={series.id} className="border border-gray-200 rounded p-4 break-inside-avoid">
-                        <div className="flex justify-between items-center mb-4 bg-[#1a2332] text-white p-2 rounded">
-                            <span className="font-bold">Series {series.id}</span>
-                            <span className="font-bold bg-white text-black px-2 rounded">{series.decimal.toFixed(1)}</span>
+                    <div key={series.id} className="border border-gray-200 rounded p-6 break-inside-avoid bg-white shadow-sm">
+                        <div className="flex justify-between items-center mb-6 bg-[#1a2332] text-white p-3 rounded">
+                            <span className="font-bold text-lg">Series {series.id}</span>
+                            <span className="font-bold bg-white text-black px-3 py-1 rounded text-lg">{series.decimal.toFixed(1)}</span>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="aspect-square relative border rounded-full border-gray-200 flex items-center justify-center overflow-hidden">
+                        <div className="flex flex-row gap-8 items-start">
+                            {/* Large Target Image */}
+                            <div className="flex-shrink-0">
                                 <TargetImage
                                     shots={series.shots}
                                     size={300}
                                     showControls={false}
-                                    simpleView={true} // Add simpleView prop to TargetImage to remove minimal details for print
                                 />
                             </div>
-                            <div>
-                                <table className="w-full text-xs text-center">
-                                    <thead className="border-b">
+
+                            {/* Detailed Shot Table */}
+                            <div className="flex-1">
+                                <table className="w-full text-sm text-center border-collapse">
+                                    <thead className="bg-gray-50 border-b-2 border-gray-200">
                                         <tr>
-                                            <th className="py-1">#</th>
-                                            <th>Score</th>
-                                            <th>Time</th>
+                                            <th className="py-2 px-4 font-semibold text-gray-600">#</th>
+                                            <th className="py-2 px-4 font-semibold text-gray-600">Score</th>
+                                            <th className="py-2 px-4 font-semibold text-gray-600">Time</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {series.shots.map((shot, idx) => (
-                                            <tr key={idx} className="border-b border-gray-100">
-                                                <td className="py-1">{(series.id - 1) * 10 + idx + 1}</td>
-                                                <td className="font-mono font-bold">{shot.scoreDecimal.toFixed(1)}</td>
-                                                <td className="text-gray-500 text-[10px]">{new Date(shot.timestamp).toLocaleTimeString([], { second: '2-digit', fractionalSecondDigits: 2 }).split(' ')[0]}</td>
+                                            <tr key={idx} className="border-b border-gray-100 hover:bg-gray-50/50">
+                                                <td className="py-2 font-medium text-gray-500">{(series.id - 1) * 10 + idx + 1}</td>
+                                                <td className="py-2 font-mono font-bold text-lg text-[#1a2332]">{shot.scoreDecimal.toFixed(1)}</td>
+                                                <td className="py-2 text-gray-400 text-xs font-mono">{new Date(shot.timestamp).toLocaleTimeString([], { second: '2-digit', fractionalSecondDigits: 2 }).split(' ')[0]}</td>
                                             </tr>
                                         ))}
                                     </tbody>

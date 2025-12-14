@@ -5,6 +5,7 @@ import Modal from '@components/Modal';
 import TargetImage from '@components/TargetImage';
 import ShotTable from '@components/ShotTable';
 import MatchReport from '@components/MatchReport';
+import ReportPreviewModal from '@components/ReportPreviewModal';
 import { calculateGroupRadius, calculateGroupCenter } from '@utils/shootingUtils';
 import { FaChartBar, FaCalendarAlt, FaBullseye, FaFilePdf, FaPrint } from 'react-icons/fa';
 
@@ -13,8 +14,7 @@ export default function EventsHistory() {
     const { user } = useAuthStore();
     const [selectedSession, setSelectedSession] = useState(null);
     const [groupedSessions, setGroupedSessions] = useState({});
-
-    const reportRef = useRef();
+    const [showReportPreview, setShowReportPreview] = useState(false);
 
     useEffect(() => {
         setGroupedSessions(getSessionsByDate());
@@ -28,40 +28,6 @@ export default function EventsHistory() {
         setSelectedSession(null);
     };
 
-    // Fallback if react-to-print is not installed (it wasn't in package.json)
-    const handlePrintFallback = () => {
-        const printContent = reportRef.current;
-        const windowUrl = 'about:blank';
-        const uniqueName = new Date();
-        const windowName = 'Print' + uniqueName.getTime();
-        const printWindow = window.open(windowUrl, windowName, 'left=50000,top=50000,width=0,height=0');
-
-        if (printWindow) {
-            printWindow.document.write(`
-                <html>
-                    <head>
-                        <title>Print Report</title>
-                        <script src="https://cdn.tailwindcss.com"></script>
-                        <style>
-                            @page { size: A4; margin: 0; }
-                            body { margin: 0; padding: 0; -webkit-print-color-adjust: exact; }
-                        </style>
-                    </head>
-                    <body>
-                        ${printContent.innerHTML}
-                    </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.focus();
-            setTimeout(() => {
-                printWindow.print();
-                printWindow.close();
-            }, 500);
-        } else {
-            alert('Please allow popups to print report');
-        }
-    };
 
     const groupRadius = selectedSession?.shots ? calculateGroupRadius(selectedSession.shots) : 0;
     const groupCenter = selectedSession?.shots ? calculateGroupCenter(selectedSession.shots) : null;
@@ -149,7 +115,7 @@ export default function EventsHistory() {
                         {/* Header Actions */}
                         <div className="flex justify-end gap-3 sticky top-0 bg-dark-bg/95 py-2 z-10 border-b border-dark-border mb-4">
                             <button
-                                onClick={handlePrintFallback}
+                                onClick={() => setShowReportPreview(true)}
                                 className="btn btn-primary text-sm py-2 px-4 shadow-lg shadow-primary-500/20"
                             >
                                 <FaFilePdf className="mr-2" /> Generate Report
@@ -207,14 +173,15 @@ export default function EventsHistory() {
                             </div>
                         </div>
 
-                        {/* Hidden Report Component for Printing */}
-                        <div className="hidden">
-                            <MatchReport
-                                ref={reportRef}
+                        {/* Conditional Report Preview Modal */}
+                        {showReportPreview && (
+                            <ReportPreviewModal
+                                isOpen={showReportPreview}
+                                onClose={() => setShowReportPreview(false)}
                                 session={selectedSession}
                                 user={user}
                             />
-                        </div>
+                        )}
                     </div>
                 </Modal>
             )}

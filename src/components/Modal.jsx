@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Modal({ isOpen, onClose, title, children }) {
+export default function Modal({ isOpen, onClose, title, children, className }) {
     if (!isOpen) return null;
 
     return (
@@ -12,9 +12,9 @@ export default function Modal({ isOpen, onClose, title, children }) {
             />
 
             {/* Modal */}
-            <div className="relative glass-panel rounded-xl border border-dark-border 
-                            shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto
-                            animate-slide-up">
+            <div className={`relative glass-panel rounded-xl border border-dark-border 
+                            shadow-2xl w-full mx-4 max-h-[90vh] overflow-y-auto
+                            animate-slide-up ${className || 'max-w-2xl'}`}>
                 {/* Header */}
                 <div className="flex items-center justify-between p-6 border-b border-dark-border">
                     <h2 className="text-xl font-semibold text-dark-text">{title}</h2>

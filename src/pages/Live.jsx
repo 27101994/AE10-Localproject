@@ -10,6 +10,7 @@ import Button from '@components/Button';
 import ConnectivityStatus from '@components/ConnectivityStatus';
 import TimerIndicator from '@components/TimerIndicator';
 import MatchReport from '@components/MatchReport';
+import ReportPreviewModal from '@components/ReportPreviewModal';
 import { calculateGroupRadius, calculateGroupCenter, generateDummyShot } from '@utils/shootingUtils';
 import { FaCaretUp, FaBullseye, FaPause, FaSave, FaRedo, FaSearchPlus, FaSearchMinus, FaToggleOn, FaToggleOff, FaQrcode, FaFilePdf, FaEye } from 'react-icons/fa';
 
@@ -38,8 +39,6 @@ export default function Live() {
     const { eventType, selectedEvent } = useEventStore();
     const { user } = useAuthStore();
 
-    const reportRef = useRef();
-
     // Local State
     const [groupRadius, setGroupRadius] = useState(0);
     const [groupCenter, setGroupCenter] = useState(null);
@@ -47,6 +46,7 @@ export default function Live() {
     const [selectedSeries, setSelectedSeries] = useState('all'); // 'all' or index 0, 1, 2...
     const [showLiveCode, setShowLiveCode] = useState(false);
     const [isLiveViewEnabled, setIsLiveViewEnabled] = useState(false);
+    const [showReportPreview, setShowReportPreview] = useState(false);
 
     // Zoom & Pan State
     const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -88,40 +88,6 @@ export default function Live() {
         duration: Date.now() - (startTime || Date.now()),
     };
 
-    // Report Printing Logic
-    const handlePrintReport = () => {
-        const printContent = reportRef.current;
-        const windowUrl = 'about:blank';
-        const uniqueName = new Date();
-        const windowName = 'Print' + uniqueName.getTime();
-        const printWindow = window.open(windowUrl, windowName, 'left=50000,top=50000,width=0,height=0');
-
-        if (printWindow) {
-            printWindow.document.write(`
-                <html>
-                    <head>
-                        <title>Print Report</title>
-                        <script src="https://cdn.tailwindcss.com"></script>
-                        <style>
-                            @page { size: A4; margin: 0; }
-                            body { margin: 0; padding: 0; -webkit-print-color-adjust: exact; }
-                        </style>
-                    </head>
-                    <body>
-                        ${printContent.innerHTML}
-                    </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.focus();
-            setTimeout(() => {
-                printWindow.print();
-                printWindow.close();
-            }, 500);
-        } else {
-            alert('Please allow popups to print report');
-        }
-    };
 
     // Filter shots by series if selected
     const filteredShots = React.useMemo(() => {
@@ -384,7 +350,7 @@ export default function Live() {
                             <Button variant="primary" onClick={handleSave} className="flex-1">
                                 <FaSave className="mr-2" /> Save
                             </Button>
-                            <Button variant="primary" onClick={handlePrintReport} className="flex-1 bg-purple-600 hover:bg-purple-700">
+                            <Button variant="primary" onClick={() => setShowReportPreview(true)} className="flex-1 bg-purple-600 hover:bg-purple-700">
                                 <FaFilePdf className="mr-2" /> Report
                             </Button>
                         </div>
@@ -393,13 +359,12 @@ export default function Live() {
 
                 {/* Hidden Report Component - Only needed for host printing */}
                 {!viewOnly && (
-                    <div className="hidden">
-                        <MatchReport
-                            ref={reportRef}
-                            session={currentSession}
-                            user={user}
-                        />
-                    </div>
+                    <ReportPreviewModal
+                        isOpen={showReportPreview}
+                        onClose={() => setShowReportPreview(false)}
+                        session={currentSession}
+                        user={user}
+                    />
                 )}
             </div>
         </div>
