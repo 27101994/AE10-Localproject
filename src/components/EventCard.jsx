@@ -5,9 +5,9 @@ export default function EventCard({ event, onSelect, selected }) {
     return (
         <div
             onClick={() => onSelect(event.id)}
-            className={`cursor-pointer transition-all duration-300 transform rounded-xl border p-4 hover:scale-[1.02] ${selected === event.id
-                ? 'border-primary-500 bg-primary-500/10 shadow-[0_0_20px_rgba(16,185,129,0.3)]'
-                : 'glass-card hover:border-primary-500/50'
+            className={`cursor-pointer transition-all duration-300 transform rounded-xl p-4 hover:scale-[1.02] ${selected === event.id
+                ? 'border-2 border-primary-600 bg-gradient-to-br from-primary-500/25 to-blue-500/15 dark:bg-primary-500/10 shadow-[0_0_20px_rgba(14,165,233,0.25)]'
+                : 'border glass-card hover:border-primary-500/50'
                 }`}
         >
             <div className="flex items-start justify-between mb-4">

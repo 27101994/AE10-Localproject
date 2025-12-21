@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --color-dark-bg: 248 250 252;
-  --color-dark-surface: 255 255 255;
-  --color-dark-elevated: 241 245 249;
-  --color-dark-border: 226 232 240;
+  --color-dark-bg: 241 245 249;
+  --color-dark-surface: 241 245 249;
+  --color-dark-elevated: 226 232 240;
+  --color-dark-border: 203 213 225;
   --color-dark-text: 15 23 42;
   --color-dark-muted: 100 116 139;
 }
@@ -52,15 +52,15 @@
   /* Glassmorphism Logic */
   /* Glassmorphism Logic */
   .glass-panel {
-    @apply bg-white/80 dark:bg-dark-surface/40 backdrop-blur-xl border border-dark-border/60 dark:border-dark-border/10 shadow-xl dark:shadow-glass;
+    @apply bg-white/90 dark:bg-dark-surface/40 backdrop-blur-xl border border-slate-200 dark:border-dark-border/10 shadow-2xl dark:shadow-glass;
   }
 
   .glass-card {
-    @apply bg-white/80 dark:bg-dark-elevated/30 backdrop-blur-md border border-dark-border/60 dark:border-dark-border/10 shadow-xl dark:shadow-none hover:shadow-2xl dark:hover:shadow-glass-hover transition-all duration-300;
+    @apply bg-white/90 dark:bg-dark-elevated/30 backdrop-blur-md border border-slate-200/80 dark:border-dark-border/10 shadow-lg hover:shadow-2xl dark:shadow-none dark:hover:shadow-glass-hover transition-all duration-300;
   }
 
   .glass-input {
-    @apply bg-white/50 dark:bg-dark-bg/50 border border-dark-border/60 dark:border-dark-border/10 text-dark-text placeholder-dark-muted focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 transition-all duration-200 backdrop-blur-sm shadow-inner dark:shadow-none;
+    @apply bg-white/95 dark:bg-dark-bg/50 border border-slate-300 dark:border-dark-border/10 text-dark-text placeholder-dark-muted focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 backdrop-blur-sm shadow-sm dark:shadow-none;
   }
 
   /* Modern Buttons */
@@ -69,19 +69,19 @@
   }
 
   .btn-primary {
-    @apply bg-gradient-to-r from-primary-600 to-primary-500 text-white shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40 hover:brightness-110 border border-white/10;
+    @apply bg-gradient-to-r from-primary-600 to-primary-500 text-white shadow-lg shadow-primary-500/30 hover:shadow-xl hover:shadow-primary-500/40 hover:scale-[1.02] active:scale-95 border border-white/10;
   }
 
   .btn-secondary {
-    @apply bg-slate-200/50 dark:bg-white/5 hover:bg-slate-200/80 dark:hover:bg-white/10 text-dark-text border border-slate-200/50 dark:border-white/5 backdrop-blur-sm;
+    @apply bg-white dark:bg-white/5 hover:bg-slate-50 dark:hover:bg-white/10 text-dark-text border border-slate-300 dark:border-white/5 shadow-sm hover:shadow-md backdrop-blur-sm;
   }
 
   .btn-danger {
-    @apply bg-gradient-to-r from-red-600 to-red-500 text-white shadow-lg shadow-red-500/25 hover:shadow-red-500/40 hover:brightness-110;
+    @apply bg-gradient-to-r from-red-600 to-red-500 text-white shadow-lg shadow-red-500/30 hover:shadow-xl hover:shadow-red-500/40 hover:scale-[1.02] active:scale-95;
   }
 
   .btn-success {
-    @apply bg-gradient-to-r from-emerald-600 to-status-success text-white shadow-lg shadow-status-success/25 hover:shadow-status-success/40 hover:brightness-110 border border-white/10;
+    @apply bg-gradient-to-r from-emerald-600 to-status-success text-white shadow-lg shadow-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/40 hover:scale-[1.02] active:scale-95 border border-white/10;
   }
 
   /* Cards - MOVED TO JSX TO FIX BUILD CRASH
@@ -134,8 +134,24 @@
     @apply bg-gradient-to-r from-white via-primary-200 to-primary-400 bg-clip-text text-transparent;
   }
 
+  .text-gradient-light {
+    @apply bg-gradient-to-r from-primary-600 via-primary-500 to-blue-500 bg-clip-text text-transparent;
+  }
+
   .animate-float {
     animation: float 6s ease-in-out infinite;
+  }
+
+  .gradient-border {
+    border-image: linear-gradient(135deg, rgba(14, 165, 233, 0.5), rgba(59, 130, 246, 0.5)) 1;
+  }
+
+  .shadow-glow {
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.2), 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .shadow-glow-hover:hover {
+    box-shadow: 0 0 30px rgba(14, 165, 233, 0.3), 0 8px 24px rgba(0, 0, 0, 0.15);
   }
 }
 
@@ -201,7 +217,7 @@
 }
 
 .animate-slam {
-  animation: slam 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation: slam 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .animate-slide-up-fade {

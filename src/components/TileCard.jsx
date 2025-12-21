@@ -3,17 +3,17 @@ import React from 'react';
 export default function TileCard({ icon, title, description, onClick, badge }) {
     return (
         <div
-            className="group relative overflow-hidden rounded-2xl p-6 cursor-pointer glass-card hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-[0_0_20px_rgba(14,165,233,0.3)] transition-all duration-500"
+            className="group relative overflow-hidden rounded-2xl p-6 cursor-pointer glass-card hover:-translate-y-1 hover:shadow-lg dark:hover:shadow-[0_0_20px_rgba(14,165,233,0.3)] hover:border-2 hover:border-primary-600 dark:hover:border-primary-500/30 transition-all duration-500"
             onClick={onClick}
         >
             {/* Background Gradient Hover Effect */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-500/25 via-blue-500/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
             <div className="flex flex-col items-center text-center space-y-3 relative z-10">
                 {/* Icon with animation */}
-                <div className="text-4xl text-primary-500 group-hover:text-primary-600 dark:text-primary-400 dark:group-hover:text-primary-300 
+                <div className="text-4xl text-primary-600 dark:text-primary-400 group-hover:text-primary-700 dark:group-hover:text-primary-300 
                                 transition-all duration-300 group-hover:scale-110 
-                                group-hover:rotate-3">
+                                group-hover:rotate-6">
                     {icon}
                 </div>
 

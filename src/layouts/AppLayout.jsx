@@ -39,7 +39,7 @@ export default function AppLayout() {
     return (
         <div className="h-screen font-sans flex overflow-hidden bg-dark-bg text-dark-text selection:bg-primary-500/30">
             {/* Background mesh only for dark mode or subtle for light */}
-            <div className="absolute inset-0 bg-gradient-mesh pointer-events-none z-0 opacity-100 dark:opacity-100"></div>
+            <div className="absolute inset-0 bg-gradient-mesh pointer-events-none z-0 opacity-40 dark:opacity-100"></div>
 
             {/* Floating Glass Sidebar (Desktop) */}
             <aside className={`
@@ -77,7 +77,7 @@ export default function AppLayout() {
                                         group flex items-center space-x-4 px-4 py-4 rounded-2xl
                                         transition-all duration-300 relative overflow-hidden
                                         ${isActive
-                                            ? 'text-primary-600 dark:text-white bg-primary-500/10 dark:bg-gradient-to-r dark:from-primary-600/20 dark:to-primary-500/10 shadow-[0_0_20px_rgba(14,165,233,0.15)] border border-primary-500/20'
+                                            ? 'text-primary-600 dark:text-white bg-primary-500/15 dark:bg-gradient-to-r dark:from-primary-600/20 dark:to-primary-500/10 shadow-[0_0_20px_rgba(14,165,233,0.15)] border-2 border-primary-600 dark:border-primary-500/20'
                                             : 'text-dark-muted hover:text-dark-text hover:bg-dark-elevated/50 border border-transparent'
                                         }
                                     `}
