@@ -127,6 +127,7 @@ const MatchReport = forwardRef(({ session, user }, ref) => {
                                     shots={series.shots}
                                     size={300}
                                     showControls={false}
+                                    targetType={session.eventType?.toLowerCase().includes('rifle') ? 'rifle' : 'pistol'}
                                 />
                             </div>
 

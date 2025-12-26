@@ -42,67 +42,69 @@ export default function AppLayout() {
             <div className="absolute inset-0 bg-gradient-mesh pointer-events-none z-0 opacity-40 dark:opacity-100"></div>
 
             {/* Floating Glass Sidebar (Desktop) */}
-            <aside className={`
+            {location.pathname !== '/live' && (
+                <aside className={`
                 fixed inset-y-4 left-4 z-50 w-72 
                 glass-panel rounded-3xl flex flex-col
                 transform transition-transform duration-500 cubic-bezier(0.4, 0, 0.2, 1)
                 lg:translate-x-0
                 ${sidebarOpen ? 'translate-x-0' : '-translate-x-[120%]'}
             `}>
-                <div className="h-full flex flex-col p-4 relative z-10">
-                    {/* Logo and branding */}
-                    <div className="px-4 py-6 border-b border-dark-border mb-2 relative">
-                        {/* Glow effect - only visible in dark mode via CSS variables or specific dark classes */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-primary-500/20 blur-3xl rounded-full pointer-events-none opacity-0 dark:opacity-100"></div>
+                    <div className="h-full flex flex-col p-4 relative z-10">
+                        {/* Logo and branding */}
+                        <div className="px-4 py-6 border-b border-dark-border mb-2 relative">
+                            {/* Glow effect - only visible in dark mode via CSS variables or specific dark classes */}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-primary-500/20 blur-3xl rounded-full pointer-events-none opacity-0 dark:opacity-100"></div>
 
-                        <div className="flex items-center justify-center mb-4 relative z-10">
-                            <img
-                                src={athieonLogo}
-                                alt="Athieon"
-                                className="h-28 w-auto invert dark:invert-0"
-                            />
+                            <div className="flex items-center justify-center mb-4 relative z-10">
+                                <img
+                                    src={athieonLogo}
+                                    alt="Athieon"
+                                    className="h-28 w-auto invert dark:invert-0"
+                                />
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Navigation */}
-                    <nav className="flex-1 overflow-y-auto space-y-2 py-4 custom-scrollbar">
-                        {menuItems.map((item) => {
-                            const isActive = location.pathname === item.path;
-                            return (
-                                <Link
-                                    key={item.path}
-                                    to={item.path}
-                                    onClick={() => setSidebarOpen(false)}
-                                    className={`
+                        {/* Navigation */}
+                        <nav className="flex-1 overflow-y-auto space-y-2 py-4 custom-scrollbar">
+                            {menuItems.map((item) => {
+                                const isActive = location.pathname === item.path;
+                                return (
+                                    <Link
+                                        key={item.path}
+                                        to={item.path}
+                                        onClick={() => setSidebarOpen(false)}
+                                        className={`
                                         group flex items-center space-x-4 px-4 py-4 rounded-2xl
                                         transition-all duration-300 relative overflow-hidden
                                         ${isActive
-                                            ? 'text-primary-600 dark:text-white bg-primary-500/15 dark:bg-gradient-to-r dark:from-primary-600/20 dark:to-primary-500/10 shadow-[0_0_20px_rgba(14,165,233,0.15)] border-2 border-primary-600 dark:border-primary-500/20'
-                                            : 'text-dark-muted hover:text-dark-text hover:bg-dark-elevated/50 border border-transparent'
-                                        }
+                                                ? 'text-primary-600 dark:text-white bg-primary-500/15 dark:bg-gradient-to-r dark:from-primary-600/20 dark:to-primary-500/10 shadow-[0_0_20px_rgba(14,165,233,0.15)] border-2 border-primary-600 dark:border-primary-500/20'
+                                                : 'text-dark-muted hover:text-dark-text hover:bg-dark-elevated/50 border border-transparent'
+                                            }
                                     `}
-                                >
-                                    {/* Active Indicator Line */}
-                                    {isActive && (
-                                        <div className="absolute left-0 top-1/2 -translate-y-1/2 h-8 w-1 rounded-r-full bg-primary-500 shadow-[0_0_10px_#0ea5e9]"></div>
-                                    )}
+                                    >
+                                        {/* Active Indicator Line */}
+                                        {isActive && (
+                                            <div className="absolute left-0 top-1/2 -translate-y-1/2 h-8 w-1 rounded-r-full bg-primary-500 shadow-[0_0_10px_#0ea5e9]"></div>
+                                        )}
 
-                                    <span className={`${isActive
-                                        ? 'text-primary-500 dark:text-primary-400'
-                                        : 'text-dark-muted group-hover:text-primary-500 dark:group-hover:text-white'
-                                        } transition-colors duration-300`}>
-                                        {item.icon}
-                                    </span>
-                                    <span className="font-medium tracking-wide text-sm">{item.label}</span>
-                                </Link>
-                            );
-                        })}
-                    </nav>
-                </div>
-            </aside>
+                                        <span className={`${isActive
+                                            ? 'text-primary-500 dark:text-primary-400'
+                                            : 'text-dark-muted group-hover:text-primary-500 dark:group-hover:text-white'
+                                            } transition-colors duration-300`}>
+                                            {item.icon}
+                                        </span>
+                                        <span className="font-medium tracking-wide text-sm">{item.label}</span>
+                                    </Link>
+                                );
+                            })}
+                        </nav>
+                    </div>
+                </aside>
+            )}
 
             {/* Mobile Overlay */}
-            {sidebarOpen && (
+            {sidebarOpen && location.pathname !== '/live' && (
                 <div
                     className="fixed inset-0 z-40 lg:hidden bg-dark-bg/80 backdrop-blur-sm"
                     onClick={() => setSidebarOpen(false)}
@@ -110,7 +112,7 @@ export default function AppLayout() {
             )}
 
             {/* Main Content Area */}
-            <div className="flex-1 flex flex-col min-w-0 transition-all duration-300 lg:pl-[20rem] relative z-10">
+            <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 relative z-10 ${location.pathname !== '/live' ? 'lg:pl-[20rem]' : ''}`}>
                 {/* Floating Header */}
                 {location.pathname !== '/live' && (
                     <header className="sticky top-4 z-40 mx-4 lg:mr-8 mb-6">

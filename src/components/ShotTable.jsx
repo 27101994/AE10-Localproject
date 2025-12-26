@@ -1,8 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 
 
-export default function ShotTable({ shots = [], totalScore = 0, totalScoreDecimal = 0 }) {
+export default function ShotTable({ shots = [], totalScore = 0, totalScoreDecimal = 0, compact = false }) {
     const scrollRef = useRef(null);
+
+    // Padding classes based on compact mode
+    const tdClass = compact ? "px-3 py-2" : "px-6 py-4";
+    const thClass = compact ? "px-3 py-2" : "px-6 py-4";
 
     // Auto-scroll to bottom when shots change
     useEffect(() => {
@@ -32,22 +36,22 @@ export default function ShotTable({ shots = [], totalScore = 0, totalScoreDecima
     };
 
     return (
-        <div className="glass-panel rounded-xl border border-dark-border overflow-hidden flex flex-col h-[600px]">
+        <div className="flex flex-col h-full w-full bg-transparent">
             {/* Header */}
             <div className="bg-dark-elevated/50 border-b border-dark-border">
                 <table className="w-full">
                     <thead>
                         <tr>
-                            <th className="px-6 py-4 text-left text-sm font-bold text-dark-muted uppercase tracking-wider w-1/4">Shot</th>
-                            <th className="px-6 py-4 text-center text-sm font-bold text-dark-muted uppercase tracking-wider w-1/4">Dir</th>
-                            <th className="px-6 py-4 text-right text-sm font-bold text-dark-muted uppercase tracking-wider w-1/4">Score</th>
-                            <th className="px-6 py-4 text-right text-sm font-bold text-dark-muted uppercase tracking-wider w-1/4">Sum</th>
+                            <th className={`${thClass} text-left text-sm font-bold text-dark-muted uppercase tracking-wider w-1/4`}>Shot</th>
+                            <th className={`${thClass} text-center text-sm font-bold text-dark-muted uppercase tracking-wider w-1/4`}>Dir</th>
+                            <th className={`${thClass} text-right text-sm font-bold text-dark-muted uppercase tracking-wider w-1/4`}>Score</th>
+                            <th className={`${thClass} text-right text-sm font-bold text-dark-muted uppercase tracking-wider w-1/4`}>Sum</th>
                         </tr>
                     </thead>
                 </table>
             </div>
 
-            {/* Scrollable Body - Fixed height for approx 10 rows */}
+            {/* Scrollable Body - Flexible height */}
             <div
                 ref={scrollRef}
                 className="overflow-y-auto flex-1 custom-scrollbar"
@@ -58,8 +62,7 @@ export default function ShotTable({ shots = [], totalScore = 0, totalScoreDecima
                             const cumulativeScore = shots.slice(0, index + 1).reduce((sum, s) => sum + s.score, 0);
                             const cumulativeScoreDecimal = shots.slice(0, index + 1).reduce((sum, s) => sum + s.scoreDecimal, 0);
 
-                            // 10X logic: Score > 10.3 displayed as 10X (or check is10x flag if trustworthy)
-                            // Client requirement: "10X shold be display for score >10.3"
+                            // 10X logic
                             const displayScore = shot.scoreDecimal > 10.3 ? '10X' : shot.score;
 
                             return (
@@ -68,13 +71,13 @@ export default function ShotTable({ shots = [], totalScore = 0, totalScoreDecima
                                     className={`hover:bg-dark-elevated/50 transition-colors ${index === shots.length - 1 ? 'bg-primary-500/10' : ''
                                         }`}
                                 >
-                                    <td className="px-6 py-4 text-lg font-bold text-dark-text w-1/4">
+                                    <td className={`${tdClass} text-lg font-bold text-dark-text w-1/4`}>
                                         {shot.number}
                                     </td>
-                                    <td className="px-6 py-4 text-center text-xl font-bold text-primary-600 dark:text-accent-cyan w-1/4 flex justify-center items-center">
+                                    <td className={`${tdClass} text-center text-xl font-bold text-primary-600 dark:text-accent-cyan w-1/4 flex justify-center items-center`}>
                                         {getDirectionIcon(shot.direction)}
                                     </td>
-                                    <td className="px-6 py-4 text-right w-1/4">
+                                    <td className={`${tdClass} text-right w-1/4`}>
                                         <div className="flex flex-col items-end">
                                             <span className="text-xl font-bold text-dark-text">
                                                 {displayScore}
@@ -84,7 +87,7 @@ export default function ShotTable({ shots = [], totalScore = 0, totalScoreDecima
                                             </span>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 text-right w-1/4">
+                                    <td className={`${tdClass} text-right w-1/4`}>
                                         <div className="flex flex-col items-end">
                                             <span className="text-xl font-bold text-primary-600 dark:text-primary-400">
                                                 {cumulativeScore}
@@ -106,10 +109,10 @@ export default function ShotTable({ shots = [], totalScore = 0, totalScoreDecima
                 <table className="w-full">
                     <tfoot>
                         <tr>
-                            <td className="px-6 py-4 text-lg font-bold text-dark-text w-1/2">
+                            <td className={`${tdClass} text-lg font-bold text-dark-text w-1/2`}>
                                 Total
                             </td>
-                            <td className="px-6 py-4 text-right w-1/2">
+                            <td className={`${tdClass} text-right w-1/2`}>
                                 <div className="flex flex-col items-end">
                                     <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">
                                         {totalScore}

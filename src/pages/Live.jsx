@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useLiveStore } from '@store/liveStore';
 import { useEventStore } from '@store/eventStore';
 import { useAuthStore } from '@store/authStore';
@@ -12,9 +12,10 @@ import TimerIndicator from '@components/TimerIndicator';
 import MatchReport from '@components/MatchReport';
 import ReportPreviewModal from '@components/ReportPreviewModal';
 import { calculateGroupRadius, calculateGroupCenter, generateDummyShot } from '@utils/shootingUtils';
-import { FaCaretUp, FaBullseye, FaPause, FaSave, FaRedo, FaSearchPlus, FaSearchMinus, FaToggleOn, FaToggleOff, FaQrcode, FaFilePdf, FaEye } from 'react-icons/fa';
+import { FaCaretUp, FaBullseye, FaPause, FaSave, FaRedo, FaSearchPlus, FaSearchMinus, FaToggleOn, FaToggleOff, FaQrcode, FaFilePdf, FaEye, FaSync, FaArrowLeft } from 'react-icons/fa';
 
 export default function Live() {
+    const navigate = useNavigate();
     const location = useLocation();
     const { viewOnly, code } = location.state || {}; // Check for view-only mode
 
@@ -130,19 +131,6 @@ export default function Live() {
         alert(`Session saved! Total score: ${session.totalScore} (${session.totalScoreDecimal.toFixed(1)})`);
     };
 
-    const handleModeToggle = () => {
-        if (mode === 'sighter') {
-            toggleMode();
-            setSelectedSeries('all');
-        } else {
-            const confirmSwitch = window.confirm('Switch back to Sighter?');
-            if (confirmSwitch) {
-                toggleMode();
-                setSelectedSeries('all');
-            }
-        }
-    };
-
     const handleRestart = () => {
         if (window.confirm('Are you sure you want to restart the event? All progress will be lost.')) {
             const name = eventType || 'Guest - Free Series';
@@ -155,206 +143,201 @@ export default function Live() {
         if (!isLiveViewEnabled) setShowLiveCode(true); // Auto show code when enabling
     };
 
+    const handleWheel = (e) => {
+        e.preventDefault();
+        const delta = -e.deltaY * 0.001;
+        const newZoom = Math.min(Math.max(zoom + delta, 0.5), 4);
+        setZoom(newZoom);
+    };
+
     return (
-        <div className="max-w-[1920px] mx-auto h-screen flex flex-col p-4 overflow-hidden">
-            {/* Custom Header for Live Page */}
-            <div className={`glass-panel p-4 mb-4 flex items-center justify-between ${viewOnly ? 'border-primary-500 shadow-primary-500/10' : ''}`}>
-                <div className="flex items-center space-x-8">
-                    {/* Event Name */}
+        <div className="max-w-[1920px] mx-auto h-screen flex flex-col p-3 overflow-hidden bg-dark-bg">
+            {/* Custom Header with Toolbar */}
+            <div className={`glass-panel p-2 mb-2 flex items-center justify-between shrink-0 ${viewOnly ? 'border-primary-500 shadow-primary-500/10' : ''}`}>
+
+                {/* Left: Info */}
+                <div className="flex items-center space-x-6">
+                    <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="mr-2" title="Go Back">
+                        <FaArrowLeft />
+                    </Button>
                     <div>
-                        <div className="text-xs text-dark-muted uppercase tracking-widest">Event</div>
-                        <div className="text-xl font-bold text-dark-text">{matchName}</div>
+                        <div className="text-[10px] text-dark-muted uppercase tracking-widest">Event</div>
+                        <div className="text-base font-bold text-dark-text leading-tight">{matchName}</div>
                     </div>
-                    {/* Shooter Name */}
-                    <div>
-                        <div className="text-xs text-dark-muted uppercase tracking-widest">Shooter</div>
-                        <div className="text-xl font-bold text-primary-500">{user?.name || 'Guest'}</div>
-                    </div>
+                    {!viewOnly && (
+                        <div className="flex items-center gap-1.5 ml-2">
+                            <div className={`px-2 py-0.5 rounded text-xs font-bold flex items-center gap-1 ${mode === 'sighter' ? 'bg-dark-elevated text-dark-text' : 'bg-red-600 text-white animate-pulse-slow'}`}>
+                                {mode === 'sighter' ? <FaCaretUp /> : <FaBullseye />}
+                                {mode === 'sighter' ? 'SIGHTER' : 'MATCH'}
+                            </div>
+                            <Button variant="secondary" size="xs" onClick={toggleMode} className="text-[10px]">
+                                <FaSync className="mr-1" /> Switch
+                            </Button>
+                        </div>
+                    )}
                 </div>
 
-                {viewOnly ? (
-                    <div className="flex items-center gap-3 bg-red-600/10 px-6 py-2 rounded-lg border border-red-500 text-red-500 animate-pulse">
-                        <FaEye className="text-xl" />
-                        <div className="text-right">
-                            <div className="text-xs font-bold uppercase tracking-widest">VIEW ONLY MODE</div>
-                            <div className="text-lg font-mono font-bold leading-none">CODE: {code}</div>
+                {/* Center/Right: Toolbar Actions (Save, Report, Restart, Live) */}
+                {!viewOnly && (
+                    <div className="flex items-center gap-2">
+                        <div className="h-6 w-px bg-dark-border mx-2"></div>
+
+                        <Button variant="ghost" size="sm" onClick={stopSession} title="Pause">
+                            <FaPause className="text-dark-muted hover:text-white" />
+                        </Button>
+                        <Button variant="ghost" size="sm" onClick={handleSave} title="Save Session">
+                            <FaSave className="text-primary-500 hover:text-primary-400" />
+                        </Button>
+                        <Button variant="ghost" size="sm" onClick={() => setShowReportPreview(true)} title="Generate Report">
+                            <FaFilePdf className="text-purple-500 hover:text-purple-400" />
+                        </Button>
+                        <Button variant="ghost" size="sm" onClick={handleRestart} title="Restart Event">
+                            <FaRedo className="text-red-500 hover:text-red-400" />
+                        </Button>
+
+                        {/* Live View Toggle */}
+                        <div className="flex items-center gap-2 ml-4">
+                            {isLiveViewEnabled && showLiveCode && (
+                                <span className="font-mono font-bold text-sm bg-white text-black px-2 rounded">Code: 4829</span>
+                            )}
+                            <button
+                                onClick={toggleLiveView}
+                                className={`p-1.5 rounded-lg transition-colors ${isLiveViewEnabled ? 'text-green-500' : 'text-dark-muted hover:text-white'}`}
+                                title="Toggle Live View"
+                            >
+                                {isLiveViewEnabled ? <FaToggleOn size={20} /> : <FaToggleOff size={20} />}
+                            </button>
+                            <FaQrcode className="text-dark-muted" />
+                        </div>
+
+                        <div className="h-6 w-px bg-dark-border mx-2"></div>
+
+                        {/* Timer & Status */}
+                        <div className="flex items-center gap-3">
+                            <TimerIndicator isRunning={isRunning} />
+                            <Timer startTime={startTime} isRunning={isRunning} />
+                            <ConnectivityStatus />
                         </div>
                     </div>
-                ) : (
-                    /* Connectivity & Timer */
-                    <div className="flex items-center space-x-8">
-                        <div className="flex items-center gap-3 bg-dark-bg/50 px-4 py-2 rounded-lg border border-dark-border">
-                            <TimerIndicator isRunning={isRunning} />
-                            <div className="h-8 w-px bg-dark-border"></div>
-                            <Timer startTime={startTime} isRunning={isRunning} />
-                        </div>
-                        <ConnectivityStatus />
+                )}
+
+                {viewOnly && (
+                    <div className="flex items-center gap-2 bg-red-600/10 px-4 py-1 rounded border border-red-500 text-red-500 animate-pulse">
+                        <FaEye />
+                        <span className="font-bold text-sm">VIEW ONLY: {code}</span>
                     </div>
                 )}
             </div>
 
-            {/* Main Control Bar - HIDDEN IN VIEW ONLY */}
-            {!viewOnly && (
-                <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-4">
-                        {/* Mode Switcher */}
-                        <div className={`px-4 py-2 rounded-lg font-bold text-lg flex items-center gap-2 transition-colors ${mode === 'sighter' ? 'bg-dark-elevated text-dark-text' : 'bg-red-600 text-white animate-pulse-slow'
-                            }`}>
-                            {mode === 'sighter' ? <FaCaretUp /> : <FaBullseye />}
-                            {mode === 'sighter' ? 'SIGHTER MODE' : 'MATCH MODE'}
-                        </div>
+            {/* MAIN CONTENT: 2 COLUMNS (Left Target+Footer | Right Full Table) */}
+            <div className={`flex-1 flex gap-3 min-h-0 overflow-hidden ${viewOnly ? 'h-full' : ''}`}>
 
-                        <Button variant="secondary" onClick={handleModeToggle}>
-                            Switch to {mode === 'sighter' ? 'Match' : 'Sighter'}
-                        </Button>
+                {/* LEFT PANEL: TARGET & FOOTER CONTROLS */}
+                <div className="flex-[3] flex flex-col gap-3 min-h-0">
 
-                        <Button variant="danger" onClick={handleRestart} className="flex items-center gap-2">
-                            <FaRedo /> Restart Event
-                        </Button>
-                    </div>
+                    {/* 1. TARGET (Maximized) */}
+                    <div className="flex-1 flex flex-col min-h-0 relative bg-dark-bg/30 rounded-xl border border-white/5 shadow-inner">
+                        <div className="flex-1 flex items-center justify-center relative overflow-hidden p-1">
+                            <div className="relative aspect-square h-full w-auto flex flex-col overflow-hidden mx-auto rounded-lg shadow-2xl bg-black/20 border border-white/5">
+                                {/* Zoom Overlays */}
+                                <div className="absolute top-2 left-2 z-20 flex flex-col gap-1">
+                                    <div className="bg-dark-elevated/90 backdrop-blur-sm p-1 rounded shadow flex flex-col gap-1">
+                                        <button onClick={() => setZoom(z => Math.min(z + 0.5, 4))} className="p-1 hover:bg-primary-500 hover:text-white rounded" title="Zoom In"><FaSearchPlus size={12} /></button>
+                                        <button onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }} className="p-1 hover:bg-primary-500 hover:text-white rounded" title="Reset"><FaRedo size={10} /></button>
+                                        <button onClick={() => setZoom(z => Math.max(z - 0.5, 0.5))} className="p-1 hover:bg-primary-500 hover:text-white rounded" title="Zoom Out"><FaSearchMinus size={12} /></button>
+                                    </div>
+                                </div>
 
-                    {/* Live View Controls */}
-                    <div className="flex items-center space-x-4">
-                        {isLiveViewEnabled && showLiveCode && (
-                            <div className="bg-white text-black px-3 py-1 rounded font-mono font-bold tracking-widest border border-primary-500">
-                                CODE: 4829
-                            </div>
-                        )}
-                        <button
-                            onClick={toggleLiveView}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${isLiveViewEnabled ? 'border-primary-500 text-primary-500 bg-primary-500/10' : 'border-dark-border text-dark-muted'
-                                }`}
-                        >
-                            {isLiveViewEnabled ? <FaToggleOn className="text-2xl" /> : <FaToggleOff className="text-2xl" />}
-                            <span className="font-bold">LIVE VIEW</span>
-                            <FaQrcode />
-                        </button>
-                    </div>
-                </div>
-            )}
+                                {/* Sighter Indicator Overlay (Fixed Position) */}
+                                {mode === 'sighter' && (
+                                    <div className="absolute top-0 right-0 z-10 pointer-events-none">
+                                        <svg width="100" height="100" viewBox="0 0 100 100">
+                                            <polygon points="0,0 100,0 100,100" fill="rgba(128, 128, 128, 0.5)" />
+                                        </svg>
+                                    </div>
+                                )}
 
-            {/* Content Grid */}
-            <div className={`flex-1 grid grid-cols-12 gap-6 min-h-0 ${viewOnly ? 'h-full' : ''}`}>
-                {/* Left: Target (7 cols) */}
-                <div className="col-span-7 flex flex-col space-y-4 min-h-0">
-                    <div className="glass-card flex-1 flex flex-col relative overflow-hidden">
-                        {/* Zoom & Pan Controls */}
-                        <div className="absolute top-4 left-4 z-20 flex flex-col gap-2">
-                            <div className="bg-dark-elevated p-1 rounded-lg shadow-lg flex flex-col gap-1">
-                                <button onClick={() => setZoom(z => Math.min(z + 0.5, 8))} className="p-2 hover:bg-primary-500 hover:text-white rounded transition-colors" title="Zoom In"><FaSearchPlus /></button>
-                                <button onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }} className="p-2 hover:bg-primary-500 hover:text-white rounded transition-colors" title="Reset View"><FaRedo className="scale-75" /></button>
-                                <button onClick={() => setZoom(z => Math.max(z - 0.5, 1))} className="p-2 hover:bg-primary-500 hover:text-white rounded transition-colors" title="Zoom Out"><FaSearchMinus /></button>
-                            </div>
-                        </div>
-
-                        {/* panning instructions */}
-                        {zoom > 1 && (
-                            <div className="absolute top-4 right-4 z-20 bg-black/50 text-white text-xs px-2 py-1 rounded pointer-events-none">
-                                Drag to Pan
-                            </div>
-                        )}
-
-                        {/* Target Container with Zoom & Pan */}
-                        <div
-                            className="flex-1 flex items-center justify-center overflow-hidden cursor-move active:cursor-grabbing relative"
-                            onMouseDown={handleMouseDown}
-                            onMouseMove={handleMouseMove}
-                            onMouseUp={handleMouseUp}
-                            onMouseLeave={handleMouseUp}
-                        >
-                            <div
-                                style={{
-                                    transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
-                                    transition: isDragging ? 'none' : 'transform 0.2s ease-out'
-                                }}
-                                className="origin-center"
-                            >
-                                <TargetImage
-                                    shots={filteredShots}
-                                    groupRadius={groupRadius}
-                                    groupCenter={groupCenter}
-                                    size={600}
-                                    showSighterIndicator={mode === 'sighter'}
-                                    targetType={selectedEvent?.type || 'pistol'}
-                                />
-                            </div>
-                        </div>
-
-                        {/* Series Selection Bar */}
-                        <div className="mt-4 pt-4 border-t border-dark-border overflow-x-auto">
-                            <div className="flex items-center gap-2 pb-2">
-                                <button
-                                    onClick={() => setSelectedSeries('all')}
-                                    className={`px-4 py-2 rounded-md font-bold text-sm transition-all ${selectedSeries === 'all' ? 'bg-primary-500 text-white' : 'bg-dark-elevated text-dark-muted hover:bg-dark-elevated/80'
-                                        }`}
+                                {/* Target */}
+                                <div
+                                    className="flex-1 flex items-center justify-center overflow-hidden cursor-move active:cursor-grabbing relative"
+                                    onMouseDown={handleMouseDown}
+                                    onMouseMove={handleMouseMove}
+                                    onMouseUp={handleMouseUp}
+                                    onMouseLeave={handleMouseUp}
+                                    onWheel={handleWheel}
                                 >
-                                    ALL
-                                </button>
-                                {Array.from({ length: totalSeries }).map((_, idx) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => setSelectedSeries(idx)}
-                                        className={`px-4 py-2 rounded-md font-bold text-sm transition-all ${selectedSeries === idx ? 'bg-primary-500 text-white ring-2 ring-primary-400 ring-offset-2 ring-offset-dark-bg' : 'bg-dark-elevated text-dark-muted hover:text-dark-text'
-                                            } ${
-                                            // Highlight completed series (full 10 shots)
-                                            (idx + 1) * 10 <= displayShots.length ? 'border-b-2 border-green-500' : ''
-                                            }`}
+                                    <div
+                                        style={{
+                                            transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+                                            transition: isDragging ? 'none' : 'transform 0.1s ease-out'
+                                        }}
+                                        className="origin-center"
                                     >
-                                        S{idx + 1}
-                                    </button>
-                                ))}
+                                        <TargetImage
+                                            shots={filteredShots}
+                                            groupRadius={groupRadius}
+                                            groupCenter={groupCenter}
+                                            size={750}
+                                            showSighterIndicator={mode === 'sighter'}
+                                            targetType={selectedEvent?.type || 'pistol'}
+                                            zoom={zoom}
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Sighter Button / Action Bar - HIDDEN IN VIEW ONLY */}
+                    {/* 2. FOOTER: STATS & ACTION CONTROLS (Moved from Sidebar) */}
                     {!viewOnly && (
-                        <div className="flex space-x-4">
-                            <div className="flex-1 glass-panel p-4 flex items-center justify-around">
-                                <div className="text-center">
-                                    <div className="text-xs text-dark-muted uppercase">Radius</div>
-                                    <div className="text-2xl font-bold text-accent-green">{groupRadius || '0.00'}</div>
+                        <div className="h-16 shrink-0 flex gap-3">
+                            {/* Stats: Group & Shot */}
+                            <div className="flex-[2] glass-panel px-4 flex items-center justify-around">
+                                <div className="flex flex-col items-center">
+                                    <div className="text-[10px] text-dark-muted uppercase font-bold tracking-wider">Group Radius</div>
+                                    <div className="text-2xl font-bold text-accent-green leading-none">{groupRadius || '0.00'}</div>
                                 </div>
-                                <div className="text-center">
-                                    <div className="text-xs text-dark-muted uppercase">Shot</div>
-                                    <div className="text-4xl font-bold text-dark-text">{displayShots.length > 0 ? displayShots[displayShots.length - 1].number : 0}</div>
+                                <div className="h-8 w-px bg-dark-border/50"></div>
+                                <div className="flex flex-col items-center">
+                                    <div className="text-[10px] text-dark-muted uppercase font-bold tracking-wider">Current Shot</div>
+                                    <div className="text-3xl font-bold text-dark-text leading-none">{displayShots.length > 0 ? displayShots[displayShots.length - 1].number : 0}</div>
                                 </div>
                             </div>
 
-                            <Button
-                                onClick={handleAddShot}
-                                variant="success"
-                                size="lg"
-                                className="flex-1 text-2xl"
-                            >
-                                <FaBullseye className="mr-2" /> FIRE SHOT
-                            </Button>
+                            {/* Series Selector */}
+                            <div className="flex-[3] glass-panel p-2 flex items-center overflow-x-auto">
+                                <div className="flex items-center gap-1.5 mx-auto">
+                                    <button onClick={() => setSelectedSeries('all')} className={`px-3 py-1.5 rounded text-xs font-bold whitespace-nowrap transition-all ${selectedSeries === 'all' ? 'bg-primary-500 text-white' : 'bg-dark-elevated text-dark-muted'}`}>ALL</button>
+                                    {Array.from({ length: totalSeries }).map((_, idx) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => setSelectedSeries(idx)}
+                                            className={`px-3 py-1.5 rounded text-xs font-bold whitespace-nowrap transition-all ${selectedSeries === idx ? 'bg-primary-500 text-white' : 'bg-dark-elevated text-dark-muted'} ${(idx + 1) * 10 <= displayShots.length ? 'border-b border-green-500' : ''}`}
+                                        >
+                                            S{idx + 1}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* FIRE BUTTON */}
+                            <div className="flex-[2]">
+                                <Button onClick={handleAddShot} variant="success" size="lg" className="w-full h-full text-lg shadow-lg shadow-green-500/10 hover:shadow-green-500/20">
+                                    <FaBullseye className="mr-2" /> FIRE SHOT
+                                </Button>
+                            </div>
                         </div>
                     )}
                 </div>
 
-                {/* Right: Table (5 cols) */}
-                <div className="col-span-5 flex flex-col min-h-0">
+                {/* RIGHT PANEL: FULL HEIGHT TABLE (Fixed Width) */}
+                <div className="w-[380px] flex flex-col min-h-0 bg-dark-bg/20 rounded-xl overflow-hidden border border-dark-border/30">
                     <ShotTable
                         shots={filteredShots}
                         totalScore={getTotalScore()}
                         totalScoreDecimal={getTotalScoreDecimal()}
+                        compact={true}
                     />
-
-                    {/* Action Bar - HIDDEN IN VIEW ONLY */}
-                    {!viewOnly && (
-                        <div className="mt-4 flex space-x-4">
-                            <Button variant="secondary" onClick={stopSession} className="flex-1">
-                                <FaPause className="mr-2" /> Pause
-                            </Button>
-                            <Button variant="primary" onClick={handleSave} className="flex-1">
-                                <FaSave className="mr-2" /> Save
-                            </Button>
-                            <Button variant="primary" onClick={() => setShowReportPreview(true)} className="flex-1 bg-purple-600 hover:bg-purple-700">
-                                <FaFilePdf className="mr-2" /> Report
-                            </Button>
-                        </div>
-                    )}
                 </div>
 
                 {/* Hidden Report Component - Only needed for host printing */}

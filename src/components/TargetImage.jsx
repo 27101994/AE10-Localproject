@@ -1,7 +1,7 @@
 import { useDeviceStore } from '@store/deviceStore'; // Import store
 
 export default function TargetImage(props) {
-    const { shots = [], groupRadius, groupCenter, size = 400, showSighterIndicator = false, simpleMode = false, simpleView = false, targetType = 'pistol' } = props;
+    const { shots = [], groupRadius, groupCenter, size = 400, showSighterIndicator = false, simpleMode = false, simpleView = false, targetType = 'pistol', zoom = 1 } = props;
 
     // Use either simpleMode or simpleView
     const isSimple = simpleMode || simpleView;
@@ -26,21 +26,23 @@ export default function TargetImage(props) {
     const getRings = (type) => {
         if (type === 'rifle') {
             // ISSF 10m Air Rifle
+            // 1-3 White, 4-10 Black
             const maxDia = 45.5;
             return [
                 { score: '1', radius: 45.5 / maxDia / 2, color: 'white', text: 'black', stroke: 'black' },
                 { score: '2', radius: 40.5 / maxDia / 2, color: 'white', text: 'black', stroke: 'black' },
                 { score: '3', radius: 35.5 / maxDia / 2, color: 'white', text: 'black', stroke: 'black' },
                 { score: '4', radius: 30.5 / maxDia / 2, color: 'black', text: 'white', stroke: 'none' }, // Black starts
-                { score: '5', radius: 25.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true },
-                { score: '6', radius: 20.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true },
-                { score: '7', radius: 15.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true },
-                { score: '8', radius: 10.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true },
-                { score: '9', radius: 5.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true },
+                { score: '5', radius: 25.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true, text: 'white' },
+                { score: '6', radius: 20.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true, text: 'white' },
+                { score: '7', radius: 15.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true, text: 'white' },
+                { score: '8', radius: 10.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true, text: 'white' },
+                { score: '9', radius: 5.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true }, // No text for 9 usually
                 { score: '10', radius: 0.5 / maxDia / 2, color: 'white', stroke: 'none', isDot: true }, // Inner dot
             ];
         } else {
             // ISSF 10m Air Pistol (Default)
+            // 1-6 White, 7-10 Black
             const maxDia = 155.5;
             return [
                 { score: '1', radius: 155.5 / maxDia / 2, color: 'white', text: 'black', stroke: 'black' },
@@ -50,10 +52,10 @@ export default function TargetImage(props) {
                 { score: '5', radius: 91.5 / maxDia / 2, color: 'white', text: 'black', stroke: 'black' },
                 { score: '6', radius: 75.5 / maxDia / 2, color: 'white', text: 'black', stroke: 'black' },
                 { score: '7', radius: 59.5 / maxDia / 2, color: 'black', text: 'white', stroke: 'none' }, // Black starts
-                { score: '8', radius: 43.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true },
+                { score: '8', radius: 43.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true, text: 'white' },
                 { score: '9', radius: 27.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true },
-                { score: '10', radius: 11.5 / maxDia / 2, color: 'white', stroke: 'none', isInnerTen: true },
-                { score: '10x', radius: 5.0 / maxDia / 2, color: 'none', stroke: 'white', dashed: true }, // Inner ten
+                { score: '10', radius: 11.5 / maxDia / 2, color: 'none', stroke: 'white', isZone: true },
+                { score: 'X', radius: 5.0 / maxDia / 2, color: 'none', stroke: 'white', dashed: false, isInnerTen: true }, // Inner ten
             ];
         }
     };
@@ -89,26 +91,14 @@ export default function TargetImage(props) {
     }
 
     return (
-        <div className="relative bg-[#F5E6CA] rounded-xl p-4 overflow-hidden border-4 border-black">
-            {/* Sighter Mode Indicator - Black Triangle in top-right corner */}
-            {showSighterIndicator && (
-                <div className="absolute top-0 right-0 z-10">
-                    <svg width="60" height="60" viewBox="0 0 60 60">
-                        <polygon
-                            points="0,0 60,0 60,60"
-                            fill="black"
-                        />
-                    </svg>
-                </div>
-            )}
-
+        <div className="relative bg-white overflow-hidden shadow-2xl" style={{ width: size, height: size }}>
             <svg width={size} height={size} className="mx-auto">
-                {/* Target Background - Paper Color */}
+                {/* Target Background - Paper Color (White) */}
                 <circle
                     cx={centerX}
                     cy={centerY}
                     r={size * 0.48}
-                    fill="#F5E6CA"
+                    fill="white"
                     stroke="#000"
                     strokeWidth="1"
                 />
@@ -120,7 +110,7 @@ export default function TargetImage(props) {
                             cx={centerX}
                             cy={centerY}
                             r={size * ring.radius}
-                            fill={ring.color}
+                            fill={ring.color === 'none' ? 'none' : ring.color}
                             stroke={ring.stroke || 'black'}
                             strokeWidth="1"
                             strokeDasharray={ring.dashed ? "3,3" : ""}
@@ -129,10 +119,10 @@ export default function TargetImage(props) {
                         {/* Score labels at cardinal directions */}
                         {ring.text && !ring.isDot && !ring.isInnerTen && (
                             <>
-                                <text x={centerX} y={centerY - size * ring.radius + (ring.score >= 7 || ring.score === '4' && targetType === 'rifle' ? 15 : 20)} fill={ring.text} fontSize="14" fontWeight="bold" textAnchor="middle">{ring.score}</text>
-                                <text x={centerX} y={centerY + size * ring.radius - (ring.score >= 7 || ring.score === '4' && targetType === 'rifle' ? 5 : 10)} fill={ring.text} fontSize="14" fontWeight="bold" textAnchor="middle">{ring.score}</text>
-                                <text x={centerX - size * ring.radius + (ring.score >= 7 || ring.score === '4' && targetType === 'rifle' ? 15 : 20)} y={centerY} fill={ring.text} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle">{ring.score}</text>
-                                <text x={centerX + size * ring.radius - (ring.score >= 7 || ring.score === '4' && targetType === 'rifle' ? 15 : 20)} y={centerY} fill={ring.text} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle">{ring.score}</text>
+                                <text x={centerX} y={centerY - size * ring.radius + (ring.score >= 7 || (ring.score === '4' && targetType === 'rifle') ? 15 : 20)} fill={ring.text} fontSize="14" fontWeight="bold" textAnchor="middle">{ring.score}</text>
+                                <text x={centerX} y={centerY + size * ring.radius - (ring.score >= 7 || (ring.score === '4' && targetType === 'rifle') ? 5 : 10)} fill={ring.text} fontSize="14" fontWeight="bold" textAnchor="middle">{ring.score}</text>
+                                <text x={centerX - size * ring.radius + (ring.score >= 7 || (ring.score === '4' && targetType === 'rifle') ? 15 : 20)} y={centerY} fill={ring.text} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle">{ring.score}</text>
+                                <text x={centerX + size * ring.radius - (ring.score >= 7 || (ring.score === '4' && targetType === 'rifle') ? 15 : 20)} y={centerY} fill={ring.text} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle">{ring.score}</text>
                             </>
                         )}
                     </g>
