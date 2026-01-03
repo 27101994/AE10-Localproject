@@ -91,8 +91,11 @@ export default function TargetImage(props) {
     }
 
     return (
-        <div className="relative bg-white overflow-hidden shadow-2xl" style={{ width: size, height: size }}>
-            <svg width={size} height={size} className="mx-auto">
+        <div className="relative bg-white overflow-hidden shadow-2xl flex items-center justify-center w-full h-full" style={{ aspectRatio: '1/1' }}>
+            <svg
+                viewBox={`0 0 ${size} ${size}`}
+                className="w-full h-full"
+            >
                 {/* Target Background - Paper Color (White) */}
                 <circle
                     cx={centerX}

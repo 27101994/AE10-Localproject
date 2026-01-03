@@ -7,9 +7,11 @@ import ShotTable from '@components/ShotTable';
 import MatchReport from '@components/MatchReport';
 import ReportPreviewModal from '@components/ReportPreviewModal';
 import { calculateGroupRadius, calculateGroupCenter } from '@utils/shootingUtils';
-import { FaChartBar, FaCalendarAlt, FaBullseye, FaFilePdf, FaPrint } from 'react-icons/fa';
+import { FaChartBar, FaCalendarAlt, FaBullseye, FaFilePdf, FaPrint, FaEye } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 export default function EventsHistory() {
+    const navigate = useNavigate();
     const { sessions, getSessionsByDate } = useHistoryStore();
     const { user } = useAuthStore();
     const [selectedSession, setSelectedSession] = useState(null);
@@ -18,7 +20,7 @@ export default function EventsHistory() {
 
     useEffect(() => {
         setGroupedSessions(getSessionsByDate());
-    }, [sessions]);
+    }, [sessions, getSessionsByDate]);
 
     const handleEventClick = (event) => {
         setSelectedSession(event);
@@ -28,6 +30,16 @@ export default function EventsHistory() {
         setSelectedSession(null);
     };
 
+    const handleViewInLiveMode = () => {
+        if (!selectedSession) return;
+        navigate('/live', {
+            state: {
+                viewOnly: true,
+                pastSession: selectedSession,
+                code: `HIST-${selectedSession.id || Math.random().toString(36).substr(2, 4).toUpperCase()}`
+            }
+        });
+    };
 
     const groupRadius = selectedSession?.shots ? calculateGroupRadius(selectedSession.shots) : 0;
     const groupCenter = selectedSession?.shots ? calculateGroupCenter(selectedSession.shots) : null;
@@ -113,10 +125,16 @@ export default function EventsHistory() {
                 <Modal isOpen={true} onClose={handleCloseModal} title={selectedSession.matchName}>
                     <div className="space-y-6">
                         {/* Header Actions */}
-                        <div className="flex justify-end gap-3 sticky top-0 bg-dark-bg/95 py-2 z-10 border-b border-dark-border mb-4">
+                        <div className="flex justify-end gap-3 sticky top-0 bg-dark-bg/95 py-2 z-20 border-b border-dark-border mb-4">
+                            <button
+                                onClick={handleViewInLiveMode}
+                                className="btn bg-accent-cyan/90 hover:bg-accent-cyan text-black text-sm py-2 px-4 shadow-lg shadow-accent-cyan/20 flex items-center"
+                            >
+                                <FaEye className="mr-2" /> View in Live Mode
+                            </button>
                             <button
                                 onClick={() => setShowReportPreview(true)}
-                                className="btn btn-primary text-sm py-2 px-4 shadow-lg shadow-primary-500/20"
+                                className="btn btn-primary text-sm py-2 px-4 shadow-lg shadow-primary-500/20 flex items-center"
                             >
                                 <FaFilePdf className="mr-2" /> Generate Report
                             </button>

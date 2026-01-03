@@ -1,12 +1,22 @@
 import React, { forwardRef } from 'react';
 import TargetImage from './TargetImage';
 import ShotTable from './ShotTable';
+import { calculateGroupRadius, calculateGroupCenter, formatTime } from '@utils/shootingUtils';
 
 const MatchReport = forwardRef(({ session, user }, ref) => {
     if (!session) return null;
 
     const groupRadius = session.shots ? calculateGroupRadius(session.shots) : 0;
     const groupCenter = session.shots ? calculateGroupCenter(session.shots) : null;
+
+    const getDirectionIcon = (dir) => {
+        if (!dir) return '-';
+        const arrows = {
+            'UP': '↑', 'UP_RIGHT': '↗', 'RIGHT': '→', 'DOWN_RIGHT': '↘',
+            'DOWN': '↓', 'DOWN_LEFT': '↙', 'LEFT': '←', 'UP_LEFT': '↖'
+        };
+        return arrows[dir] || dir;
+    };
 
     // Helper to calculate series scores (group of 10 shots)
     const calculateSeries = () => {
@@ -16,7 +26,22 @@ const MatchReport = forwardRef(({ session, user }, ref) => {
             const chunk = shots.slice(i, i + 10);
             const score = chunk.reduce((acc, s) => acc + s.score, 0);
             const decimal = chunk.reduce((acc, s) => acc + s.scoreDecimal, 0);
-            series.push({ id: Math.floor(i / 10) + 1, score, decimal, shots: chunk });
+
+            // Calculate duration for this series
+            let duration = 0;
+            if (chunk.length > 1) {
+                const startTime = new Date(chunk[0].timestamp).getTime();
+                const endTime = new Date(chunk[chunk.length - 1].timestamp).getTime();
+                duration = endTime - startTime;
+            }
+
+            series.push({
+                id: Math.floor(i / 10) + 1,
+                score,
+                decimal,
+                shots: chunk,
+                duration: formatTime(duration)
+            });
         }
         return series;
     };
@@ -117,7 +142,10 @@ const MatchReport = forwardRef(({ session, user }, ref) => {
                 {seriesData.map((series) => (
                     <div key={series.id} className="border border-gray-200 rounded p-6 break-inside-avoid bg-white shadow-sm">
                         <div className="flex justify-between items-center mb-6 bg-[#1a2332] text-white p-3 rounded">
-                            <span className="font-bold text-lg">Series {series.id}</span>
+                            <div className="flex flex-col">
+                                <span className="font-bold text-lg">Series {series.id}</span>
+                                <span className="text-xs text-gray-400">Total Time: {series.duration}</span>
+                            </div>
                             <span className="font-bold bg-white text-black px-3 py-1 rounded text-lg">{series.decimal.toFixed(1)}</span>
                         </div>
                         <div className="flex flex-row gap-8 items-start">
@@ -137,6 +165,7 @@ const MatchReport = forwardRef(({ session, user }, ref) => {
                                     <thead className="bg-gray-50 border-b-2 border-gray-200">
                                         <tr>
                                             <th className="py-2 px-4 font-semibold text-gray-600">#</th>
+                                            <th className="py-2 px-4 font-semibold text-gray-600">Dir</th>
                                             <th className="py-2 px-4 font-semibold text-gray-600">Score</th>
                                             <th className="py-2 px-4 font-semibold text-gray-600">Time</th>
                                         </tr>
@@ -145,6 +174,7 @@ const MatchReport = forwardRef(({ session, user }, ref) => {
                                         {series.shots.map((shot, idx) => (
                                             <tr key={idx} className="border-b border-gray-100 hover:bg-gray-50/50">
                                                 <td className="py-2 font-medium text-gray-500">{(series.id - 1) * 10 + idx + 1}</td>
+                                                <td className="py-2 text-xl font-bold text-primary-600">{getDirectionIcon(shot.direction)}</td>
                                                 <td className="py-2 font-mono font-bold text-lg text-[#1a2332]">{shot.scoreDecimal.toFixed(1)}</td>
                                                 <td className="py-2 text-gray-400 text-xs font-mono">{new Date(shot.timestamp).toLocaleTimeString([], { second: '2-digit', fractionalSecondDigits: 2 }).split(' ')[0]}</td>
                                             </tr>
@@ -156,27 +186,10 @@ const MatchReport = forwardRef(({ session, user }, ref) => {
                     </div>
                 ))}
             </div>
-
-            {/* Biometric Statistics Placeholder */}
-            <div className="mt-8 break-inside-avoid">
-                <h2 className="text-lg font-bold border-b border-gray-300 pb-2 mb-4">Biometric Statistics</h2>
-                <div className="text-gray-500 italic text-sm text-center py-4">
-                    Biometric data not available for this session.
-                </div>
-            </div>
-
         </div>
     );
 });
 
-// Utils needed within component or imported
-function calculateGroupRadius(shots) {
-    // Simplified placeholder; real implementation in shootingUtils
-    return 0;
-}
-function calculateGroupCenter(shots) {
-    return { x: 0, y: 0 };
-}
 function formatDuration(ms) {
     if (!ms) return '0h 0m 0s';
     const totalSeconds = Math.floor(ms / 1000);
