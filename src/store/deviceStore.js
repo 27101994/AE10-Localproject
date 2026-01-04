@@ -36,6 +36,8 @@ export const useDeviceStore = create((set) => ({
 
     setBrightness: (value) => set({ brightness: value }),
 
+    setBulletColor: (color) => set({ bulletColor: color }),
+
     autoCalibrate: async () => {
         set({ isCalibrating: true });
 
@@ -45,5 +47,97 @@ export const useDeviceStore = create((set) => ({
         set({ isCalibrating: false });
         return { success: true, message: 'Calibration completed successfully' };
     },
+
+    // Sensor data for hit projection visualization
+    sensorData: {
+        xAxis: Array.from({ length: 100 }, (_, i) => {
+            const position = i + 1;
+            let value = Math.floor(Math.random() * 200) + 850; // Base value around 850-1050
+
+            // Simulate some dust/hits on specific sensors (red bars)
+            if ([15, 28, 67, 89].includes(position)) {
+                value = Math.floor(Math.random() * 400) + 1800; // Red - dust or hit
+            } else if ([14, 16, 27, 29, 66, 68, 88, 90].includes(position)) {
+                value = Math.floor(Math.random() * 200) + 1400; // Orange - adjacent
+            }
+
+            return { position, value };
+        }),
+        yAxis: Array.from({ length: 100 }, (_, i) => {
+            const position = i + 1;
+            let value = Math.floor(Math.random() * 200) + 850; // Base value around 850-1050
+
+            // Simulate some dust/hits on specific sensors (red bars)
+            if ([23, 45, 78].includes(position)) {
+                value = Math.floor(Math.random() * 600) + 1800; // Red - dust or hit
+            } else if ([22, 24, 44, 46, 77, 79].includes(position)) {
+                value = Math.floor(Math.random() * 200) + 1400; // Orange - adjacent
+            }
+
+            return { position, value };
+        }),
+        hitPosition: { x: 75, y: 45 } // Mock hit position
+    },
+
+    // Generate mock sensor data with a hit
+    generateSensorHit: (xPos = null, yPos = null) => set((state) => {
+        const hitX = xPos || Math.floor(Math.random() * 100) + 1;
+        const hitY = yPos || Math.floor(Math.random() * 100) + 1;
+
+        const xAxis = Array.from({ length: 100 }, (_, i) => {
+            const position = i + 1;
+            let value = Math.floor(Math.random() * 200) + 850;
+
+            // Highlight hit position and adjacent sensors
+            if (position === hitX) {
+                value = 2000; // Direct hit - red
+            } else if (Math.abs(position - hitX) === 1) {
+                value = 1400; // Adjacent - orange
+            } else if (Math.abs(position - hitX) === 2) {
+                value = 1200; // Near - yellow
+            }
+
+            return { position, value };
+        });
+
+        const yAxis = Array.from({ length: 100 }, (_, i) => {
+            const position = i + 1;
+            let value = Math.floor(Math.random() * 200) + 850;
+
+            // Highlight hit position and adjacent sensors
+            if (position === hitY) {
+                value = 2400; // Direct hit - red
+            } else if (Math.abs(position - hitY) === 1) {
+                value = 2200; // Adjacent - orange
+            } else if (Math.abs(position - hitY) === 2) {
+                value = 1100; // Near - yellow
+            }
+
+            return { position, value };
+        });
+
+        return {
+            sensorData: {
+                xAxis,
+                yAxis,
+                hitPosition: { x: hitX, y: hitY }
+            }
+        };
+    }),
+
+    // Reset sensor data to baseline
+    resetSensorData: () => set({
+        sensorData: {
+            xAxis: Array.from({ length: 100 }, (_, i) => ({
+                position: i + 1,
+                value: Math.floor(Math.random() * 200) + 850
+            })),
+            yAxis: Array.from({ length: 100 }, (_, i) => ({
+                position: i + 1,
+                value: Math.floor(Math.random() * 200) + 850
+            })),
+            hitPosition: null
+        }
+    }),
 }));
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDeviceStore } from '@store/deviceStore';
 import Button from '@components/Button';
 import RangeSlider from '@components/RangeSlider';
+import SensorView from '@components/SensorView';
 import { FaPhone, FaPlug, FaSearch, FaBullseye, FaSpinner, FaPalette, FaSun, FaLink } from 'react-icons/fa';
 
 export default function TargetSetup() {
@@ -12,12 +13,14 @@ export default function TargetSetup() {
         bulletColor,
         isConnected,
         isCalibrating,
+        sensorData,
         discoverDevices,
         setConnectedDevice,
         disconnectDevice,
         setBrightness,
         setBulletColor,
         autoCalibrate,
+        resetSensorData,
     } = useDeviceStore();
 
     const [scanning, setScanning] = useState(false);
@@ -212,6 +215,14 @@ export default function TargetSetup() {
                         </div>
                     )}
                 </div>
+            </div>
+
+            {/* Sensor View Section */}
+            <div className="mt-8">
+                <SensorView
+                    sensorData={sensorData}
+                    onReset={resetSensorData}
+                />
             </div>
         </div>
     );
