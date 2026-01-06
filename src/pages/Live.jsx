@@ -373,7 +373,7 @@ export default function Live() {
                                             groupCenter={groupCenter}
                                             size={1000}
                                             showSighterIndicator={activeMode === 'sighter'}
-                                            targetType={selectedEvent?.type || pastSession?.eventType?.toLowerCase().includes('rifle') ? 'rifle' : 'pistol'}
+                                            targetType={selectedEvent?.type || (pastSession?.eventType?.toLowerCase().includes('rifle') ? 'rifle' : 'pistol')}
                                             zoom={zoom}
                                         />
                                     </div>

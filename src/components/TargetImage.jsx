@@ -122,8 +122,6 @@ export default function TargetImage(props) {
                         {/* Score labels at cardinal directions */}
                         {ring.text && !ring.isDot && !ring.isInnerTen && (
                             <>
-                                <text x={centerX} y={centerY - size * ring.radius + (ring.score >= 7 || (ring.score === '4' && targetType === 'rifle') ? 15 : 20)} fill={ring.text} fontSize="14" fontWeight="bold" textAnchor="middle">{ring.score}</text>
-                                <text x={centerX} y={centerY + size * ring.radius - (ring.score >= 7 || (ring.score === '4' && targetType === 'rifle') ? 5 : 10)} fill={ring.text} fontSize="14" fontWeight="bold" textAnchor="middle">{ring.score}</text>
                                 <text x={centerX - size * ring.radius + (ring.score >= 7 || (ring.score === '4' && targetType === 'rifle') ? 15 : 20)} y={centerY} fill={ring.text} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle">{ring.score}</text>
                                 <text x={centerX + size * ring.radius - (ring.score >= 7 || (ring.score === '4' && targetType === 'rifle') ? 15 : 20)} y={centerY} fill={ring.text} fontSize="14" fontWeight="bold" textAnchor="middle" dominantBaseline="middle">{ring.score}</text>
                             </>
