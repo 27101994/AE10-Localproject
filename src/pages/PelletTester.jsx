@@ -240,7 +240,10 @@ export default function PelletTester() {
                                 <div className="w-64 h-64 bg-black rounded-full flex items-center justify-center">
                                     {testShots.length > 0 && (
                                         /* Red Dot in Middle */
-                                        <div className="w-4 h-4 bg-red-600 rounded-full shadow-[0_0_10px_rgba(255,0,0,0.8)] animate-ping-once transition-all"></div>
+                                        <div
+                                            key={testShots.length}
+                                            className="w-4 h-4 bg-red-600 rounded-full shadow-[0_0_10px_rgba(255,0,0,0.8)] animate-ping-once transition-all"
+                                        ></div>
                                     )}
                                 </div>
                                 <div className="absolute bottom-4 text-black font-bold opacity-50 uppercase tracking-widest">

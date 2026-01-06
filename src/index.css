@@ -3,12 +3,19 @@
 @tailwind utilities;
 
 :root {
-  --color-dark-bg: 241 245 249;
-  --color-dark-surface: 241 245 249;
-  --color-dark-elevated: 226 232 240;
-  --color-dark-border: 203 213 225;
-  --color-dark-text: 15 23 42;
-  --color-dark-muted: 100 116 139;
+  /* Light Mode Blue Theme */
+  --color-dark-bg: 239 246 255;
+  /* blue-50: Fresh light blue background */
+  --color-dark-surface: 255 255 255;
+  /* white: Clean surface for contrast */
+  --color-dark-elevated: 219 234 254;
+  /* blue-100: Distinct secondary blue */
+  --color-dark-border: 191 219 254;
+  /* blue-200: Soft blue border */
+  --color-dark-text: 30 58 138;
+  /* blue-900: Deep blue text */
+  --color-dark-muted: 71 85 105;
+  /* slate-600: Readable muted text */
 }
 
 .dark {
@@ -226,4 +233,17 @@
 
 .animate-flash {
   animation: flash 0.5s ease-out forwards;
+}
+
+@keyframes ping-once {
+
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-ping-once {
+  animation: ping-once 0.5s cubic-bezier(0, 0, 0.2, 1) forwards;
 }
