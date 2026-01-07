@@ -50,7 +50,7 @@ export default function SplashScreen() {
                         className="text-5xl font-bold bg-gradient-to-r from-slate-900 via-primary-600 to-primary-500 dark:from-white dark:via-primary-200 dark:to-primary-400 bg-clip-text text-transparent mb-4 tracking-tight drop-shadow-lg animate-slide-up-fade opacity-0"
                         style={{ animationDelay: '0.6s' }}
                     >
-                        Shooting Training System
+                        SHOOTING TRAINING SYSTEM
                     </h1>
                 </div>
 
