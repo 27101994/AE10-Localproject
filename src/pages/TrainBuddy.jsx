@@ -1,29 +1,46 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useBuddyStore } from '@store/buddyStore';
+import { useAuthStore } from '@store/authStore';
 import Button from '@components/Button';
 import PlayerTile from '@components/PlayerTile';
+import TargetImage from '@components/TargetImage';
 import DataTable from '@components/DataTable';
 import Modal from '@components/Modal';
 import { calculateGroupRadius, calculateGroupCenter, generateDummyShot } from '@utils/shootingUtils';
-import { FaBullseye, FaLink, FaHourglassHalf, FaTrophy, FaUsers, FaListOl } from 'react-icons/fa';
+import { FaBullseye, FaLink, FaHourglassHalf, FaTrophy, FaUsers, FaListOl, FaSearchPlus, FaSearchMinus, FaRedo } from 'react-icons/fa';
 
 export default function TrainBuddy() {
     const { roomCode, isHost, participants, createRoom, joinRoom, addParticipant, updateParticipant, leaveRoom } = useBuddyStore();
+    const { user } = useAuthStore();
     const [showJoinModal, setShowJoinModal] = useState(false);
     const [joinCode, setJoinCode] = useState('');
+    const [zoom, setZoom] = useState(1);
+    const [viewMode, setViewMode] = useState('buddies'); // 'buddies' or 'leaderboard'
 
     // Mock participant data for demonstration
     useEffect(() => {
-        if (isHost && participants.length === 0) {
-            // Add mock participants
+        if (roomCode && participants.length === 0) {
+            // Add current user (yourself) first
             addParticipant({
-                id: 1,
-                name: 'John Doe',
-                shots: [generateDummyShot(1), generateDummyShot(2), generateDummyShot(3)],
-                currentShot: 3,
-                startTime: Date.now() - 180000,
+                id: 'current-user',
+                name: 'You',
+                shots: [],
+                currentShot: 0,
+                startTime: Date.now(),
                 isActive: true,
             });
+
+            // Add mock participants after a delay
+            setTimeout(() => {
+                addParticipant({
+                    id: 1,
+                    name: 'John Doe',
+                    shots: [generateDummyShot(1), generateDummyShot(2), generateDummyShot(3)],
+                    currentShot: 3,
+                    startTime: Date.now() - 180000,
+                    isActive: true,
+                });
+            }, 500);
 
             setTimeout(() => {
                 addParticipant({
@@ -36,7 +53,7 @@ export default function TrainBuddy() {
                 });
             }, 1000);
         }
-    }, [isHost]);
+    }, [roomCode, participants.length]);
 
     const handleCreateRoom = () => {
         const code = createRoom();
@@ -59,7 +76,6 @@ export default function TrainBuddy() {
         }
     };
 
-    const [viewMode, setViewMode] = useState('buddies'); // 'buddies' or 'leaderboard'
 
     // Calculate stats for each participant
     const participantsWithStats = useMemo(() => participants.map(p => ({
@@ -170,9 +186,53 @@ export default function TrainBuddy() {
                                     )}
                                 </div>
 
-                                <div className="h-[calc(100%-3rem)] bg-dark-bg/30 rounded-xl overflow-hidden">
+                                <div className="h-[calc(100%-3rem)] bg-dark-bg/30 rounded-xl overflow-hidden relative">
                                     {currentUser ? (
-                                        <PlayerTile player={currentUser} />
+                                        <>
+                                            {/* Zoom Controls */}
+                                            <div className="absolute top-4 right-4 z-10 flex flex-col gap-2 bg-dark-elevated/90 backdrop-blur-sm rounded-lg p-1 border border-dark-border shadow-xl">
+                                                <button
+                                                    onClick={() => setZoom(z => Math.min(z + 0.5, 4))}
+                                                    className="p-2.5 hover:bg-primary-500 hover:text-white rounded-lg transition-colors text-dark-text"
+                                                    title="Zoom In"
+                                                >
+                                                    <FaSearchPlus size={20} />
+                                                </button>
+                                                <button
+                                                    onClick={() => setZoom(1)}
+                                                    className="p-2.5 hover:bg-primary-500 hover:text-white rounded-lg transition-colors text-dark-text"
+                                                    title="Reset Zoom"
+                                                >
+                                                    <FaRedo size={18} />
+                                                </button>
+                                                <button
+                                                    onClick={() => setZoom(z => Math.max(z - 0.5, 0.5))}
+                                                    className="p-2.5 hover:bg-primary-500 hover:text-white rounded-lg transition-colors text-dark-text"
+                                                    title="Zoom Out"
+                                                >
+                                                    <FaSearchMinus size={20} />
+                                                </button>
+                                            </div>
+
+                                            {/* Target Display with Zoom */}
+                                            <div className="w-full h-full flex items-center justify-center overflow-hidden">
+                                                <div
+                                                    className="transition-transform duration-300 ease-out"
+                                                    style={{
+                                                        transform: `scale(${zoom})`,
+                                                        transformOrigin: 'center center'
+                                                    }}
+                                                >
+                                                    <TargetImage
+                                                        shots={currentUser.shots || []}
+                                                        groupRadius={currentUser.groupRadius}
+                                                        groupCenter={currentUser.groupCenter}
+                                                        size={400}
+                                                        zoom={zoom}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </>
                                     ) : (
                                         <div className="h-full flex flex-col items-center justify-center text-dark-muted">
                                             <FaHourglassHalf className="text-4xl mb-4 opacity-50 animate-pulse" />
@@ -220,8 +280,8 @@ export default function TrainBuddy() {
                                     <button
                                         onClick={() => setViewMode(viewMode === 'leaderboard' ? 'buddies' : 'leaderboard')}
                                         className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${viewMode === 'leaderboard'
-                                                ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/30'
-                                                : 'bg-dark-bg text-dark-muted hover:text-white hover:bg-dark-elevated border border-dark-border'
+                                            ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/30'
+                                            : 'bg-dark-bg text-dark-muted hover:text-white hover:bg-dark-elevated border border-dark-border'
                                             }`}
                                     >
                                         {viewMode === 'leaderboard' ? (
