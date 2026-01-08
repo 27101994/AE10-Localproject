@@ -4,7 +4,13 @@ export const useDeviceStore = create((set) => ({
     connectedDevice: null,
     availableDevices: [],
     brightness: 80, // Changed from 50 to 80 as per instruction
-    bulletColor: 'cyan', // 'cyan', 'yellow', 'red'
+    bulletColor: 'cyan', // 'cyan', 'yellow', 'red' - kept for backward compatibility
+
+    // Shot color configuration
+    currentShotColor: 'cyan',
+    previousShotColor: 'yellow',
+    olderShotsColor: 'red',
+
     isConnected: false,
     isCalibrating: false,
     connectionType: 'usb', // USB connection as per user feedback
@@ -36,7 +42,12 @@ export const useDeviceStore = create((set) => ({
 
     setBrightness: (value) => set({ brightness: value }),
 
-    setBulletColor: (color) => set({ bulletColor: color }),
+    setBulletColor: (color) => set({ bulletColor: color, currentShotColor: color }), // Also update currentShotColor for backward compatibility
+
+    // Shot color setters
+    setCurrentShotColor: (color) => set({ currentShotColor: color, bulletColor: color }), // Keep bulletColor in sync
+    setPreviousShotColor: (color) => set({ previousShotColor: color }),
+    setOlderShotsColor: (color) => set({ olderShotsColor: color }),
 
     autoCalibrate: async () => {
         set({ isCalibrating: true });

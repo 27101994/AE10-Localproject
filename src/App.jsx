@@ -20,6 +20,7 @@ import PelletTester from '@pages/PelletTester';
 import TargetSetup from '@pages/TargetSetup';
 import Competition from '@pages/Competition';
 import Profile from '@pages/Profile';
+import Notifications from '@pages/Notifications';
 
 // Protected route wrapper
 function ProtectedRoute({ children }) {
@@ -71,6 +72,7 @@ export default function App() {
                     <Route path="/target-setup" element={<TargetSetup />} />
                     <Route path="/competition" element={<Competition />} />
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/notifications" element={<Notifications />} />
                 </Route>
 
                 {/* Default redirect to splash screen */}

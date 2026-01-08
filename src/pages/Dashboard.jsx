@@ -38,7 +38,7 @@ export default function Dashboard() {
         { icon: <FaUser className={transparentIcon} />, title: 'Profile Settings', description: 'Manage your profile', path: '/profile' },
         { icon: <FaTrophy className={transparentIcon} />, title: 'Range Connectivity', description: 'Connect range devices', path: '/range-connectivity' },
         { icon: <FaCrosshairs className={transparentIcon} />, title: 'Skill Mode', description: 'Coming Soon', path: '#' },
-        { icon: <FaBell className={transparentIcon} />, title: 'Notifications', description: 'View alerts', path: '#' },
+        { icon: <FaBell className={transparentIcon} />, title: 'Notifications', description: 'View alerts', path: '/notifications' },
     ];
 
     return (

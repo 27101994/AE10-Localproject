@@ -129,94 +129,133 @@ export default function TrainBuddy() {
                 </div>
             ) : (
 
-                /* In Room - New Layout */
-                <div className="flex flex-col lg:flex-row gap-6 h-[calc(100vh-200px)] min-h-[600px]">
-
-                    {/* LEFT: User Focus View (Larger) */}
-                    <div className="flex-[2] flex flex-col min-h-0">
-                        <div className="glass-panel p-4 mb-4 flex justify-between items-center">
-                            <h2 className="text-xl font-bold text-dark-text flex items-center gap-2">
-                                <FaBullseye className="text-primary-500" /> Your Live Target
-                            </h2>
+                /* In Room - Enhanced Layout */
+                <div className="space-y-6">
+                    {/* Room Code Header */}
+                    <div className="glass-panel p-4 flex justify-between items-center rounded-2xl border border-dark-border">
+                        <h2 className="text-xl font-bold text-dark-text flex items-center gap-2">
+                            <FaBullseye className="text-primary-500" /> Train with Buddy
+                        </h2>
+                        <div className="flex items-center gap-4">
                             <div className="text-sm text-dark-muted">
-                                Room: <span className="font-mono text-primary-500 font-bold ml-1">{roomCode}</span>
+                                Room Code: <span className="font-mono text-primary-500 font-bold ml-1 text-lg">{roomCode}</span>
                             </div>
-                        </div>
-
-                        <div className="flex-1 glass-panel p-2 rounded-2xl overflow-hidden relative">
-                            {currentUser ? (
-                                <PlayerTile player={currentUser} />
-                            ) : (
-                                <div className="h-full flex flex-col items-center justify-center text-dark-muted">
-                                    <FaHourglassHalf className="text-4xl mb-4 opacity-50" />
-                                    <p>Waiting for session to start...</p>
-                                </div>
-                            )}
-                        </div>
-                        {/* Action Footer for User */}
-                        <div className="mt-4 flex justify-end">
                             <Button variant="secondary" size="sm" onClick={handleLeaveRoom}>
                                 Leave Room
                             </Button>
                         </div>
                     </div>
 
-                    {/* RIGHT: Sidebar (Buddies / Leaderboard) */}
-                    <div className="flex-1 flex flex-col min-h-0 glass-panel rounded-2xl p-0 overflow-hidden border border-dark-border">
-                        {/* Sidebar Header with Toggle */}
-                        <div className="p-4 border-b border-dark-border bg-black/20 flex justify-between items-center">
-                            <div className="font-bold text-dark-text flex items-center gap-2">
-                                {viewMode === 'buddies' ? <FaUsers /> : <FaTrophy className="text-yellow-500" />}
-                                {viewMode === 'buddies' ? 'Participants' : 'Leaderboard'}
-                            </div>
-                            <div className="flex bg-dark-bg rounded-lg p-1 border border-dark-border">
-                                <button
-                                    onClick={() => setViewMode('buddies')}
-                                    className={`p-2 rounded ${viewMode === 'buddies' ? 'bg-primary-500 text-white shadow-lg' : 'text-dark-muted hover:text-white'} transition-all`}
-                                    title="View Buddies"
-                                >
-                                    <FaUsers />
-                                </button>
-                                <button
-                                    onClick={() => setViewMode('leaderboard')}
-                                    className={`p-2 rounded ${viewMode === 'leaderboard' ? 'bg-primary-500 text-white shadow-lg' : 'text-dark-muted hover:text-white'} transition-all`}
-                                    title="View Leaderboard"
-                                >
-                                    <FaListOl />
-                                </button>
-                            </div>
-                        </div>
+                    {/* Main Content Area */}
+                    <div className="flex gap-6 h-[calc(100vh-280px)] min-h-[500px]">
 
-                        {/* Sidebar Content */}
-                        <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
-                            {viewMode === 'buddies' ? (
-                                <div className="space-y-4">
-                                    {otherParticipants.length === 0 ? (
-                                        <div className="text-center py-10 text-dark-muted">
-                                            <p>No other participants yet.</p>
-                                        </div>
-                                    ) : (
-                                        otherParticipants.map((participant) => (
-                                            <div key={participant.id} className="h-64">
-                                                <PlayerTile player={participant} compact={true} />
+                        {/* LEFT: User's Large Live View + Other Buddies (Hidden in Leaderboard Mode) */}
+                        <div className={`${viewMode === 'leaderboard' ? 'flex-[3]' : 'flex-[5]'} flex flex-col gap-4 transition-all duration-300`}>
+                            {/* User's Main Live View */}
+                            <div className="flex-1 glass-panel p-4 rounded-2xl border border-dark-border overflow-hidden">
+                                <div className="mb-3 flex justify-between items-center">
+                                    <h3 className="text-lg font-bold text-dark-text flex items-center gap-2">
+                                        <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                                        Your Live Target
+                                    </h3>
+                                    {currentUser && (
+                                        <div className="flex gap-4 text-sm">
+                                            <div className="text-dark-muted">
+                                                Shots: <span className="text-primary-500 font-bold">{currentUser.shots?.length || 0}</span>
                                             </div>
-                                        ))
+                                            <div className="text-dark-muted">
+                                                Score: <span className="text-accent-green font-bold">{currentUser.totalScore}</span>
+                                            </div>
+                                        </div>
                                     )}
                                 </div>
-                            ) : (
-                                <div className="h-full">
-                                    <DataTable
-                                        columns={leaderboardColumns}
-                                        data={leaderboardData}
-                                        className="h-full border-none shadow-none bg-transparent"
-                                    />
+
+                                <div className="h-[calc(100%-3rem)] bg-dark-bg/30 rounded-xl overflow-hidden">
+                                    {currentUser ? (
+                                        <PlayerTile player={currentUser} />
+                                    ) : (
+                                        <div className="h-full flex flex-col items-center justify-center text-dark-muted">
+                                            <FaHourglassHalf className="text-4xl mb-4 opacity-50 animate-pulse" />
+                                            <p>Waiting for session to start...</p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Other Buddies - Small Thumbnails (Hidden when viewing leaderboard) */}
+                            {viewMode === 'buddies' && otherParticipants.length > 0 && (
+                                <div className="h-48 glass-panel p-3 rounded-2xl border border-dark-border">
+                                    <h3 className="text-sm font-bold text-dark-muted mb-2 uppercase tracking-wider flex items-center gap-2">
+                                        <FaUsers className="text-primary-500" />
+                                        Other Participants ({otherParticipants.length})
+                                    </h3>
+                                    <div className="grid grid-cols-3 gap-3 h-[calc(100%-2rem)]">
+                                        {otherParticipants.slice(0, 3).map((participant) => (
+                                            <div key={participant.id} className="bg-dark-bg/30 rounded-lg overflow-hidden border border-dark-border hover:border-primary-500 transition-all">
+                                                <PlayerTile player={participant} compact={true} />
+                                            </div>
+                                        ))}
+                                        {otherParticipants.length > 3 && (
+                                            <div className="bg-dark-bg/50 rounded-lg flex items-center justify-center text-dark-muted border border-dark-border">
+                                                <div className="text-center">
+                                                    <div className="text-2xl font-bold">+{otherParticipants.length - 3}</div>
+                                                    <div className="text-xs">more</div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             )}
+                        </div>
+
+                        {/* RIGHT: Leaderboard Panel (Always Visible) */}
+                        <div className={`${viewMode === 'leaderboard' ? 'flex-[2]' : 'flex-[2]'} glass-panel rounded-2xl border border-dark-border overflow-hidden flex flex-col transition-all duration-300`}>
+                            {/* Leaderboard Header */}
+                            <div className="p-4 border-b border-dark-border bg-gradient-to-r from-yellow-500/10 to-orange-500/10">
+                                <div className="flex items-center justify-between mb-3">
+                                    <h3 className="text-lg font-bold text-dark-text flex items-center gap-2">
+                                        <FaTrophy className="text-yellow-500" />
+                                        Leaderboard
+                                    </h3>
+                                    <button
+                                        onClick={() => setViewMode(viewMode === 'leaderboard' ? 'buddies' : 'leaderboard')}
+                                        className={`px-4 py-2 rounded-lg font-bold text-sm transition-all ${viewMode === 'leaderboard'
+                                                ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/30'
+                                                : 'bg-dark-bg text-dark-muted hover:text-white hover:bg-dark-elevated border border-dark-border'
+                                            }`}
+                                    >
+                                        {viewMode === 'leaderboard' ? (
+                                            <span className="flex items-center gap-2">
+                                                <FaUsers /> Show Buddies
+                                            </span>
+                                        ) : (
+                                            <span className="flex items-center gap-2">
+                                                <FaTrophy /> Focus Mode
+                                            </span>
+                                        )}
+                                    </button>
+                                </div>
+                                <p className="text-xs text-dark-muted">
+                                    {viewMode === 'leaderboard'
+                                        ? 'Focus view: Your target + rankings'
+                                        : 'Click Focus Mode to hide buddy views'}
+                                </p>
+                            </div>
+
+                            {/* Leaderboard Content */}
+                            <div className="flex-1 overflow-y-auto custom-scrollbar p-4">
+                                <DataTable
+                                    columns={leaderboardColumns}
+                                    data={leaderboardData}
+                                    className="border-none shadow-none bg-transparent"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
             )
             }
+
 
             {/* Join Modal */}
             <Modal isOpen={showJoinModal} onClose={() => setShowJoinModal(false)} title="Join Training Session">

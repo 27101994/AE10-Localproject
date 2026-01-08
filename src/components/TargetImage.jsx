@@ -5,7 +5,7 @@ export default function TargetImage(props) {
 
     // Use either simpleMode or simpleView
     const isSimple = simpleMode || simpleView;
-    const { bulletColor } = useDeviceStore(); // Get preferred color
+    const { currentShotColor, previousShotColor, olderShotsColor } = useDeviceStore(); // Get shot color configuration
     const centerX = size / 2;
     const centerY = size / 2;
 
@@ -15,12 +15,13 @@ export default function TargetImage(props) {
             cyan: '#06b6d4',
             yellow: '#facc15',
             red: '#ef4444',
-            blue: '#3b82f6'
+            blue: '#3b82f6',
+            green: '#10b981',
+            purple: '#a855f7',
+            orange: '#f97316'
         };
         return colors[baseColor] || colors.cyan;
     };
-
-    const activeColor = getColor(bulletColor || 'cyan');
 
     // ISSF 10m Target Specifications
     const getRings = (type) => {
@@ -169,19 +170,28 @@ export default function TargetImage(props) {
                     const isLast = index === shots.length - 1;
                     const isPrevious = index === shots.length - 2;
 
-                    // Lighter colors for older shots
-                    let color = activeColor;
-                    let opacity = 0.4;
+                    // Use configured colors for different shot types
+                    let color;
+                    let opacity = 0.5;
                     let textColor = 'rgba(0,0,0,0.5)';
 
                     if (isLast) {
-                        color = '#fbbf24'; // Yellow solid for last shot ALWAYS
+                        // Current/Last shot - use configured current shot color
+                        color = getColor(currentShotColor);
                         opacity = 1;
                         textColor = '#000';
                     }
                     else if (isPrevious) {
-                        opacity = 0.7;
+                        // Previous shot - use configured previous shot color
+                        color = getColor(previousShotColor);
+                        opacity = 0.8;
                         textColor = '#000';
+                    }
+                    else {
+                        // Older shots - use configured older shots color
+                        color = getColor(olderShotsColor);
+                        opacity = 0.5;
+                        textColor = 'rgba(0,0,0,0.6)';
                     }
 
                     return (

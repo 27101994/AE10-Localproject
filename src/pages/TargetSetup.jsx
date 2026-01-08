@@ -10,7 +10,9 @@ export default function TargetSetup() {
         connectedDevice,
         availableDevices,
         brightness,
-        bulletColor,
+        currentShotColor,
+        previousShotColor,
+        olderShotsColor,
         isConnected,
         isCalibrating,
         sensorData,
@@ -18,12 +20,31 @@ export default function TargetSetup() {
         setConnectedDevice,
         disconnectDevice,
         setBrightness,
-        setBulletColor,
+        setCurrentShotColor,
+        setPreviousShotColor,
+        setOlderShotsColor,
         autoCalibrate,
         resetSensorData,
     } = useDeviceStore();
 
     const [scanning, setScanning] = useState(false);
+
+    // Available colors
+    const availableColors = [
+        { name: 'Cyan', value: 'cyan', bg: 'bg-cyan-500' },
+        { name: 'Yellow', value: 'yellow', bg: 'bg-yellow-400' },
+        { name: 'Red', value: 'red', bg: 'bg-red-500' },
+        { name: 'Green', value: 'green', bg: 'bg-green-500' },
+        { name: 'Purple', value: 'purple', bg: 'bg-purple-500' },
+        { name: 'Orange', value: 'orange', bg: 'bg-orange-500' },
+    ];
+
+    // Handle color changes - directly update store
+    const handleColorChange = (type, color) => {
+        if (type === 'current') setCurrentShotColor(color);
+        else if (type === 'previous') setPreviousShotColor(color);
+        else if (type === 'older') setOlderShotsColor(color);
+    };
 
     const handleScan = async () => {
         setScanning(true);
@@ -48,36 +69,9 @@ export default function TargetSetup() {
                 <p className="text-dark-muted">Configure your shooting experience and target hardware</p>
             </div>
 
-            {/* 4 Main Tiles Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                {/* 1. Bullet Color */}
-                <div className="glass-card p-6 flex flex-col justify-between hover:border-primary-500 transition-colors">
-                    <div className="flex items-center gap-3 mb-4">
-                        <div className="p-3 rounded-lg bg-pink-500/20 text-pink-500">
-                            <FaPalette className="text-xl" />
-                        </div>
-                        <h3 className="font-bold text-lg text-dark-text">Bullet Color</h3>
-                    </div>
-                    <div className="space-y-3">
-                        <p className="text-sm text-dark-muted">Select shot marker color</p>
-                        <div className="flex justify-between">
-                            <button
-                                onClick={() => setBulletColor('cyan')}
-                                className={`w-10 h-10 rounded-full bg-cyan-500 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-dark-elevated transition-all ${bulletColor === 'cyan' ? 'ring-primary-500 scale-110 shadow-[0_0_15px_rgba(6,182,212,0.6)]' : 'ring-transparent opacity-60 hover:opacity-100'}`}
-                            />
-                            <button
-                                onClick={() => setBulletColor('yellow')}
-                                className={`w-10 h-10 rounded-full bg-yellow-400 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-dark-elevated transition-all ${bulletColor === 'yellow' ? 'ring-primary-500 scale-110 shadow-[0_0_15px_rgba(250,204,21,0.6)]' : 'ring-transparent opacity-60 hover:opacity-100'}`}
-                            />
-                            <button
-                                onClick={() => setBulletColor('red')}
-                                className={`w-10 h-10 rounded-full bg-red-500 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-dark-elevated transition-all ${bulletColor === 'red' ? 'ring-primary-500 scale-110 shadow-[0_0_15px_rgba(239,68,68,0.6)]' : 'ring-transparent opacity-60 hover:opacity-100'}`}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                {/* 2. Brightness */}
+            {/* 3 Main Tiles Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                {/* 1. Brightness */}
                 <div className="glass-card p-6 flex flex-col justify-between hover:border-yellow-500 transition-colors">
                     <div className="flex items-center gap-3 mb-4">
                         <div className="p-3 rounded-lg bg-yellow-500/20 text-yellow-500">
@@ -99,7 +93,7 @@ export default function TargetSetup() {
                     </div>
                 </div>
 
-                {/* 3. Calibration */}
+                {/* 2. Calibration */}
                 <div className="glass-card p-6 flex flex-col justify-between hover:border-accent-green transition-colors">
                     <div className="flex items-center gap-3 mb-4">
                         <div className="p-3 rounded-lg bg-green-500/20 text-accent-green">
@@ -120,7 +114,7 @@ export default function TargetSetup() {
                     </div>
                 </div>
 
-                {/* 4. Connect Device */}
+                {/* 3. Connect Device */}
                 <div className="glass-card p-6 flex flex-col justify-between hover:border-blue-500 transition-colors">
                     <div className="flex items-center gap-3 mb-4">
                         <div className="p-3 rounded-lg bg-blue-500/20 text-blue-500">
@@ -141,6 +135,110 @@ export default function TargetSetup() {
                             {isConnected ? 'Disconnect' : (scanning ? 'Scanning...' : 'Scan / Connect')}
                         </Button>
                     </div>
+                </div>
+            </div>
+
+            {/* Shot Colors Configuration Table */}
+            <div className="glass-panel p-6 mb-8">
+                <div className="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 className="text-2xl font-bold text-dark-text">Shot Colors Configuration</h2>
+                        <p className="text-dark-muted text-sm mt-1">Configure different colors for shot indicators</p>
+                    </div>
+                    <div className="text-xs text-dark-muted bg-green-500/10 px-4 py-2 rounded-lg border border-green-500/30">
+                        ✓ Changes are saved automatically
+                    </div>
+                </div>
+
+                <div className="overflow-x-auto">
+                    <table className="w-full">
+                        <thead>
+                            <tr className="border-b border-dark-border">
+                                <th className="text-left py-4 px-4 text-dark-text font-bold">Shot Type</th>
+                                <th className="text-left py-4 px-4 text-dark-text font-bold">Color Selection</th>
+                                <th className="text-left py-4 px-4 text-dark-text font-bold">Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {/* Current Shot */}
+                            <tr className="border-b border-dark-border/50 hover:bg-dark-elevated/50 transition-colors">
+                                <td className="py-4 px-4">
+                                    <div className="font-semibold text-dark-text">Current Shot</div>
+                                    <div className="text-xs text-dark-muted mt-1">Most recent shot marker</div>
+                                </td>
+                                <td className="py-4 px-4">
+                                    <div className="flex gap-2 flex-wrap">
+                                        {availableColors.map((color) => (
+                                            <button
+                                                key={color.value}
+                                                onClick={() => handleColorChange('current', color.value)}
+                                                className={`w-10 h-10 rounded-full ${color.bg} ring-2 ring-offset-2 ring-offset-white dark:ring-offset-dark-elevated transition-all ${currentShotColor === color.value
+                                                    ? 'ring-primary-500 scale-110 shadow-lg'
+                                                    : 'ring-transparent opacity-60 hover:opacity-100'
+                                                    }`}
+                                                title={color.name}
+                                            />
+                                        ))}
+                                    </div>
+                                </td>
+                                <td className="py-4 px-4">
+                                    <div className={`w-16 h-16 rounded-full ${availableColors.find(c => c.value === currentShotColor)?.bg} shadow-lg`}></div>
+                                </td>
+                            </tr>
+
+                            {/* Previous Shot */}
+                            <tr className="border-b border-dark-border/50 hover:bg-dark-elevated/50 transition-colors">
+                                <td className="py-4 px-4">
+                                    <div className="font-semibold text-dark-text">Previous Shot</div>
+                                    <div className="text-xs text-dark-muted mt-1">Second-to-last shot marker</div>
+                                </td>
+                                <td className="py-4 px-4">
+                                    <div className="flex gap-2 flex-wrap">
+                                        {availableColors.map((color) => (
+                                            <button
+                                                key={color.value}
+                                                onClick={() => handleColorChange('previous', color.value)}
+                                                className={`w-10 h-10 rounded-full ${color.bg} ring-2 ring-offset-2 ring-offset-white dark:ring-offset-dark-elevated transition-all ${previousShotColor === color.value
+                                                    ? 'ring-primary-500 scale-110 shadow-lg'
+                                                    : 'ring-transparent opacity-60 hover:opacity-100'
+                                                    }`}
+                                                title={color.name}
+                                            />
+                                        ))}
+                                    </div>
+                                </td>
+                                <td className="py-4 px-4">
+                                    <div className={`w-16 h-16 rounded-full ${availableColors.find(c => c.value === previousShotColor)?.bg} shadow-lg`}></div>
+                                </td>
+                            </tr>
+
+                            {/* Older Shots */}
+                            <tr className="hover:bg-dark-elevated/50 transition-colors">
+                                <td className="py-4 px-4">
+                                    <div className="font-semibold text-dark-text">Older Shots</div>
+                                    <div className="text-xs text-dark-muted mt-1">All shots before the previous</div>
+                                </td>
+                                <td className="py-4 px-4">
+                                    <div className="flex gap-2 flex-wrap">
+                                        {availableColors.map((color) => (
+                                            <button
+                                                key={color.value}
+                                                onClick={() => handleColorChange('older', color.value)}
+                                                className={`w-10 h-10 rounded-full ${color.bg} ring-2 ring-offset-2 ring-offset-white dark:ring-offset-dark-elevated transition-all ${olderShotsColor === color.value
+                                                    ? 'ring-primary-500 scale-110 shadow-lg'
+                                                    : 'ring-transparent opacity-60 hover:opacity-100'
+                                                    }`}
+                                                title={color.name}
+                                            />
+                                        ))}
+                                    </div>
+                                </td>
+                                <td className="py-4 px-4">
+                                    <div className={`w-16 h-16 rounded-full ${availableColors.find(c => c.value === olderShotsColor)?.bg} shadow-lg`}></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
